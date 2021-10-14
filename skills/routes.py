@@ -3,4 +3,4 @@ from skills import flaskapp
 
 @flaskapp.route("/")
 def home():
-    return render_template('test.html')
+    return render_template('test.html', test='hoi')

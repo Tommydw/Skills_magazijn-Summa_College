@@ -6,3 +6,6 @@ Skills project 2021 leerjaar 4
 Debug = True
 Poort = 5000
 Server = local
+
+install requirements
+pip install -r requirements.txt
