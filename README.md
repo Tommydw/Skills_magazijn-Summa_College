@@ -2,5 +2,7 @@
 
 Skills project 2021 leerjaar 4
 
-ASDFGHJM
-BOI
+# Info
+Debug = True
+Poort = 5000
+Server = local
