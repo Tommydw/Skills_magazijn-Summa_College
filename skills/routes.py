@@ -1,5 +1,5 @@
 from flask.templating import render_template
-from skills import flaskapp
+from skills import flaskapp, in_linux, gpio
 
 @flaskapp.route("/")
 def home():
