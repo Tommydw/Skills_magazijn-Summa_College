@@ -1,6 +1,6 @@
 class rpi:
     def setup():
-        print('running on windows')
+        # print('running on windows')
         return 1
     
     def write(pin, state):

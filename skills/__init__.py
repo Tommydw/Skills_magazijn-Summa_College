@@ -1,17 +1,13 @@
 from flask import Flask
 import platform
 
-# from skills.raspberrypi import rpi
 print("Running on {0}".format('Linux' if platform.system() == 'Linux' else 'Windows'))
 
 
 if platform.system() == 'Linux':
-    # in_linux = True
-    # from skills.raspberrypi import gpio, PINNEN, rpi
     from skills.raspberrypi import rpi
 elif platform.system() == 'Windows':
     from skills.windows import rpi
-    # in_linux = False
 else: 
     raise Exception("OS unknown")
 
@@ -31,6 +27,4 @@ flaskapp.register_blueprint(LEON, url_prefix='/leon')
 
 # init compleet
 print('Init completed')
-# if in_linux:
-    # gpio.output(PINNEN["status"]['pin'], gpio.HIGH) 
 rpi.write('status', 1)
