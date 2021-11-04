@@ -9,7 +9,7 @@ if platform.system() == 'Linux':
     # in_linux = True
     # from skills.raspberrypi import gpio, PINNEN, rpi
     from skills.raspberrypi import rpi
-elif platform.system() == 'windows':
+elif platform.system() == 'Windows':
     from skills.windows import rpi
     # in_linux = False
 else: 
