@@ -1,5 +1,7 @@
 from flask import render_template, redirect, url_for
-from skills import flaskapp, in_linux, gpio, PINNEN
+# from skills import flaskapp, in_linux, gpio, PINNEN
+from skills import flaskapp, rpi
+
 
 @flaskapp.route("/")
 def home():
@@ -9,12 +11,10 @@ def home():
 # test
 @flaskapp.route("/on")
 def ledON():
-    if in_linux:
-        gpio.output(PINNEN['test']['pin'], gpio.HIGH) 
+    rpi.write('test', 1)
     return redirect(url_for('home'))
-    
+
 @flaskapp.route("/off")
 def ledOFF():
-    if in_linux:
-        gpio.output(PINNEN['test']['pin'], gpio.LOW) 
+    rpi.write('test', 0)
     return redirect(url_for('home'))

@@ -24,12 +24,14 @@ class rpi:
                     gpio.output(PINNEN[pin]['pin'], PINNEN[pin]['state']) 
                     
             # script is aan het starten 
-            gpio.output(PINNEN["active"]['pin'], gpio.HIGH) 
+            # gpio.output(PINNEN["active"]['pin'], gpio.HIGH) 
+            rpi.write('active', 1)
             return 1
         except:
             return 0
 
     def write(pin, state):
+        print('Set pin {0} {1}'.format(pin, state))
         if state == 'low'.lower() or state == 0:
             gpio.output(PINNEN[pin]['pin'], gpio.LOW)
         elif state == 'high'.lower() or state == 1:

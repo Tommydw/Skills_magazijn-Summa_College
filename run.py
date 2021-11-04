@@ -1,4 +1,6 @@
-from skills import flaskapp, in_linux, gpio
+# from skills import flaskapp, in_linux, gpio
+from skills import flaskapp, rpi
+
 
 # Run 
 if __name__ == "__main__":
