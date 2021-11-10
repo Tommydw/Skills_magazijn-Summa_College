@@ -1,13 +1,19 @@
-from skills import routes
+from skills import routes, rpi
 import time
+
 global INPUT 
 INPUT = {
     'test': 0,
-    'state': 0,
-    'sec': 0
+    'in': 0
+    # 'sec': 0
+}
+
+TMP = {
+    'in': 1
 }
 
 class loop:
+    
     def run():
         print('Running side loop')
         temp_time = time.time()
@@ -24,4 +30,17 @@ class loop:
 
             if temp_INPUT != INPUT:
                 print(INPUT)
+            
+            _in = rpi.read('in')
+            if _in != TMP['in']:
+                TMP['in'] = INPUT['in'] = _in
+                rpi.write('test', not INPUT['test'])
+                INPUT['test'] = not _in
+                
+
+
+                
+
+                
+
 
