@@ -8,7 +8,7 @@
         
         socket.on('connect', function() {
             socket.emit('socket_connect');
-        });
+        });        
     });
 
     socket.on('connected', () => {
@@ -20,19 +20,23 @@
     }, 1000);
     
     var oldtime;
-    var Jdata;
+    let newtime = 0;
+    var Jdata = JSON.parse('{"time":0}');
     //var old = 0.0;
     socket.on('data', function(data){
-        Jdata = JSON.parse(data)
-        //console.log(data);
         oldtime = parseFloat(Jdata.time);
+        // new data
+        Jdata = JSON.parse(data)
+        newtime = parseFloat(Jdata.time);
+        //console.log(data);
         document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2);
     });
 
     setInterval(()=> {
-        const d = new Date();
-        let time = d.getTime();
-        document.getElementById('time').innerHTML = parseFloat(parseInt((time/100)-oldtime*10)/10);
+        //const d = new Date();
+        //let time = d.getTime();
+        //document.getElementById('time').innerHTML = parseFloat(parseInt((time/100)-oldtime*10)/10);
+        document.getElementById('time').innerHTML = parseFloat(parseInt((newtime-oldtime)*10)/10);
     },100);
 
 </script>
