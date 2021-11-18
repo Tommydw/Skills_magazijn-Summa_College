@@ -5,7 +5,8 @@ DATA = {
     'state': {
         'gpio': bool(),
         'mcp1': bool(),
-        'mcp2': bool()
+        'mcp2': bool(),
+        'error': bool()
         },
     'io': {
         'loopRun': bool(),

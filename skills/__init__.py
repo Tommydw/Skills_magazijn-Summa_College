@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_socketio import SocketIO
+from data import DATA
 from skills.terminalColors import server_info, server_log
 import platform
 
@@ -14,9 +15,10 @@ else:
     raise Exception("OS unknown")
 
 if rpi.setup():
-    pass
+    DATA['state']['error'] = False
 else:
-    raise Exception("Error while loading GPIO")
+    DATA['state']['error'] = True
+    # raise Exception("Error while loading GPIO")
 
 flaskapp = Flask(__name__, template_folder='Templates')
 # flaskapp.secret_key = "6792611bb0b13cE1c675dfde290bc245"

@@ -17,6 +17,7 @@ class rpi:
                 DATA['state']['gpio'] = True
             except:
                 DATA['state']['gpio'] = False
+                server_error('Error while setting up PI GPIO')
                 
             # have to slow down the SPI bus for better communication
             spi = spidev.SpiDev()
@@ -33,6 +34,7 @@ class rpi:
                 DATA['state']['mcp1'] = True
             except:
                 DATA['state']['mcp1'] = False
+                server_error('Error while setting up MCP1')
             
             # start MCP2
             server_log('Setup MCP2')
@@ -43,6 +45,7 @@ class rpi:
                 DATA['state']['mcp2'] = True
             except:
                 DATA['state']['mcp2'] = False
+                server_error('Error while setting up MCP2')
             
             # stel de GPIO pinnen in als in of output
             io_log('GPIO pinnen:')
@@ -106,37 +109,40 @@ class rpi:
         
     # write function
     def write(pin, state):
-        if pin in data.PINNEN:
-            
-            # log pin state
-            io_log('Set pin ' + colors.forground.yellow + '{0} {1}'.format(pin, colors.forground.lightgreen + 'LOW' + colors.reset if state == 'low'.lower() or state == 0 else 
-                                            (colors.forground.lightred + 'HIGH' + colors.reset if state == 'high'.lower() or state == 1 else 
-                                            colors.reset + colors.background.red + colors.forground.lightgrey + colors.blink + 'ERROR' + colors.reset)) + colors.reset)
-            # set pin LOW
-            if state == 'low'.lower() or state == 0:
-                if PINNEN[pin]['module'] == 'pi':
-                    gpio.output(PINNEN[pin]['pin'], gpio.LOW) # pull low
-                elif PINNEN[pin]['module'] == 'mcp1':
-                    mcp1.digitalWrite(PINNEN[pin]['pin'], mcp1.LEVEL_LOW) # write state to output
-                elif PINNEN[pin]['module'] == 'mcp2':
-                    mcp2.digitalWrite(PINNEN[pin]['pin'], mcp1.LEVEL_LOW) # write state to output
+        if not DATA['state']['error']:
+            if pin in data.PINNEN:
+                
+                # log pin state
+                io_log('Set pin ' + colors.forground.yellow + '{0} {1}'.format(pin, colors.forground.lightgreen + 'LOW' + colors.reset if state == 'low'.lower() or state == 0 else 
+                                                (colors.forground.lightred + 'HIGH' + colors.reset if state == 'high'.lower() or state == 1 else 
+                                                colors.reset + colors.background.red + colors.forground.lightgrey + colors.blink + 'ERROR' + colors.reset)) + colors.reset)
+                # set pin LOW
+                if state == 'low'.lower() or state == 0:
+                    if PINNEN[pin]['module'] == 'pi':
+                        gpio.output(PINNEN[pin]['pin'], gpio.LOW) # pull low
+                    elif PINNEN[pin]['module'] == 'mcp1':
+                        mcp1.digitalWrite(PINNEN[pin]['pin'], mcp1.LEVEL_LOW) # write state to output
+                    elif PINNEN[pin]['module'] == 'mcp2':
+                        mcp2.digitalWrite(PINNEN[pin]['pin'], mcp1.LEVEL_LOW) # write state to output
+                        # write status to data
+                        DATA['io'][pin] = False
+                
+                # set pin HIGH       
+                elif state == 'high'.lower() or state == 1:
+                    if PINNEN[pin]['module'] == 'pi':
+                        gpio.output(PINNEN[pin]['pin'], gpio.HIGH) # pull low
+                    elif PINNEN[pin]['module'] == 'mcp1':
+                        mcp1.digitalWrite(PINNEN[pin]['pin'], mcp1.LEVEL_HIGH) # write state to output
+                    elif PINNEN[pin]['module'] == 'mcp2':
+                        mcp2.digitalWrite(PINNEN[pin]['pin'], mcp1.LEVEL_HIGH) # write state to output
                     # write status to data
-                    DATA['io'][pin] = False
+                    DATA['io'][pin] = True
             
-            # set pin HIGH       
-            elif state == 'high'.lower() or state == 1:
-                if PINNEN[pin]['module'] == 'pi':
-                    gpio.output(PINNEN[pin]['pin'], gpio.HIGH) # pull low
-                elif PINNEN[pin]['module'] == 'mcp1':
-                    mcp1.digitalWrite(PINNEN[pin]['pin'], mcp1.LEVEL_HIGH) # write state to output
-                elif PINNEN[pin]['module'] == 'mcp2':
-                    mcp2.digitalWrite(PINNEN[pin]['pin'], mcp1.LEVEL_HIGH) # write state to output
-                # write status to data
-                DATA['io'][pin] = True
-        
-        # log error        
+            # log error        
+            else:
+                server_error('{0} state is not defined for pin "{1}"'.format(state, pin))
         else:
-            server_error('{0} state is not defined for pin "{1}"'.format(state, pin))
+            server_error('cannot assing state {0} to pin "{1}" in error event'.format(state, pin))
              
     # write to pi GPIO without logging      
     def write_loop(pin, state):
@@ -151,19 +157,20 @@ class rpi:
     
     # read GPIO
     def read(pin):
-        if pin in data.PINNEN:
-            
-            if PINNEN[pin]['module'] == 'pi':
-                readValue = gpio.input(PINNEN[pin]['pin']) # read pin
-            elif PINNEN[pin]['module'] == 'mcp1':
-                readValue = mcp1.digitalRead(PINNEN[pin]['pin'])
-            elif PINNEN[pin]['module'] == 'mcp2':
-                readValue = mcp2.digitalRead(PINNEN[pin]['pin'])
-            DATA['io'][pin] = readValue
-            return readValue
-        # log error        
-        else:
-            server_error('pin "{1}" is not found in IO list'.format(pin))
+        if not DATA['state']['error']:
+            if pin in data.PINNEN:
+                if PINNEN[pin]['module'] == 'pi':
+                    readValue = gpio.input(PINNEN[pin]['pin']) # read pin
+                elif PINNEN[pin]['module'] == 'mcp1':
+                    readValue = mcp1.digitalRead(PINNEN[pin]['pin'])
+                elif PINNEN[pin]['module'] == 'mcp2':
+                    readValue = mcp2.digitalRead(PINNEN[pin]['pin'])
+                DATA['io'][pin] = readValue
+                return readValue
+            # log error        
+            else:
+                server_error('pin "{1}" is not found in IO list'.format(pin))
+        return (False if PINNEN[pin]['pull'] == 'down' else True)
             
     # Toggle the loopRun LED
     def toggle_loop_run():
