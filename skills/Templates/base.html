@@ -1,74 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <!-- Required meta tags -->
-        <meta charset='utf-8'>
-        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>{% block title%}{% endblock %}</title>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
-        
-        <!-- Bootstrap CSS -->
-        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-        
-        <!-- Import Socket -->
-        <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/materialize.min.css') }}">
+        <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"> -->
         <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script> -->
-
-        
+        <link href="{{ url_for('static', filename='css/style.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
     </head>
     <body>
-        <header class="site-header">
-            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-                <div class="container">
-                    <a class="navbar-brand mr-4" href="{{ url_for('home') }}">Skills project</a>
-                    {% if session['username'] %}
-                        <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Gebruikersnaam:</a> -->
-                        <a class="navbar-brand active" href="{{ url_for('userSessions.getUsername') }}">{{session['username']}}</a>
-                    {% endif %}
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                <div class="collapse navbar-collapse" id="navbarToggle">
-                    <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-                        <a class="nav-item nav-link" href="{{ url_for('LEON.Leon') }}">Leon</a>
-                    </div>
-                    <!-- Navbar Right Side -->
-                    <div class="navbar-nav">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">hoi test</a>
-                    </div>
-                </div>
-            </nav>
-        </header>   
-        <main role="main" class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    {% block content %}{% endblock %}
-                </div>
-                <div class="col-md-4">
-                    <div class="content-section">
-                        <h3>Info</h3>
-                        <p class='text-muted'>(HOI)
-                            <ul class="list-group">
-                                <li class="list-group-item list-group-item-light">Info</li>
-                                <li class="list-group-item list-group-item-light">BOIIIIIIII</li>
-                                <!-- <li class="list-group-item list-group-item-light">#</li>
-                                <li class="list-group-item list-group-item-light">#</li> -->
-                            </ul>
-                        </p>
-                    </div>
-                </div>
+        <nav class="white" role="navigation">
+            <div class="nav-wrapper container">
+              <a id="logo-container" href="{{url_for('home')}}" class="brand-logo">Logo</a>
+              <ul class="right hide-on-med-and-down">
+                <li><a href="#">HMI</a></li>
+                <li><a href="{{url_for('test')}}">Test</a></li>
+                <li><a href="#">Project</a></li>
+                <li><a href="#">Info</a></li>
+                <li><a class="waves-effect waves-yellow btn" href="{{url_for('LEON.Leon')}}">Leon <i class="material-icons right">cloud</i></a></li>
+
+
+              </ul>
+        
+              <ul id="nav-mobile" class="sidenav">
+                <li><a href="#">HMI</a></li>
+                <li><a href="{{url_for('test')}}">Test</a></li>
+                <li><a href="#">Project</a></li>
+                <li><a href="#">Info</a></li>
+                <li><a class="waves-effect waves-yellow btn" href="{{url_for('LEON.Leon')}}">Leon <i class="material-icons right">cloud</i></a></li>
+
+                
+              </ul>
+              <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">Don't klik!</i></a>
             </div>
-        </main>
-        <!-- Optinal JavaScript -->
-        <!-- jQuery first, then Poper.js, then Bootstrap JS -->
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
+          </nav>
+        {% block content %}{% endblock %}
+        {% if not title == 'HMI'%}
+        <footer class="page-footer teal">
+            <div class="container">
+              <div class="row">
+                <div class="col l6 s12">
+                  <h5 class="white-text">Company Bio</h5>
+                  <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+        
+        
+                </div>
+                <div class="col l3 s12">
+                  <h5 class="white-text">Settings</h5>
+                  <ul>
+                    <li><a class="white-text" href="#!">Link 1</a></li>
+                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <li><a class="white-text" href="#!">Link 3</a></li>
+                    <li><a class="white-text" href="#!">Link 4</a></li>
+                  </ul>
+                </div>
+                <div class="col l3 s12">
+                  <h5 class="white-text">Connect</h5>
+                  <ul>
+                    <li><a class="white-text" href="#!">Link 1</a></li>
+                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <li><a class="white-text" href="#!">Link 3</a></li>
+                    <li><a class="white-text" href="#!">Link 4</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="footer-copyright">
+              <div class="container">
+              Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+              </div>
+            </div>
+          </footer>
+          {% endif %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-        <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script> -->
-        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
     </body>
 </html>

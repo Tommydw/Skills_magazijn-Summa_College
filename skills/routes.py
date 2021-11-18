@@ -45,10 +45,13 @@ def get_sensor_data():
 
 @flaskapp.route("/")
 def home():
-    return render_template('test.html', test='hoi')
-
+    return render_template('index.html', test='hoi', title='Home page')
 
 # test
+@flaskapp.route("/test")
+def test():
+    return render_template('test.html', test='hoi', title='Test page')
+
 @flaskapp.route("/on")
 def ledON():
     rpi.write('test', 1)
