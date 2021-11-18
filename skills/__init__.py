@@ -1,9 +1,9 @@
 from flask import Flask
-import platform
-import flask
 from flask_socketio import SocketIO
+from skills.terminalColors import server_info, server_log
+import platform
 
-print("Running on {0}".format('Linux' if platform.system() == 'Linux' else 'Windows'))
+server_info("Running on {0}".format('Linux' if platform.system() == 'Linux' else 'Windows'))
 
 
 if platform.system() == 'Linux':
@@ -27,10 +27,8 @@ socket_.init_app(flaskapp, cors_allowed_origins=[
     '192.168.137.1:5000'])
 
 SOCKET_INFO = {
-    'active': 0,
-    'sid': []
+    'active': 0
 }
-
 
 # enable routes
 from skills import routes
@@ -38,5 +36,5 @@ from skills.leon.routes import LEON
 flaskapp.register_blueprint(LEON, url_prefix='/leon')
 
 # init compleet
-print('Init completed')
-rpi.write('status', True)
+server_log('Init completed')
+rpi.write('script_status', True)

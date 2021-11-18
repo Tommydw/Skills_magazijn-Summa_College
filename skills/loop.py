@@ -1,4 +1,5 @@
 from skills import routes, rpi
+from skills.terminalColors import server_info, server_log, server_error
 import time
 
 global INPUT 
@@ -15,7 +16,7 @@ TMP = {
 class loop:
     
     def run():
-        print('Running side loop')
+        server_info('Running side loop')
         temp_time = time.time()
         # i = 0
         while True:

@@ -1,5 +1,4 @@
 from flask import render_template, redirect, url_for, request
-# from skills import flaskapp, in_linux, gpio, PINNEN
 from skills import flaskapp, rpi, socket_, SOCKET_INFO
 from skills.loop import INPUT
 from flask_socketio import SocketIO, emit, namespace, send, disconnect
@@ -12,14 +11,12 @@ TMP = INPUT.copy()
 def socket_connect():
     SOCKET_INFO['active'] += 1
     get_users()
-    # SOCKET_INFO['sid'].append(request.sid)
     return
 
 @socket_.on('disconnect')
 def disconnecting():
     SOCKET_INFO['active'] -= 1
     get_users()
-    # SOCKET_INFO['sid'].pop(request.sid)
     return
 
 # send user count
@@ -33,6 +30,7 @@ def get_users():
 def get_status(): 
     emit('status', json.dumps(INPUT), broadcast=True)
     return
+
 # Client vragt voor data (interval) en server stuurd data als er iets is veranderd
 @socket_.on('get_sensor_data')
 def get_sensor_data():
