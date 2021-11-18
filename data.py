@@ -11,6 +11,7 @@ DATA = {
     'io': {
         'loopRun': bool(),
         'scriptRun': bool(),
+        'error': bool(),
         'cil1': bool(),
         'cil2': bool(),
         'cil3': bool(),
@@ -39,8 +40,9 @@ DATA = {
 
 global PINNEN
 PINNEN = {
-    'loopRun':      {'module': 'pi',    'pin': 18,  'pin_name': 'GPIO24',   'direction': 'output',   'state': 'low'},	    # knipperd doormiddel van de loop om de seconde
-    'scriptRun':    {'module': 'pi',    'pin': 22,  'pin_name': 'GPIO25',   'direction': 'output',   'state': 'low'},	    # gaat aan waneer het script is gestart
+    'loopRun':      {'module': 'pi',    'pin': 18,  'pin_name': 'GPIO24',   'direction': 'output',   'state': 'low'},	    # 18 knipperd doormiddel van de loop om de seconde
+    'scriptRun':    {'module': 'pi',    'pin': 22,  'pin_name': 'GPIO25',   'direction': 'output',   'state': 'low'},	    # 22 gaat aan waneer het script is gestart
+    'error':        {'module': 'pi',    'pin': 19,  'pin_name': '--',   'direction': 'output',   'state': 'low'},	    # -- gaat aan waneer het script is gestart
     'cil1':         {'module': 'mcp1',  'pin': 21,  'pin_name': 'GPA0',     'direction': 'output',   'state': 'low'},	    # cilinder uit voor magazijn 1
     'cil2':         {'module': 'mcp1',  'pin': 22,  'pin_name': 'GPA1',     'direction': 'output',   'state': 'low'},	    # cilinder uit voor magazijn 2
     'cil3':         {'module': 'mcp1',  'pin': 23,  'pin_name': 'GPA2',     'direction': 'output',   'state': 'low'},	    # cilinder uit voor magazijn 3

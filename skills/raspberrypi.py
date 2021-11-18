@@ -108,12 +108,14 @@ class rpi:
             return False
         
     # write function
-    def write(pin, state):
-        if not DATA['state']['error']:
+    def write(pin, state, override=False, log=True):
+        if not DATA['state']['error'] or override:
+            # print if the function had been override
+            if override and log: io_log(colors.bold + 'override')
             if pin in data.PINNEN:
                 
                 # log pin state
-                io_log('Set pin ' + colors.forground.yellow + '{0} {1}'.format(pin, colors.forground.lightgreen + 'LOW' + colors.reset if state == 'low'.lower() or state == 0 else 
+                if log: io_log('Set pin ' + colors.forground.yellow + '{0} {1}'.format(pin, colors.forground.lightgreen + 'LOW' + colors.reset if state == 'low'.lower() or state == 0 else 
                                                 (colors.forground.lightred + 'HIGH' + colors.reset if state == 'high'.lower() or state == 1 else 
                                                 colors.reset + colors.background.red + colors.forground.lightgrey + colors.blink + 'ERROR' + colors.reset)) + colors.reset)
                 # set pin LOW

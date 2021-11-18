@@ -24,6 +24,8 @@ class loop:
                 rpi.toggle_loop_run()
                 loopTime = time.time()
                 # write gpio
+
+            rpi.write('error', DATA['state']['error'], override = True, log=False)
             
             # read GPIO    
             for pin in PINNEN:

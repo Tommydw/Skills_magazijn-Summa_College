@@ -14,7 +14,7 @@ class rpi:
         server_info('Running in Windows -- GPIO are not in use')
         return True
     
-    def write(pin, state):
+    def write(pin, state, override=False):
         if pin in data.PINNEN:
             if state == 'low'.lower() or state == 0:
                 data.DATA['io'][pin] = False
