@@ -1,6 +1,48 @@
 {% extends "base.html" %}
 {% block titel %}{{titel}}{%endblock%}
 {% block content%}
+<script>
+    var socket = io.connect('/');
+    // var socket = io.connect('http://' + document.domain + ':' + location.port);
+    $(document).ready(function() {
+        
+        socket.on('connect', function() {
+            socket.emit('socket_connect');
+        });
+    });
+
+    socket.on('connected', () => {
+        console.log('Websocket connected');
+    });
+
+    setInterval(()=> {
+        socket.emit('getData');
+    }, 1000);
+    
+    var oldtime;
+    var Jdata;
+    //var old = 0.0;
+    socket.on('data', function(data){
+        Jdata = JSON.parse(data)
+        //console.log(data);
+        oldtime = parseFloat(Jdata.time);
+        document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2);
+    });
+
+    setInterval(()=> {
+        const d = new Date();
+        let time = d.getTime();
+        document.getElementById('time').innerHTML = parseFloat(parseInt((time/100)-oldtime*10)/10);
+    },100);
+
+</script>
+<div class="container">
+
 <p>hoi</p>
 <h5>{{test}}</h5>
-{%endblock%}
+<p>Time past: <b id='time'></b></p>
+<small><pre id='data'></pre></small>
+</div>
+
+
+{% endblock %}

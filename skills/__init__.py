@@ -37,4 +37,5 @@ flaskapp.register_blueprint(LEON, url_prefix='/leon')
 
 # init compleet
 server_log('Init completed')
-rpi.write('script_status', True)
+rpi.write('scriptRun', True)
+
