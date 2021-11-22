@@ -34,6 +34,8 @@ SOCKET_INFO = {
 from skills import routes
 from skills.leon.routes import LEON
 flaskapp.register_blueprint(LEON, url_prefix='/leon')
+from skills.HMI.routes import hmi
+flaskapp.register_blueprint(hmi, url_prefix='/hmi')
 
 # init compleet
 server_log('Init completed')
