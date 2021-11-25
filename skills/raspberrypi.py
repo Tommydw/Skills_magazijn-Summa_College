@@ -146,16 +146,16 @@ class rpi:
         else:
             server_error('cannot assing state {0} to pin "{1}" in error event'.format(state, pin))
              
-    # write to pi GPIO without logging      
-    def write_loop(pin, state):
-        if state == 'low'.lower() or state == 0:
-            gpio.output(PINNEN[pin]['pin'], gpio.LOW) # pull LOW
-            # write status to data
-            DATA['io'][pin] = False
-        elif state == 'high'.lower() or state == 1:
-            gpio.output(PINNEN[pin]['pin'], gpio.HIGH) # pull HIGH
-            # write status to data
-            DATA['io'][pin] = True
+    # # write to pi GPIO without logging      
+    # def write_loop(pin, state):
+    #     if state == 'low'.lower() or state == 0:
+    #         gpio.output(PINNEN[pin]['pin'], gpio.LOW) # pull LOW
+    #         # write status to data
+    #         DATA['io'][pin] = False
+    #     elif state == 'high'.lower() or state == 1:
+    #         gpio.output(PINNEN[pin]['pin'], gpio.HIGH) # pull HIGH
+    #         # write status to data
+    #         DATA['io'][pin] = True
     
     # read GPIO
     def read(pin):
@@ -176,10 +176,11 @@ class rpi:
             
     # Toggle the loopRun LED
     def toggle_loop_run():
-        if DATA['io']['loopRun'] == True:
-            rpi.write_loop('loopRun', False)
-        else:
-            rpi.write_loop('loopRun', True)
+        rpi.write('loopRun', not data.DATA['io']['loopRun'], override=True, log=False)
+        # if DATA['io']['loopRun'] == True:
+        #     rpi.write_loop('loopRun', False)
+        # else:
+        #     rpi.write_loop('loopRun', True)
         
         
     

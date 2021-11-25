@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request
 from skills import flaskapp, rpi, socket_, SOCKET_INFO
 from flask_socketio import SocketIO, emit, namespace, send, disconnect
 import json
-import data
+import copy
 from data import DATA
 
 @socket_.on('socket_connect')
@@ -15,8 +15,23 @@ def disconnecting():
     return
 
 @socket_.on('getData')
-def getTime():
-    emit('data', json.dumps(DATA))
+def getTime(oldData):
+    TMP = copy.deepcopy(DATA)
+    for x in oldData:
+        if type(oldData[x]) == dict:
+            for i in oldData[x]:
+                if TMP[x][i] == oldData[x][i]:
+                    TMP[x].pop(i)
+        else:
+            if 'type' in oldData:
+                if TMP[x] == oldData[x]:
+                    TMP.pop(x)
+            else:
+                TMP['type'] = 'full'
+                emit('data', json.dumps(TMP))
+                return
+    TMP['type'] = 'small'
+    emit('data', json.dumps(TMP))
     return
 
 

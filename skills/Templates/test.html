@@ -16,27 +16,51 @@
     });
 
     setInterval(()=> {
-        socket.emit('getData');
+        socket.emit('getData', Jdata);
     }, 1000);
+
+    function mergeObject(oldObject, newObject){
+        if (Jdata == startupJson){
+            oldObject = newObject;
+        }
+        else{
+            Object.keys(newObject).forEach(function(x_itmes){
+                if (typeof(newObject[x_itmes]) == 'object'){
+                    Object.keys(newObject[x_itmes]).forEach(function(i_items){
+                        oldObject[x_itmes][i_items] = newObject[x_itmes][i_items];});
+                }else{
+                    oldObject[x_itmes] = newObject[x_itmes];
+                }
+            });
+        }
+        return oldObject;
+    }
     
-    var oldtime;
+    let oldtime;
     let newtime = 0;
-    var Jdata = JSON.parse('{"time":0}');
+    var oldClientTime = 0;
+    var clientTime;
+    var startupJson = JSON.parse('{"time":0}');
+    var Jdata = startupJson;
     //var old = 0.0;
     socket.on('data', function(data){
+        
         oldtime = parseFloat(Jdata.time);
         // new data
-        Jdata = JSON.parse(data)
+        Jdata = mergeObject(Jdata, JSON.parse(data));
         newtime = parseFloat(Jdata.time);
         //console.log(data);
+        const d = new Date();
+        oldClientTime = (d.getTime() / 1000) - (newtime - oldtime);
         document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2);
     });
 
     setInterval(()=> {
-        //const d = new Date();
-        //let time = d.getTime();
+        const d = new Date();
+        clientTime = d.getTime() / 1000;
         //document.getElementById('time').innerHTML = parseFloat(parseInt((time/100)-oldtime*10)/10);
-        document.getElementById('time').innerHTML = parseFloat(parseInt((newtime-oldtime)*10)/10);
+        //document.getElementById('time').innerHTML = parseFloat(parseInt((newtime-oldtime)*10)/10);
+        document.getElementById('time').innerHTML = parseFloat(parseInt((clientTime-oldClientTime)*10)/10);
     },100);
 
 </script>
