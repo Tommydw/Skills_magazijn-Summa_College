@@ -15,22 +15,26 @@ def disconnecting():
     return
 
 @socket_.on('getData')
-def getTime(oldData):
+def getTime(oldData, getType):
     TMP = copy.deepcopy(DATA)
-    for x in oldData:
-        if type(oldData[x]) == dict:
-            for i in oldData[x]:
-                if TMP[x][i] == oldData[x][i]:
-                    TMP[x].pop(i)
-        else:
-            if 'type' in oldData:
-                if TMP[x] == oldData[x]:
-                    TMP.pop(x)
+    if getType == 'full': 
+        TMP['type'] = 'full'
+        
+    elif getType == 'small':
+        for x in oldData:
+            if type(oldData[x]) == dict:
+                for i in oldData[x]:
+                    if TMP[x][i] == oldData[x][i]:
+                        TMP[x].pop(i)
             else:
-                TMP['type'] = 'full'
-                emit('data', json.dumps(TMP))
-                return
-    TMP['type'] = 'small'
+                if 'type' in oldData:
+                    if TMP[x] == oldData[x]:
+                        TMP.pop(x)
+                else:
+                    TMP['type'] = 'full'
+                    emit('data', json.dumps(TMP))
+                    return
+        TMP['type'] = 'small'
     emit('data', json.dumps(TMP))
     return
 
