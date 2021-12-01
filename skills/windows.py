@@ -47,8 +47,10 @@ class rpi:
         return False
     
     def toggle_loop_run():
-        rpi.write('loopRun', not DATA['io']['loopRun'], override=True, log=False)
-        # if DATA['io']['loopRun'] == True:
+        rpi.write('loopRun', not data.DATA['io']['loopRun'], override=True, log=False)
+        rpi.write('MCP1', not data.DATA['io']['MCP1'], override=True, log=False)
+        rpi.write('MCP2', not data.DATA['io']['MCP2'], override=True, log=False)
+        # if data.DATA['io']['loopRun'] == True:
         #     rpi.write_loop('loopRun', False)
         # else:
         #     rpi.write_loop('loopRun', True)

@@ -1,6 +1,6 @@
 # import raspberry pi GPIO 
-import RPi.GPIO as gpio
-from RPiMCP23S17.MCP23S17 import MCP23S17
+# import RPi.GPIO as gpio
+from RPiMCP23S17.MCP23S17 import MCP23S17, GPIO as gpio
 from skills.terminalColors import io_log, colors, server_error, server_info, server_log
 import spidev
 import data
@@ -13,7 +13,8 @@ class rpi:
             # start GPIO communicatie
             server_log('Setup RPI GPIO')
             try:
-                gpio.setmode(gpio.BCM) 
+                gpio.setwarnings(False)
+                gpio.setmode(gpio.BOARD) 
                 DATA['state']['gpio'] = True
             except:
                 DATA['state']['gpio'] = False
@@ -22,15 +23,15 @@ class rpi:
             # have to slow down the SPI bus for better communication
             spi = spidev.SpiDev()
             spi.open(0,0)
-            spi.max_speed_hz = 100000   
-            server_info('SPI slow down to -> 100kHz')
+            spi.max_speed_hz = 5000000   
+            server_info('SPI slow down to -> 5MHz')
 
             # start MCP1
-            server_log('Setup MCP1')
+            server_log('Setup MCP1')    
             try:
                 global mcp1
-                mcp1 = MCP23S17(bus=0x00, pin_cs=0x00, device_id=0x00)
-                mcp1.open()
+                mcp1 = MCP23S17(device_id=0x00)
+                mcp1.open() 
                 DATA['state']['mcp1'] = True
             except:
                 DATA['state']['mcp1'] = False
@@ -40,7 +41,7 @@ class rpi:
             server_log('Setup MCP2')
             try:
                 global mcp2
-                mcp2 = MCP23S17(bus=0x00, pin_cs=0x00, device_id=0x01)
+                mcp2 = MCP23S17(device_id=0x01)
                 mcp2.open()
                 DATA['state']['mcp2'] = True
             except:
@@ -61,13 +62,13 @@ class rpi:
                         # set input on MCP1
                         elif PINNEN[pin]['module'] == 'mcp1':
                             mcp1.setDirection(PINNEN[pin]['pin'], mcp1.DIR_INPUT) # define as input
-                            mcp1.setPullupMode(PINNEN[pin]['pin'],(mcp1.PULLUP_DISABELD if PINNEN[pin]['pull'] == 'down' else (
-                                                                    mcp1.PULLUP_ENABELD if PINNEN[pin]['pull'] == 'up' else mcp1.PULLUP_DISABELD))) # set pullup/down
+                            mcp1.setPullupMode(PINNEN[pin]['pin'],(mcp1.PULLUP_DISABLED if PINNEN[pin]['pull'] == 'down' else (
+                                                                    mcp1.PULLUP_ENABLED if PINNEN[pin]['pull'] == 'up' else mcp1.PULLUP_DISABLED))) # set pullup/down
                         # set input on MCP2
                         elif PINNEN[pin]['module'] == 'mcp2':
                             mcp2.setDirection(PINNEN[pin]['pin'], mcp1.DIR_INPUT) # define as input
-                            mcp2.setPullupMode(PINNEN[pin]['pin'],(mcp1.PULLUP_DISABELD if PINNEN[pin]['pull'] == 'down' else (
-                                                                    mcp1.PULLUP_ENABELD if PINNEN[pin]['pull'] == 'up' else mcp1.PULLUP_DISABELD))) # set pullup/down
+                            mcp2.setPullupMode(PINNEN[pin]['pin'],(mcp1.PULLUP_DISABLED if PINNEN[pin]['pull'] == 'down' else (
+                                                                    mcp1.PULLUP_ENABLED if PINNEN[pin]['pull'] == 'up' else mcp1.PULLUP_DISABLED))) # set pullup/down
                     # generate exception when IO list is corrupt
                     else: 
                         raise Exception(' "pull" is not defind in PINNEN - {0}'.format(pin))
@@ -127,7 +128,7 @@ class rpi:
                     elif PINNEN[pin]['module'] == 'mcp2':
                         mcp2.digitalWrite(PINNEN[pin]['pin'], mcp1.LEVEL_LOW) # write state to output
                         # write status to data
-                        DATA['io'][pin] = False
+                    DATA['io'][pin] = False
                 
                 # set pin HIGH       
                 elif state == 'high'.lower() or state == 1:
@@ -167,8 +168,8 @@ class rpi:
                     readValue = mcp1.digitalRead(PINNEN[pin]['pin'])
                 elif PINNEN[pin]['module'] == 'mcp2':
                     readValue = mcp2.digitalRead(PINNEN[pin]['pin'])
-                DATA['io'][pin] = readValue
-                return readValue
+                DATA['io'][pin] = True if readValue else False
+                return True if readValue else False
             # log error        
             else:
                 server_error('pin "{1}" is not found in IO list'.format(pin))
@@ -176,7 +177,9 @@ class rpi:
             
     # Toggle the loopRun LED
     def toggle_loop_run():
-        rpi.write('loopRun', not data.DATA['io']['loopRun'], override=True, log=False)
+        rpi.write('loopRun', (not data.DATA['io']['loopRun']), override=True, log=False)
+        rpi.write('MCP1', (not data.DATA['io']['MCP1']), override=True, log=False)
+        rpi.write('MCP2', (not data.DATA['io']['MCP2']), override=True, log=False)
         # if DATA['io']['loopRun'] == True:
         #     rpi.write_loop('loopRun', False)
         # else:
