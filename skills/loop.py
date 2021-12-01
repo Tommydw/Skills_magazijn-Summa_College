@@ -20,7 +20,7 @@ class loop:
             #     INPUT['test'] = not _in
             
             # Blink led in loop
-            if time.time() - loopTime > 1.0:
+            if time.time() - loopTime > 0.5:
                 rpi.toggle_loop_run()
                 loopTime = time.time()
                 # write gpio

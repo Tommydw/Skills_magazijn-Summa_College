@@ -42,6 +42,4 @@ flaskapp.register_blueprint(hmi, url_prefix='/hmi')
 # init compleet
 server_log('Init completed')
 rpi.write('scriptRun', True, override=True)
-rpi.write('MCP1', True, override=True)
-rpi.write('MCP2', True, override=True)
 
