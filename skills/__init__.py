@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_socketio import SocketIO
 from data import DATA
-from skills.terminalColors import server_info, server_log
+from skills.terminalColors import server_error, server_info, server_log
 import platform
 
 server_info("Running on {0}".format('Linux' if platform.system() == 'Linux' else 'Windows'))
@@ -39,6 +39,15 @@ flaskapp.register_blueprint(LEON, url_prefix='/leon')
 from skills.HMI.routes import hmi
 flaskapp.register_blueprint(hmi, url_prefix='/hmi')
 
+if not rpi.read('MCP1_pi') :
+    DATA['state']['error'] = True
+    DATA['state']['mcp1'] = False
+    server_error('MCP1 is not active!')
+if not rpi.read('MCP2_pi') :
+    DATA['state']['error'] = True
+    DATA['state']['mcp2'] = False
+    server_error('MCP2 is not active!')
+    
 # init compleet
 server_log('Init completed')
 rpi.write('scriptRun', True, override=True)

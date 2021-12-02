@@ -6,7 +6,8 @@ DATA = {
         'gpio': bool(),
         'mcp1': bool(),
         'mcp2': bool(),
-        'error': bool()
+        'error': bool(),
+        'cpu': str()
         },
     'io': {
         'loopRun': bool(),

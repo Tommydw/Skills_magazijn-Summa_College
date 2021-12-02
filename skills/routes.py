@@ -55,6 +55,12 @@ def get_sensor_data():
 def home():
     return render_template('index.html', test='hoi', title='Home page')
 
+@flaskapp.route("/reset")
+def reset():
+    DATA['state']['error'] = False
+    return redirect(url_for('home'))
+
+
 # test
 @flaskapp.route("/test")
 def test():
