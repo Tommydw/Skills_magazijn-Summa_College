@@ -11,6 +11,7 @@ class loop:
         server_info('Running side loop')
         temp_time = loopTime = time.time()
         # i = 0
+        linux = True if platform.system() == 'Linux' else False
         while True:
             if time.time() - temp_time > 1.0:
                 temp_time = time.time()
@@ -21,7 +22,7 @@ class loop:
             #     INPUT['test'] = not _in
             
             # Blink led in loop
-            if os.getloadavg()[0] > 1.5:
+            if linux and os.getloadavg()[0] > 1.5:
                 blinkTime = 1/4 #sec
             else:
                 blinkTime = 1/2 #sec
@@ -45,7 +46,7 @@ class loop:
 
             # Set time
             DATA['time'] = time.time()
-            DATA['state']['cpu'] = list(os.getloadavg())
+            DATA['state']['cpu'] = list(os.getloadavg()) if linux else 'Windows'
             # <1.5 is ok
 
 

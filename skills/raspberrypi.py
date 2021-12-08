@@ -3,7 +3,6 @@
 from RPiMCP23S17.MCP23S17 import MCP23S17, GPIO as gpio
 from skills.terminalColors import io_log, colors, server_error, server_info, server_log
 import spidev
-import data
 from data import DATA, PINNEN
 
 class rpi:
@@ -113,7 +112,7 @@ class rpi:
         if not DATA['state']['error'] or override:
             # print if the function had been override
             if override and log: io_log(colors.bold + 'override')
-            if pin in data.PINNEN:
+            if pin in PINNEN:
                 
                 # log pin state
                 if log: io_log('Set pin ' + colors.forground.yellow + '{0} {1}'.format(pin, colors.forground.lightgreen + 'LOW' + colors.reset if state == 'low'.lower() or state == 0 else 
@@ -161,7 +160,7 @@ class rpi:
     # read GPIO
     def read(pin):
         if not DATA['state']['error']:
-            if pin in data.PINNEN:
+            if pin in PINNEN:
                 if PINNEN[pin]['module'] == 'pi':
                     readValue = gpio.input(PINNEN[pin]['pin']) # read pin
                 elif PINNEN[pin]['module'] == 'mcp1':
@@ -177,9 +176,9 @@ class rpi:
             
     # Toggle the loopRun LED
     def toggle_loop_run():
-        rpi.write('loopRun', (not data.DATA['io']['loopRun']), override=True, log=False)
-        rpi.write('MCP1', (not data.DATA['io']['MCP1']), override=True, log=False)
-        rpi.write('MCP2', (not data.DATA['io']['MCP2']), override=True, log=False)
+        rpi.write('loopRun', (not DATA['io']['loopRun']), override=True, log=False)
+        rpi.write('MCP1', (not DATA['io']['MCP1']), override=True, log=False)
+        rpi.write('MCP2', (not DATA['io']['MCP2']), override=True, log=False)
         # if DATA['io']['loopRun'] == True:
         #     rpi.write_loop('loopRun', False)
         # else:

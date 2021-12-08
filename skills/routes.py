@@ -62,6 +62,10 @@ def reset():
 
 
 # test
+@flaskapp.route("/info")
+def info():
+    return render_template('infoPage.html', test='hoi')
+# test
 @flaskapp.route("/test")
 def test():
     return render_template('test.html', test='hoi')

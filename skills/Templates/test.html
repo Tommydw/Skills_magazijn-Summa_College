@@ -2,10 +2,12 @@
 {% block titel %}{{titel}}{%endblock%}
 {% block content%}
 <div id="backLoading">
-<div id="loading">
-    <h1>Loading</h1>
-</div></div>
+    <div class="loader">
+        <h1>Loading</h1>
+    </div>
+</div>
 <div id='content' class="container">
+    <!-- <div id='glowingButton' style="--clr:#22e622;--i:2;--fgc:#007710"><a href="#" >{{test}}</a></div> -->
     <div id="smallloading">
         <small>Getting data</small>
     </div>
@@ -19,7 +21,6 @@
 <script>
     $('#content').hide();
     $('#backLoading').show();
-    document.getElementById("content").style.filter = `blur(2px)`;
     var socket = io.connect('/');
     // var socket = io.connect('http://' + document.domain + ':' + location.port);
     $(document).ready(function() {
@@ -49,7 +50,7 @@
         console.log('Websocket connected');
     });
 
-    setInterval(()=> {
+    setInterval(()=> {  
         if (dataCount > 10) {
             Type = 'full';
             dataCount = 0;

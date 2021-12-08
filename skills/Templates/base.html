@@ -13,22 +13,43 @@
         <link href="{{ url_for('static', filename='css/style.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
     </head>
     <body>
-        <nav class="white" role="navigation">
+        <!-- <nav class="white" role="navigation"> -->
+        <nav role="navigation">
             <div class="nav-wrapper container">
               <a id="logo-container" href="{{url_for('home')}}" class="brand-logo">Logo</a>
               <ul class="right hide-on-med-and-down">
                 <li><a href="{{url_for('hmi.start')}}">HMI</a></li>
-                <li><a href="{{url_for('test')}}">Test</a></li>
+                <!-- <li><a href="{{url_for('test')}}">Test</a></li> -->
+                <li><a href="{{url_for('test')}}" class="expandingButton" style="--clr:#22ff52;--hovclr:#73ff00;">
+                  <span class="icon">⚙</span>
+                  <span class="text">Test</span>
+                </a></li>
+                <li><a href="#" class="expandingButton" style="--clr:#229cff;--hovclr:#008cff;">
+                    <span class="icon">😁</span>
+                    <span class="text">Hoi test</span>
+                </a></li>
                 <li><a href="#">Project</a></li>
-                <li><a href="#">Info</a></li>
+                <!-- <li><a href="{{url_for('info')}}">Info</a></li> -->
+                <li><a href="{{url_for('info')}}" class="expandingButton" style="--clr:#229cff;--hovclr:#008cff;">
+                  <span class="icon">
+                    <embed style="margin-left: -5px;" src='static/icons/settings.svg' height="32" width="32"/>
+                  </span>
+                  <span class="text">Info</span>
+                </a></li>
                 <li><a class="waves-effect waves-yellow btn" href="{{url_for('LEON.Leon')}}">Leon <i class="material-icons right">cloud</i></a></li>
-
-
               </ul>
         
               <ul id="nav-mobile" class="sidenav">
                 <li><a href="{{url_for('hmi.start')}}">HMI</a></li>
-                <li><a href="{{url_for('test')}}">Test</a></li>
+                <!-- <li><a href="{{url_for('test')}}">Test</a></li> -->
+                <li><a href="{{url_for('test')}}" class="expandingButton" style="--clr:#22ff52;--hovclr:#73ff00;">
+                  <span class="icon">⚙</span>
+                  <span class="text">Test</span>
+                </a></li>
+                <li><a href="#" class="expandingButton" style="--clr:#229cff;--hovclr:#008cff;">
+                    <span class="icon">😁</span>
+                    <span class="text">Hoi test</span>
+                </a></li>
                 <li><a href="#">Project</a></li>
                 <li><a href="#">Info</a></li>
                 <li><a class="waves-effect waves-yellow btn" href="{{url_for('LEON.Leon')}}">Leon <i class="material-icons right">cloud</i></a></li>
