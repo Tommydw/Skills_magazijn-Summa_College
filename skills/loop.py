@@ -1,5 +1,5 @@
-from skills import routes, rpi
-from skills.terminalColors import server_info, server_log, server_error
+from skills import SOCKET_INFO, routes, rpi
+from skills.terminalColors import server_info, server_log, server_error, colors
 from data import DATA, PINNEN
 import time
 import platform
@@ -26,9 +26,13 @@ class loop:
                 blinkTime = 1/4 #sec
             else:
                 blinkTime = 1/2 #sec
+                
             if time.time() - loopTime > blinkTime:
                 rpi.toggle_loop_run()
-                # rpi.write('cil1', not DATA['io']['cil1'], log=False)
+                for user in SOCKET_INFO:
+                    if time.time() - user[1] > 60:
+                        SOCKET_INFO.pop(SOCKET_INFO.index(user))
+                        server_log('User {0} '.format(user[0]) + colors.forground.red + colors.blink + 'removed' + colors.reset)
                 loopTime = time.time()
                 # write gpio
            
@@ -48,8 +52,6 @@ class loop:
             DATA['time'] = time.time()
             DATA['state']['cpu'] = list(os.getloadavg()) if linux else 'Windows'
             # <1.5 is ok
-
-
 
             # rpi.write('cil2', (DATA['io']['mag1'] or DATA['io']['mag2'] or DATA['io']['mag3'] or DATA['io']['eind']), log=False)
             # rpi.write('cil2', DATA['io']['mag1'], log=False)

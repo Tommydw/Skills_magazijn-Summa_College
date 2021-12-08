@@ -1,3 +1,5 @@
+
+
 global DATA
 DATA = {
     'type': str(),
@@ -36,7 +38,8 @@ DATA = {
         'PLCbusy': bool(),
         'PLCerror': bool(),
         'MCP2_pi': bool()
-        }
+        },
+    'users': dict()
 }
 
 global PINNEN

@@ -28,9 +28,7 @@ socket_.init_app(flaskapp, cors_allowed_origins=[
     'http://raspberrypi.local:5000',
     '192.168.137.1:5000'])
 
-SOCKET_INFO = {
-    'active': 0
-}
+SOCKET_INFO = []
 
 # enable routes
 from skills import routes

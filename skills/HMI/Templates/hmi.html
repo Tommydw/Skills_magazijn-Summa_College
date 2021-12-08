@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 {% block titel %}{{titel}}{%endblock%}
 {% block content%}
-<p>test</p>
+<body>
+    <div id="loading" class="loader">
+        <h1>Loading</h1>
+    </div>
+    <div id='content' class="container">
+    <p>Time past: <b id='time'></b></p>
+    <small><pre id='data'></pre></small>
+    </div>
+</body>
+<script>
+    $('#content').hide();
+    $('#loading').show();
+</script>
+<script src="{{ url_for('static', filename='js/HMI.js') }}"></script>
+
 {% endblock %}
