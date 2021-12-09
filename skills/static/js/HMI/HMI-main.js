@@ -18,6 +18,8 @@ var connected = false;
 var requested = false;
 var buttonEnable = true;
 
+var oldTimeColor = document.querySelector('#time').style.color;
+
 // functie secondes naar tijd String
 function sec2time(timeInSeconds) {
     var pad = function(num, size) { return ('000' + num).slice(size * -1); },
@@ -112,6 +114,15 @@ setInterval(()=> {
                 Type = 'small'
             socket.emit('get_data', Jdata, Type);
         }
+    }
+    if (clientTime-oldClientTime > 10) {
+        document.querySelector('#time').style.color = 'red';
+        document.querySelector('#timeText').style.color = 'red';
+    }
+    else
+    {
+        document.querySelector('#time').style.color = oldTimeColor;
+        document.querySelector('#timeText').style.color = oldTimeColor;
     }
 },100);
 

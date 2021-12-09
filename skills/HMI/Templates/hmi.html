@@ -8,7 +8,7 @@
     </div>
     
     <div class='topInfo'>
-        <p>Time past: <b id='time'></b></p>
+        <p id='timeText'>Time past: <b id='time'></b></p>
     </div>
     <div id='content' class="container">
         <div class="options">
@@ -44,9 +44,24 @@
                 </div>
             </form>
         </div>
-        <div class='glowingButton' onclick="toggel();" style="--clr:#ff2222;--i:0;--fgc:#ff0000;">
-            <a>motor</a>
+        <div class='glowingButton' onclick="toggel();" style="--clr:#22aeff;--i:0;--fgc:#00d9ff;">
+            <a>Motor</a>
         </div>
+        <div style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;">
+        <div class='glowingButton' onclick="cilinder1();" style="--clr:#ff0000;--i:0;--fgc:#bd0000;">
+            <a>Cilinder 1</a>
+        </div>
+        <div class='glowingButton' onclick="cilinder2();" style="--clr:#cec000;--i:0;--fgc:#babd00;">
+            <a>Cilinder 2</a>
+        </div>
+        <div class='glowingButton' onclick="cilinder3();" style="--clr:#09ff00;--i:0;--fgc:#00ac00;">
+            <a>Cilinder 3</a>
+        </div>
+    </div>
 
         <small><pre id='data'></pre></small>
     </div>

@@ -10,7 +10,7 @@ class loop:
     def run():
         server_info('Running side loop')
         OS = platform.system()
-        temp_time = loopTime = time.time()
+        error_time = temp_time = loopTime = time.time()
         # i = 0
         linux = True if platform.system() == 'Linux' else False
         while True:
@@ -49,13 +49,21 @@ class loop:
                 # if PINNEN[pin]['direction'] == 'output':
                 #     rpi.write(pin, DATA['io'][pin], log=False)
             
-            if (not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop']) and OS == 'linux':
+            if (not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop']) and not DATA['state']['errorActive'] and OS == 'Linux':
+                DATA['state']['errorActive'] = True
+                error_time = time.time()
+            elif  DATA['io']['mcp1Noodstop'] and  DATA['io']['mcp2Noodstop']: DATA['state']['errorActive'] = False
+            if time.time() - error_time > 0.05 and DATA['state']['errorActive']:
                 DATA['state']['error'] = True
-
+            
             # Set time
             DATA['time'] = time.time()
             DATA['state']['cpu'] = list(os.getloadavg()) if linux else 'Windows'
             # <1.5 is ok
-
+            # rpi.write('motor', DATA['io']['mag1'])
             # rpi.write('cil2', (DATA['io']['mag1'] or DATA['io']['mag2'] or DATA['io']['mag3'] or DATA['io']['eind']), log=False)
             # rpi.write('cil2', DATA['io']['mag1'], log=False)
+
+            # stop event
+            if DATA['state']['error'] == True:
+                rpi.write('motor', PINNEN['motor']['state'], override=True, log=False)

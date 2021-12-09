@@ -58,6 +58,7 @@ def home():
 @flaskapp.route("/reset")
 def reset():
     DATA['state']['error'] = False
+    DATA['state']['errorActive'] = False
     return redirect(url_for('home'))
 
 

@@ -25,11 +25,6 @@ def socket_connect():
 def disconnecting():
     return
 
-@socket_.on('motor')
-def motor(state):
-    rpi.write('motor', state)
-    return
-
 @socket_.on('update_user')
 def update_user():
     for i in range(len(SOCKET_INFO)):
@@ -72,3 +67,31 @@ def getData(oldData, getType):
 @hmi.route("/")
 def start():
     return render_template('hmi.html', title='HMI')
+
+    
+@socket_.on('order')
+def getOrder(order):
+    server_log(str(order))
+    return
+    
+
+    
+@socket_.on('motor')
+def motor(state):
+    rpi.write('motor', state)
+    return
+    
+@socket_.on('cil1')
+def cil1(state):
+    rpi.write('cil1', state)
+    return
+    
+@socket_.on('cil2')
+def cil2(state):
+    rpi.write('cil2', state)
+    return
+    
+@socket_.on('cil3')
+def cil3(state):
+    rpi.write('cil3', state)
+    return
