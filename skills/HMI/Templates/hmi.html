@@ -1,19 +1,61 @@
 {% extends "base.html" %}
 {% block titel %}{{titel}}{%endblock%}
 {% block content%}
+<link rel='stylesheet' type="text/css" href='static/css/HMI.css'>
 <body>
     <div id="loading" class="loader">
         <h1>Loading</h1>
     </div>
+    
+    <div class='topInfo'>
+        <p>Time past: <b id='time'></b></p>
+    </div>
     <div id='content' class="container">
-    <p>Time past: <b id='time'></b></p>
-    <small><pre id='data'></pre></small>
+        <div class="options">
+            <h4>Order </h4>
+            <form class="form">
+                <div class="mycheckbox">
+                    <div style="display: inline-flex; flex-direction: row;">
+                        <div class="inputGroup">
+                            <input id="Rood" name="radio" type="radio" checked/>
+                            <label for="Rood">Rood</label>
+                        </div>
+                        <div class="inputGroup">
+                            <input id="Zwart" name="radio" type="radio"/>
+                            <label for="Zwart">Zwart</label>
+                        </div>
+                        <div class="inputGroup">
+                            <input id="Zilver" name="radio" type="radio"/>
+                            <label for="Zilver">Zilver</label>
+                        </div>
+                    </div>
+                    <div class="inputGroup">
+                        <input id="Deksel" name="option1" type="checkbox"/>
+                        <label for="Deksel">Deksel</label>
+                    </div>
+                    
+                    <div class="inputGroup">
+                        <input id="Muntje" name="option2" type="checkbox"/>
+                        <label for="Muntje">Muntje</label>
+                    </div>
+                </div>
+                <div class='glowingButton' onclick="sendOrder();" style="--clr:#3822ff;--i:0;--fgc:#0000ff;">
+                    <a>Verzenden</a>
+                </div>
+            </form>
+        </div>
+        <div class='glowingButton' onclick="toggel();" style="--clr:#ff2222;--i:0;--fgc:#ff0000;">
+            <a>motor</a>
+        </div>
+
+        <small><pre id='data'></pre></small>
     </div>
 </body>
-<script>
+<!-- <script>
     $('#content').hide();
     $('#loading').show();
-</script>
-<script src="{{ url_for('static', filename='js/HMI.js') }}"></script>
+</script> -->
+<script src="{{ url_for('static', filename='js/HMI/HMI-main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/HMI/HMI-controls.js') }}"></script>
 
 {% endblock %}

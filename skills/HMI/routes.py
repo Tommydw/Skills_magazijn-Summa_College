@@ -1,7 +1,7 @@
 from skills import flaskapp, rpi, socket_, SOCKET_INFO
 from flask_socketio import SocketIO, emit, namespace, send, disconnect
 from flask import render_template, Blueprint, request
-from data import DATA
+from data import DATA, PINNEN
 import json
 import time
 import copy
@@ -12,16 +12,22 @@ hmi = Blueprint('hmi', __name__, static_folder='../static', template_folder='./T
 # krijg socket_connect van client
 @socket_.on('socket_connect')
 def socket_connect():
-    SOCKET_INFO.append([request.sid, time.time()])
-    server_log("User '{0}' verbonden".format(request.sid))
-    # Stuur connected naar client
-    emit('connected')
+    if not request.sid in SOCKET_INFO:
+        SOCKET_INFO.append([request.sid, time.time()])
+        server_log("User '{0}' verbonden".format(request.sid))
+        # Stuur connected naar client
+        emit('connected')
     return
 
 # disconnect event
 # TODO fix it
 @socket_.on('disconnect')
 def disconnecting():
+    return
+
+@socket_.on('motor')
+def motor(state):
+    rpi.write('motor', state)
     return
 
 @socket_.on('update_user')

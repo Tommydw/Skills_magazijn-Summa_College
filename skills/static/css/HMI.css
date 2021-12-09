@@ -1,0 +1,229 @@
+.topInfo{
+    /* position: absolute; */
+    position: sticky;
+    width: 100%;
+    top: 0px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+.topInfo p{
+    margin-top: 4px;
+    margin-bottom: 2px;
+    margin-right: 1%;
+    font-size: 0.8rem;
+}
+/* body{
+    max-width: 100vw;
+    max-height: calc(100vh - 64px);;
+} */
+
+
+.inputGroup {
+    background-color: #fff;
+    display: block;
+    margin: 10px 5px;
+    position: relative;
+    font: optional;
+}
+.inputGroup label {
+    padding: 12px 24px;
+    margin-right: 54px;
+    width: 100%;
+    display: block;
+    text-align: left;
+    font-size: 1.2rem;
+    color: #3c454c;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: color 200ms ease-in;
+    overflow: hidden;
+}
+.inputGroup label:before {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    content: '';
+    background-color: #5562eb;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale3d(1, 1, 1);
+    transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    z-index: -1;
+}
+.inputGroup label:after {
+    width: 32px;
+    height: 32px;
+    content: '';
+    border: 2px solid #d1d7dc;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+    background-repeat: no-repeat;
+    background-position: 2px 3px;
+    border-radius: 50%;
+    z-index: 2;
+    position: absolute;
+    right: 23px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: all 200ms ease-in;
+}
+.inputGroup input:checked ~ label {
+    color: #fff;
+}
+.inputGroup input:checked ~ label:before {
+    transform: translate(-50%, -50%) scale3d(56, 56, 1);
+    opacity: 1;
+}
+.inputGroup input:checked ~ label:after {
+    background-color: #54e0c7;
+    border-color: #54e0c7;
+}
+.inputGroup input {
+    width: 32px;
+    height: 32px;
+    order: 1;
+    z-index: 2;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    visibility: hidden;
+}
+
+.options .form  {
+    padding: 8px 10px;
+    max-width: 550px;
+    margin: 10px auto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 36px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border: solid;
+    border-radius: 8px;
+;
+}
+
+.options, .options::before, .options::after {
+    box-sizing: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    right: 1%;
+    top: 60px;
+    /* position: absolute; */
+}
+
+.options h4 {
+    margin-bottom: -4px;
+}
+
+/* html {
+    box-sizing: border-box;
+} */
+
+
+.glowingButton{
+    /* width: fit-content; */
+    cursor: pointer;
+    width: 100%;
+    height: 60px;
+    position: relative;
+    padding: 30px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.3);
+    margin: 10px;
+    transition: 1s;
+    text-decoration: none;
+    overflow: hidden;
+    -webkit-box-reflect: below 1px linear-gradient(transparent,transparent, #0004);
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+  
+.glowingButton:hover
+{
+    background: var(--clr);
+    box-shadow:  0 0 5px var(--clr),
+    0 0 15px var(--clr),
+    0 0 30px var(--clr),
+    0 0 50px var(--clr);
+}
+  
+.glowingButton::before
+{
+    content: '';
+    opacity: 0.2;
+    position: absolute;
+    width: 40px;
+    height: 4000%;
+    background: var(--clr);
+    /* background: blue; */
+    transition: 1s;
+    animation: animate 5s linear infinite;
+    animation-delay: calc(0.33s * var(--i) );
+    filter: blur(3px);
+}
+  
+.glowingButton:hover::before
+{
+    width: 120%;
+}
+  
+@keyframes animate{
+    0%
+    {
+        transform:  rotate(0deg);
+    }
+    100%
+    {
+        transform:  rotate(360deg);
+    }
+}
+  
+.glowingButton::after
+{
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: var(--fgc);
+    transition: 0.5s;
+}
+  
+.glowingButton:hover::after
+{
+    background: var(--clr);
+}
+.glowingButton a
+{
+    position: relative;
+    z-index: 1;
+    font-size: 1.7em;
+    color: #fff;
+    opacity: 0.8;
+    /* text-transform: uppercase; */
+    letter-spacing: 3px;
+    transition: 0.5s;
+}
+  
+.glowingButton:hover a
+{
+    opacity: 1;
+    background: transparent;
+}

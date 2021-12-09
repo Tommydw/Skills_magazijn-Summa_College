@@ -16,6 +16,7 @@ let clientTime;
 
 var connected = false;
 var requested = false;
+var buttonEnable = true;
 
 // functie secondes naar tijd String
 function sec2time(timeInSeconds) {
@@ -81,9 +82,13 @@ socket.on('data', function(data){
     //console.log(data);
     const d = new Date();   // client tijd aanmaken
     oldClientTime = (d.getTime() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
-    document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2); // print JSON in html
+    // document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2); // print JSON in html
+    updateDisplay(Jdata);
     $('#content').show();
     $('#loading').hide();  
+    // if (Jdata.users.indexOf(socket.id) == -1){
+    //     socket.emit('socket_connect');
+    // }
 });
 
 // start loop van 100ms
@@ -116,4 +121,10 @@ setInterval(() => {
         socket.emit('update_user');
         // console.log('update');
     }
+
+    if (Jdata.users.indexOf(socket.id) == -1 && connected){
+        socket.emit('socket_connect');
+    }
+
 }, 10000);
+

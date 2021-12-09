@@ -9,6 +9,7 @@ import os
 class loop:
     def run():
         server_info('Running side loop')
+        OS = platform.system()
         temp_time = loopTime = time.time()
         # i = 0
         linux = True if platform.system() == 'Linux' else False
@@ -40,12 +41,15 @@ class loop:
 
             rpi.write('error', DATA['state']['error'], override = True, log=False)
             
-            # read GPIO    
             for pin in PINNEN:
+                # read GPIO    
                 if PINNEN[pin]['direction'] == 'input':
                     DATA['io'][pin] = rpi.read(pin)
+                # # write GPIO
+                # if PINNEN[pin]['direction'] == 'output':
+                #     rpi.write(pin, DATA['io'][pin], log=False)
             
-            if not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop']:
+            if (not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop']) and OS == 'linux':
                 DATA['state']['error'] = True
 
             # Set time

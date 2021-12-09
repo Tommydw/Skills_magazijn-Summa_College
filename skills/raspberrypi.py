@@ -89,6 +89,8 @@ class rpi:
                         mcp2.setDirection(PINNEN[pin]['pin'], mcp1.DIR_OUTPUT) # define output
                         mcp2.digitalWrite(PINNEN[pin]['pin'], (mcp1.LEVEL_LOW if PINNEN[pin]['state'] == 'low' else 
                                                                 (mcp1.LEVEL_HIGH if PINNEN[pin]['state'] == 'high' else mcp1.LEVEL_LOW))) # write state to output
+                    DATA['io'][pin] = (False if PINNEN[pin]['state'] == 'low' else 
+                                        (True if PINNEN[pin]['state'] == 'high' else False))
                 else:
                     raise Exception('Error while trying to define pin {0}'.format(pin))
   
@@ -117,7 +119,7 @@ class rpi:
                 # log pin state
                 if log: io_log('Set pin ' + colors.forground.yellow + '{0} {1}'.format(pin, colors.forground.lightgreen + 'LOW' + colors.reset if state == 'low'.lower() or state == 0 else 
                                                 (colors.forground.lightred + 'HIGH' + colors.reset if state == 'high'.lower() or state == 1 else 
-                                                colors.reset + colors.background.red + colors.forground.lightgrey + colors.blink + 'ERROR' + colors.reset)) + colors.reset)
+                                                colors.reset + colors.background.red + colors.forground.lightgrey + colors.blink + 'ERROR' + colors.reset + '\r\n')) + colors.reset)
                 # set pin LOW
                 if state == 'low'.lower() or state == 0:
                     if PINNEN[pin]['module'] == 'pi':

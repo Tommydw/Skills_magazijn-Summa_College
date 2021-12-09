@@ -37,12 +37,14 @@ flaskapp.register_blueprint(LEON, url_prefix='/leon')
 from skills.HMI.routes import hmi
 flaskapp.register_blueprint(hmi, url_prefix='/hmi')
 
-if not rpi.read('MCP1_pi') :
-    DATA['state']['error'] = True
+if not rpi.read('MCP1_pi'):
+    if platform.system() == 'Linux':
+        DATA['state']['error'] = True
     DATA['state']['mcp1'] = False
     server_error('MCP1 is not active!')
 if not rpi.read('MCP2_pi') :
-    DATA['state']['error'] = True
+    if platform.system() == 'Linux':
+        DATA['state']['error'] = True
     DATA['state']['mcp2'] = False
     server_error('MCP2 is not active!')
     

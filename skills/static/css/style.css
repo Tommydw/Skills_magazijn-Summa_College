@@ -130,7 +130,7 @@ footer.page-footer {
   height: calc(100vh - 64px);
   width: 100%;
   backdrop-filter: blur(2px);
-  z-index: 1;
+  z-index: 10;
 }
 
 
@@ -169,7 +169,7 @@ body{
 
 */
 
-#glowingButton{
+/* .glowingButton{
   width: fit-content;
   position: relative;
   padding: 20px 60px;
@@ -183,7 +183,7 @@ body{
   -webkit-box-reflect: below 1px linear-gradient(transparent,transparent, #0004);
 }
 
-#glowingButton:hover
+.glowingButton:hover
 {
   background: var(--clr);
   box-shadow:  0 0 10px var(--clr),
@@ -192,7 +192,7 @@ body{
   0 0 100px var(--clr);
 }
 
-#glowingButton::before
+.glowingButton::before
 {
   content: '';
   position: absolute;
@@ -204,7 +204,7 @@ body{
   animation-delay: calc(0.33s * var(--i) );
 }
 
-#glowingButton:hover::before
+.glowingButton:hover::before
 {
   width: 120%;
 }
@@ -220,7 +220,7 @@ body{
   }
 }
 
-#glowingButton::after
+.glowingButton::after
 {
   content: '';
   position: absolute;
@@ -229,11 +229,11 @@ body{
   transition: 0.5s;
 }
 
-#glowingButton:hover::after
+.glowingButton:hover::after
 {
   background: var(--clr);
 }
-#glowingButton a
+.glowingButton a
 {
   position: relative;
   z-index: 1;
@@ -246,16 +246,16 @@ body{
   text-decoration: none;
 }
 
-#glowingButton:hover a
+.glowingButton:hover a
 {
   opacity: 1;
   background: transparent;
-}
+} */
 
 /* for nav bar */
 /* 
 
-#glowingButton{
+.glowingButton{
   width: fit-content;
   height: 5vh;
   position: relative;
@@ -271,7 +271,7 @@ overflow: hidden;
 -webkit-box-reflect: below 1px linear-gradient(transparent,transparent, #0004);
 }
 
-#glowingButton:hover
+.glowingButton:hover
 {
 background: var(--clr);
 box-shadow:  0 0 10px var(--clr),
@@ -280,7 +280,7 @@ box-shadow:  0 0 10px var(--clr),
 0 0 100px var(--clr);
 }
 
-#glowingButton::before
+.glowingButton::before
 {
 content: '';
 position: absolute;
@@ -292,7 +292,7 @@ animation: animate 2s linear infinite;
 animation-delay: calc(0.33s * var(--i) );
 }
 
-#glowingButton:hover::before
+.glowingButton:hover::before
 {
 width: 120%;
 }
@@ -308,7 +308,7 @@ width: 120%;
 }
 }
 
-#glowingButton::after
+.glowingButton::after
 {
 content: '';
 position: absolute;
@@ -317,11 +317,11 @@ background: var(--fgc);
 transition: 0.5s;
 }
 
-#glowingButton:hover::after
+.glowingButton:hover::after
 {
 background: var(--clr);
 }
-#glowingButton a
+.glowingButton a
 {
 position: relative;
 z-index: 1;
@@ -333,7 +333,7 @@ letter-spacing: 3px;
 transition: 0.5s;
 }
 
-#glowingButton:hover a
+.glowingButton:hover a
 {
 opacity: 1;
 background: transparent;
