@@ -17,6 +17,7 @@ let clientTime;
 var connected = false;
 var requested = false;
 var buttonEnable = true;
+var blokje;
 
 var oldTimeColor = document.querySelector('#time').style.color;
 
@@ -56,13 +57,33 @@ function mergeObject(oldObject, newObject){
     return oldObject;
 }
 
-// Klaar met laden
-$(document).ready(function() {
-    socket.on('connect', function() {
-        // stuur socket_connect naar backend
-        socket.emit('socket_connect');
-    });        
-});
+
+function preloadImage(name){
+    const img = new Image();
+    //const img = document.createElement('img');
+    img.src = 'static/photos/' + name;
+    return img
+}
+
+function preloadImages(images){
+    for (var i = 0; i < images.length; i++){
+        images[i] = preloadImage(images[i])
+    }
+    return images
+}
+
+
+// zoom voor blijvoorbeeld telefoons
+function zoomScreen(){
+    var formWidth = document.getElementsByClassName('form')[0].offsetWidth;
+    if (formWidth - 15 > screen.width){
+        document.getElementsByClassName('form')[0].style.zoom = screen.width/(formWidth+15);
+    }
+    else
+    {
+        document.getElementsByClassName('form')[0].style.zoom = 1;
+    }
+}
 
 // krijg connected van server
 socket.on('connected', () => {
@@ -88,6 +109,8 @@ socket.on('data', function(data){
     updateDisplay(Jdata);
     $('#content').show();
     $('#loading').hide();  
+    document.getElementById('users').innerHTML = Jdata.users.length;
+
     // if (Jdata.users.indexOf(socket.id) == -1){
     //     socket.emit('socket_connect');
     // }
@@ -100,7 +123,6 @@ setInterval(()=> {
     clientTime = d.getTime() / 1000;
     // huidige client tijd min de laatste update van de server
     document.getElementById('time').innerHTML = sec2time(clientTime-oldClientTime); 
-
     // controller of er om nieuwe data gevraagd kan worden
     if (connected && !requested){
         if (clientTime-oldClientTime > updateTijd ){
@@ -136,6 +158,25 @@ setInterval(() => {
     if (Jdata.users.indexOf(socket.id) == -1 && connected){
         socket.emit('socket_connect');
     }
-
 }, 10000);
 
+
+// Klaar met laden
+$(document).ready(function() {
+    zoomScreen();
+    socket.on('connect', function() {
+        // stuur socket_connect naar backend
+        socket.emit('socket_connect');        
+    }); 
+    blokje = preloadImages(['blokje/rood.png', 
+                            'blokje/zwart.png', 
+                            'blokje/zilver.png', 
+                            'blokje/deksel.png', 
+                            'blokje/muntje.png',
+                            'blokje/niets.png']);
+    updateBlokje();       
+});
+
+window.addEventListener("orientationchange", function(event) {
+    zoomScreen();
+});

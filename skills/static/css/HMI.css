@@ -6,12 +6,19 @@
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-end;
+    /* flex-direction: column; */
 }
 .topInfo p{
     margin-top: 4px;
     margin-bottom: 2px;
     margin-right: 1%;
     font-size: 0.8rem;
+    z-index: 9;
+}
+.topInfo #activeUsers{
+    z-index: 9;
+    position: absolute;
+    margin-top: calc(100vh - 96px);
 }
 /* body{
     max-width: 100vw;
@@ -109,7 +116,7 @@
     align-items: center;
     border: solid;
     border-radius: 8px;
-;
+    /* zoom: 0.7; */
 }
 
 .options, .options::before, .options::after {
@@ -120,6 +127,9 @@
     height: auto;
     right: 1%;
     top: 60px;
+    width: max-content;
+    align-content: center;
+    flex-wrap: nowrap;
     /* position: absolute; */
 }
 
@@ -226,4 +236,28 @@
 {
     opacity: 1;
     background: transparent;
+}
+
+.fotoBlokje{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    flex-direction: column;
+    margin: 5px;
+}
+
+.fotoBlokje img{
+    margin-top: -0.5px;
+}
+
+.HMIcontent{
+    margin: 5px;
+    position: initial;
+    display: flex;
+    grid-auto-rows: initial;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    justify-content: space-around;
 }

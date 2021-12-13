@@ -9,33 +9,40 @@
     
     <div class='topInfo'>
         <p id='timeText'>Time past: <b id='time'></b></p>
+        <p id='activeUsers'>Active users: <b id='users'></b></p>
+
     </div>
-    <div id='content' class="container">
+    <div id='content' class="HMIcontent"><!--class="container"> -->
+        <div class="fotoBlokje">
+            <img id="deDeksel"  height="50" width="300">
+            <img id="hetMuntje"  height="50" width="300">
+            <img id="hetBlokje"  height="200" width="300">
+        </div>
         <div class="options">
             <h4>Order </h4>
             <form class="form">
                 <div class="mycheckbox">
                     <div style="display: inline-flex; flex-direction: row;">
                         <div class="inputGroup">
-                            <input id="Rood" name="radio" type="radio" checked/>
+                            <input id="Rood" name="radio" type="radio" onclick="updateBlokje();" checked/>
                             <label for="Rood">Rood</label>
                         </div>
                         <div class="inputGroup">
-                            <input id="Zwart" name="radio" type="radio"/>
+                            <input id="Zwart" name="radio" type="radio" onclick="updateBlokje();"/>
                             <label for="Zwart">Zwart</label>
                         </div>
                         <div class="inputGroup">
-                            <input id="Zilver" name="radio" type="radio"/>
+                            <input id="Zilver" name="radio" type="radio" onclick="updateBlokje();"/>
                             <label for="Zilver">Zilver</label>
                         </div>
                     </div>
                     <div class="inputGroup">
-                        <input id="Deksel" name="option1" type="checkbox"/>
+                        <input id="Deksel" name="option1" type="checkbox" onclick="updateBlokje();"/>
                         <label for="Deksel">Deksel</label>
                     </div>
                     
                     <div class="inputGroup">
-                        <input id="Muntje" name="option2" type="checkbox"/>
+                        <input id="Muntje" name="option2" type="checkbox" onclick="updateBlokje();"/>
                         <label for="Muntje">Muntje</label>
                     </div>
                 </div>
@@ -44,7 +51,7 @@
                 </div>
             </form>
         </div>
-        <div class='glowingButton' onclick="toggel();" style="--clr:#22aeff;--i:0;--fgc:#00d9ff;">
+        <!-- <div class='glowingButton' onclick="toggel();" style="--clr:#22aeff;--i:0;--fgc:#00d9ff;">
             <a>Motor</a>
         </div>
         <div style="
@@ -60,11 +67,10 @@
         </div>
         <div class='glowingButton' onclick="cilinder3();" style="--clr:#09ff00;--i:0;--fgc:#00ac00;">
             <a>Cilinder 3</a>
-        </div>
-    </div>
-
-        <small><pre id='data'></pre></small>
-    </div>
+        </div>-->
+    </div> 
+        <!-- <small><pre id='data'></pre></small>
+    </div> -->
 </body>
 <!-- <script>
     $('#content').hide();
