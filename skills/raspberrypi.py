@@ -147,7 +147,6 @@ class rpi:
                 server_error('{0} state is not defined for pin "{1}"'.format(state, pin))
         else:
             server_error('cannot assing state {0} to pin "{1}" in error event'.format(state, pin))
-             
     # # write to pi GPIO without logging      
     # def write_loop(pin, state):
     #     if state == 'low'.lower() or state == 0:
@@ -160,8 +159,8 @@ class rpi:
     #         DATA['io'][pin] = True
     
     # read GPIO
-    def read(pin):
-        if not DATA['state']['error']:
+    def read(pin, overwrite=False):
+        if not DATA['state']['error'] or overwrite:
             if pin in PINNEN:
                 if PINNEN[pin]['module'] == 'pi':
                     readValue = gpio.input(PINNEN[pin]['pin']) # read pin

@@ -110,13 +110,12 @@ socket.on('data', function(data){
         // nieuwe data omzetten
         Jdata = mergeObject(Jdata, JSON.parse(data));
         // console.log(Jdata);
-        buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
-        console.log(Jdata.state.order.orderActive);
         newtime = parseFloat(Jdata.time);   // nieuwe tijd opslaan
         updateTijd = waitTime + Jdata.users.indexOf(socket.id);
         const d = new Date();   // client tijd aanmaken
         oldClientTime = (d.getTime() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
         updateDisplay(Jdata);
+        buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
         // verberg loading
         $('#loading').hide();  
         // aantal active users weergeven.

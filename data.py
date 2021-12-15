@@ -1,5 +1,3 @@
-
-
 global DATA
 DATA = {
     'type': str(),

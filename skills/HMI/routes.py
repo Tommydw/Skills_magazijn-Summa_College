@@ -75,15 +75,15 @@ def start():
         DATA['state']['error'] = False
         DATA['state']['errorActive'] = False
     # temp
-    if request.args.get('reset') == 'jip':
-        rpi.write('deksel', False)
-        rpi.write('muntje', False)
-        rpi.write('Kleur1', False)
-        rpi.write('Kleur2', False)
-        DATA['state']['order']['orderActive'] = False
-        DATA['state']['order']['kleur'] = ''
-        DATA['state']['order']['deksel'] = False
-        DATA['state']['order']['muntje'] = False
+    # if request.args.get('reset') == 'jip':
+    #     rpi.write('deksel', False)
+    #     rpi.write('muntje', False)
+    #     rpi.write('Kleur1', False)
+    #     rpi.write('Kleur2', False)
+    #     DATA['state']['order']['orderActive'] = False
+    #     DATA['state']['order']['kleur'] = ''
+    #     DATA['state']['order']['deksel'] = False
+    #     DATA['state']['order']['muntje'] = False
     return render_template('hmi.html', title='HMI')
 
 
@@ -135,4 +135,5 @@ def getOrder(order):
 # @socket_.on('cil3')
 # def cil3(state):
 #     rpi.write('cil3', state)
+#     DATA['state']['order']['test'] = state
 #     return

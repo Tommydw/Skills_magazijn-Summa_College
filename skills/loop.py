@@ -11,11 +11,13 @@ cilinder_in_tijd    = 1 #sec
 band_off_delay      = 2 #sec
 blokjes_op_band = 0
 running = False
+write_high = True
 start_time = 0
 
 def orderUitvoeren():
     global running
     global start_time   
+    global write_high   
     if DATA['state']['order']['orderActive']:
         now_time = time.time()
         if not running:
@@ -23,13 +25,21 @@ def orderUitvoeren():
             start_time = time.time()
         if start_time >=  now_time - cilinder_uit_tijd - cilinder_in_tijd:
             if start_time >= now_time - cilinder_uit_tijd:
-                if DATA['state']['order']['kleur'] == 'rood': rpi.write('mag1', True)
-                elif DATA['state']['order']['kleur'] == 'zwart': rpi.write('mag2', True)
-                elif DATA['state']['order']['kleur'] == 'zilver': rpi.write('mag3', True)
+                if write_high:
+                    write_high = False
+                    if DATA['state']['order']['kleur'] == 'rood': 
+                        rpi.write('cil1', True)
+                    elif DATA['state']['order']['kleur'] == 'zwart': 
+                        rpi.write('cil2', True)
+                    elif DATA['state']['order']['kleur'] == 'zilver': 
+                        rpi.write('cil3', True)
             else:
-                if DATA['state']['order']['kleur'] == 'rood': rpi.write('mag1', False)
-                elif DATA['state']['order']['kleur'] == 'zwart': rpi.write('mag2', False)
-                elif DATA['state']['order']['kleur'] == 'zilver': rpi.write('mag3', False)
+                if DATA['state']['order']['kleur'] == 'rood': 
+                    rpi.write('cil1', False)
+                elif DATA['state']['order']['kleur'] == 'zwart': 
+                    rpi.write('cil2', False)
+                elif DATA['state']['order']['kleur'] == 'zilver':
+                    rpi.write('cil3', False)
                 rpi.write('deksel', False)
                 rpi.write('muntje', False)
                 rpi.write('Kleur1', False)
@@ -38,7 +48,16 @@ def orderUitvoeren():
                 DATA['state']['order']['kleur'] = ''
                 DATA['state']['order']['deksel'] = False
                 DATA['state']['order']['muntje'] = False
+                write_high = True
                 running = False
+        else: 
+            running = False
+            write_high = True
+            start_time = 0
+    else:
+        running = False
+        write_high = True
+        start_time = 0
             
 
     
