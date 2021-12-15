@@ -6,9 +6,14 @@
  * Made By MaterializeCSS.com
  */
 
-nav ul a,
+/* nav ul a, */
 nav .brand-logo {
-  color: #ccc;
+  position: absolute;
+  display: inline-grid;
+  block-size: 64px;
+  flex-wrap: nowrap;
+  align-items: center;
+
 }
 nav{
   color: #ccc;
