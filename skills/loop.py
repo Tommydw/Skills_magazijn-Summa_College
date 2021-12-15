@@ -6,6 +6,43 @@ import platform
 # import psutil
 import os
 
+cilinder_uit_tijd   = 1 #sec
+cilinder_in_tijd    = 1 #sec
+band_off_delay      = 2 #sec
+blokjes_op_band = 0
+running = False
+start_time = 0
+
+def orderUitvoeren():
+    global running
+    global start_time   
+    if DATA['state']['order']['orderActive']:
+        now_time = time.time()
+        if not running:
+            running = True
+            start_time = time.time()
+        if start_time >=  now_time - cilinder_uit_tijd - cilinder_in_tijd:
+            if start_time >= now_time - cilinder_uit_tijd:
+                if DATA['state']['order']['kleur'] == 'rood': rpi.write('mag1', True)
+                elif DATA['state']['order']['kleur'] == 'zwart': rpi.write('mag2', True)
+                elif DATA['state']['order']['kleur'] == 'zilver': rpi.write('mag3', True)
+            else:
+                if DATA['state']['order']['kleur'] == 'rood': rpi.write('mag1', False)
+                elif DATA['state']['order']['kleur'] == 'zwart': rpi.write('mag2', False)
+                elif DATA['state']['order']['kleur'] == 'zilver': rpi.write('mag3', False)
+                rpi.write('deksel', False)
+                rpi.write('muntje', False)
+                rpi.write('Kleur1', False)
+                rpi.write('Kleur2', False)
+                DATA['state']['order']['orderActive'] = False
+                DATA['state']['order']['kleur'] = ''
+                DATA['state']['order']['deksel'] = False
+                DATA['state']['order']['muntje'] = False
+                running = False
+            
+
+    
+
 class loop:
     def run():
         server_info('Running side loop')
@@ -36,8 +73,6 @@ class loop:
                         server_log('User {0} '.format(user[0]) + colors.forground.red + colors.blink + 'removed' + colors.reset)
                 loopTime = time.time()
                 # write gpio
-           
-
 
             rpi.write('error', DATA['state']['error'], override = True, log=False)
             
@@ -67,3 +102,5 @@ class loop:
             # stop event
             if DATA['state']['error'] == True:
                 rpi.write('motor', PINNEN['motor']['state'], override=True, log=False)
+
+            orderUitvoeren()

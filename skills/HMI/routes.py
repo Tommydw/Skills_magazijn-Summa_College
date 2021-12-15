@@ -80,7 +80,10 @@ def start():
         rpi.write('muntje', False)
         rpi.write('Kleur1', False)
         rpi.write('Kleur2', False)
-        DATA['state']['orderActive'] = False
+        DATA['state']['order']['orderActive'] = False
+        DATA['state']['order']['kleur'] = ''
+        DATA['state']['order']['deksel'] = False
+        DATA['state']['order']['muntje'] = False
     return render_template('hmi.html', title='HMI')
 
 
@@ -88,9 +91,12 @@ def start():
 # krijg de bestelling    
 @socket_.on('order')
 def getOrder(order):
-    DATA['state']['orderActive'] = True
-    emit('data', json.dumps(DATA), broadcast=True)
     server_log(str(order))
+    DATA['state']['order']['kleur'] = order['kleur']
+    DATA['state']['order']['deksel'] = order['deksel']
+    DATA['state']['order']['muntje'] = order['muntje']
+    DATA['state']['order']['orderActive'] = True
+    getData({''}, 'full')  
     # schrijf gpio als master = True
     if DATA['state']['master']:
         rpi.write('deksel', order['deksel'])
@@ -107,7 +113,6 @@ def getOrder(order):
         elif order['kleur'] == 'zilver':
             rpi.write('Kleur1', True)
             rpi.write('Kleur2', True)
-        
     return
     
 

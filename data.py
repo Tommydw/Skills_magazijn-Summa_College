@@ -11,7 +11,12 @@ DATA = {
         'mcp2': bool(),
         'error': bool(),
         'errorActive': bool(),
-        'orderActive': bool(),
+        'order':{
+            'orderActive': bool(),
+            'kleur': str(),
+            'deksel': bool(),
+            'muntje': bool()
+            },
         # 'orderDone': bool(),
         'cpu': str()
         },
