@@ -5,11 +5,14 @@ DATA = {
     'type': str(),
     'time': str(),
     'state': {
+        'master': bool(),
         'gpio': bool(),
         'mcp1': bool(),
         'mcp2': bool(),
         'error': bool(),
         'errorActive': bool(),
+        'orderActive': bool(),
+        # 'orderDone': bool(),
         'cpu': str()
         },
     'io': {

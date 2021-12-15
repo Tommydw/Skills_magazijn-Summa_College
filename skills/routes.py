@@ -71,14 +71,14 @@ def info():
 def test():
     return render_template('test.html', test='hoi')
 
-@flaskapp.route("/on")
-def ledON():
-    rpi.write('test', 1)
-    # INPUT['test'] = True
-    return redirect(url_for('home'))
+# @flaskapp.route("/on")
+# def ledON():
+#     rpi.write('test', 1)
+#     # INPUT['test'] = True
+#     return redirect(url_for('home'))
 
-@flaskapp.route("/off")
-def ledOFF():
-    # INPUT['test'] = False
-    rpi.write('test', 0)
-    return redirect(url_for('home'))
+# @flaskapp.route("/off")
+# def ledOFF():
+#     # INPUT['test'] = False
+#     rpi.write('test', 0)
+#     return redirect(url_for('home'))

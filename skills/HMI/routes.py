@@ -2,9 +2,7 @@ from skills import flaskapp, rpi, socket_, SOCKET_INFO
 from flask_socketio import SocketIO, emit, namespace, send, disconnect
 from flask import render_template, Blueprint, request
 from data import DATA, PINNEN
-import json
-import time
-import copy
+import json, time, copy
 
 from skills.terminalColors import server_log
 hmi = Blueprint('hmi', __name__, static_folder='../static', template_folder='./Templates')
@@ -25,6 +23,7 @@ def socket_connect():
 def disconnecting():
     return
 
+# update user, zet de huidige server tijd bij de user | user is nog actief
 @socket_.on('update_user')
 def update_user():
     for i in range(len(SOCKET_INFO)):
@@ -63,35 +62,72 @@ def getData(oldData, getType):
     return
 
 
-
+# render HMI (home) template
 @hmi.route("/")
 def start():
+    masterState = request.args.get('master')
+    resetSate = request.args.get('reset_error')
+    if masterState == 'jip':
+        DATA['state']['master'] = True  
+    elif masterState == 'nope' :
+        DATA['state']['master'] = False
+    if resetSate == 'jip': 
+        DATA['state']['error'] = False
+        DATA['state']['errorActive'] = False
+    # temp
+    if request.args.get('reset') == 'jip':
+        rpi.write('deksel', False)
+        rpi.write('muntje', False)
+        rpi.write('Kleur1', False)
+        rpi.write('Kleur2', False)
+        DATA['state']['orderActive'] = False
     return render_template('hmi.html', title='HMI')
 
-    
+
+
+# krijg de bestelling    
 @socket_.on('order')
 def getOrder(order):
+    DATA['state']['orderActive'] = True
+    emit('data', json.dumps(DATA), broadcast=True)
     server_log(str(order))
+    # schrijf gpio als master = True
+    if DATA['state']['master']:
+        rpi.write('deksel', order['deksel'])
+        rpi.write('muntje', order['muntje'])
+        # schrijf 01 = rood
+        if order['kleur'] == 'rood':
+            rpi.write('Kleur1', True)
+            rpi.write('Kleur2', False)
+        # schrijf 10 = zwart
+        elif order['kleur'] == 'zwart':
+            rpi.write('Kleur1', False)
+            rpi.write('Kleur2', True)
+        # schrijf 11 = zilver
+        elif order['kleur'] == 'zilver':
+            rpi.write('Kleur1', True)
+            rpi.write('Kleur2', True)
+        
     return
     
 
     
-@socket_.on('motor')
-def motor(state):
-    rpi.write('motor', state)
-    return
+# @socket_.on('motor')
+# def motor(state):
+#     rpi.write('motor', state)
+#     return
     
-@socket_.on('cil1')
-def cil1(state):
-    rpi.write('cil1', state)
-    return
+# @socket_.on('cil1')
+# def cil1(state):
+#     rpi.write('cil1', state)
+#     return
     
-@socket_.on('cil2')
-def cil2(state):
-    rpi.write('cil2', state)
-    return
+# @socket_.on('cil2')
+# def cil2(state):
+#     rpi.write('cil2', state)
+#     return
     
-@socket_.on('cil3')
-def cil3(state):
-    rpi.write('cil3', state)
-    return
+# @socket_.on('cil3')
+# def cil3(state):
+#     rpi.write('cil3', state)
+#     return

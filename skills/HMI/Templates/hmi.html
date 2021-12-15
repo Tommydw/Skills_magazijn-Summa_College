@@ -13,16 +13,26 @@
 
     </div>
     <div id='content' class="HMIcontent"><!--class="container"> -->
-        <div class="fotoBlokje">
+        <div class="fotoBlokje hmicard">
+            <h4>Order preview</h4>
             <img id="deDeksel"  height="50" width="300">
             <img id="hetMuntje"  height="50" width="300">
             <img id="hetBlokje"  height="200" width="300">
         </div>
-        <div class="options">
+        <div class="options hmicard">
             <h4>Order </h4>
             <form class="form">
                 <div class="mycheckbox">
-                    <div style="display: inline-flex; flex-direction: row;">
+                    <div class="inputGroup">
+                        <input id="Deksel" name="option1" type="checkbox" onclick="updateBlokje();"/>
+                        <label for="Deksel">Deksel</label>
+                    </div>
+                    
+                    <div class="inputGroup">
+                        <input id="Muntje" name="option2" type="checkbox" onclick="updateBlokje();"/>
+                        <label for="Muntje">Muntje</label>
+                    </div>
+                    <div style="display: inline-flex; flex-direction: row; margin-top: -9.5px;">
                         <div class="inputGroup">
                             <input id="Rood" name="radio" type="radio" onclick="updateBlokje();" checked/>
                             <label for="Rood">Rood</label>
@@ -36,18 +46,9 @@
                             <label for="Zilver">Zilver</label>
                         </div>
                     </div>
-                    <div class="inputGroup">
-                        <input id="Deksel" name="option1" type="checkbox" onclick="updateBlokje();"/>
-                        <label for="Deksel">Deksel</label>
-                    </div>
-                    
-                    <div class="inputGroup">
-                        <input id="Muntje" name="option2" type="checkbox" onclick="updateBlokje();"/>
-                        <label for="Muntje">Muntje</label>
-                    </div>
                 </div>
-                <div class='glowingButton' onclick="sendOrder();" style="--clr:#3822ff;--i:0;--fgc:#0000ff;">
-                    <a>Verzenden</a>
+                <div id='sendButton' class='glowingButton' onclick="sendOrder();" style="--clr:#3822ff;--i:0;--fgc:#0000ff;">
+                    <a id='sendButtonText'>Verzenden</a>
                 </div>
             </form>
         </div>

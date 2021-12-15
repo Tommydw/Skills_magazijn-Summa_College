@@ -15,6 +15,15 @@ nav{
   background-color: #444;
 }
 
+
+nav ul li a {
+    /* display: table-cell; */
+    vertical-align: middle;
+}
+nav ul li span embed{
+  margin-left: -5px;
+}
+
 body{
   color: white;
   background: #363636;
