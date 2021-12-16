@@ -62,32 +62,6 @@ def getData(oldData, getType):
     return
 
 
-# render HMI (home) template
-@hmi.route("/")
-def start():
-    masterState = request.args.get('master')
-    resetSate = request.args.get('reset_error')
-    if masterState == 'jip':
-        DATA['state']['master'] = True  
-    elif masterState == 'nope' :
-        DATA['state']['master'] = False
-    if resetSate == 'jip': 
-        DATA['state']['error'] = False
-        DATA['state']['errorActive'] = False
-    # temp
-    # if request.args.get('reset') == 'jip':
-    #     rpi.write('deksel', False)
-    #     rpi.write('muntje', False)
-    #     rpi.write('Kleur1', False)
-    #     rpi.write('Kleur2', False)
-    #     DATA['state']['order']['orderActive'] = False
-    #     DATA['state']['order']['kleur'] = ''
-    #     DATA['state']['order']['deksel'] = False
-    #     DATA['state']['order']['muntje'] = False
-    return render_template('hmi.html', title='HMI')
-
-
-
 # krijg de bestelling    
 @socket_.on('order')
 def getOrder(order):
@@ -116,24 +90,20 @@ def getOrder(order):
     return
     
 
-    
-# @socket_.on('motor')
-# def motor(state):
-#     rpi.write('motor', state)
-#     return
-    
-# @socket_.on('cil1')
-# def cil1(state):
-#     rpi.write('cil1', state)
-#     return
-    
-# @socket_.on('cil2')
-# def cil2(state):
-#     rpi.write('cil2', state)
-#     return
-    
-# @socket_.on('cil3')
-# def cil3(state):
-#     rpi.write('cil3', state)
-#     DATA['state']['order']['test'] = state
-#     return
+# render HMI (home) template
+@hmi.route("/")
+def start():
+    masterState = request.args.get('master')
+    if masterState == 'jip':
+        DATA['state']['master'] = True  
+    elif masterState == 'nope' :
+        DATA['state']['master'] = False
+    return render_template('hmi.html', title='HMI')
+
+@hmi.route("/onderhoud")
+def onderhoud():
+    resetSate = request.args.get('reset_error')
+    if resetSate == 'jip': 
+        DATA['state']['error'] = False
+        DATA['state']['errorActive'] = False
+    return render_template('onderhoud.html',  title='Onderhoud')
