@@ -1,11 +1,9 @@
 from skills import SOCKET_INFO, routes, rpi
 from skills.terminalColors import server_info, server_log, server_error, colors
 from data import DATA, PINNEN
-import time
-import platform
-# import psutil
-import os
+import time, os, platform
 
+# init voor orderUitvoeren
 cilinder_uit_tijd   = 1 #sec
 cilinder_in_tijd    = 1 #sec
 band_off_delay      = 2 #sec
@@ -13,11 +11,14 @@ blokjes_op_band = 0
 running = False
 write_high = True
 start_time = 0
+end_time = 0
 
 def orderUitvoeren():
     global running
     global start_time   
     global write_high   
+    global blokjes_op_band
+    global end_time
     if DATA['state']['order']['orderActive']:
         now_time = time.time()
         if not running:
@@ -25,8 +26,10 @@ def orderUitvoeren():
             start_time = time.time()
         if start_time >=  now_time - cilinder_uit_tijd - cilinder_in_tijd:
             if start_time >= now_time - cilinder_uit_tijd:
+                # stap 1
                 if write_high:
                     write_high = False
+                    blokjes_op_band += 1
                     if DATA['state']['order']['kleur'] == 'rood': 
                         rpi.write('cil1', True)
                     elif DATA['state']['order']['kleur'] == 'zwart': 
@@ -34,6 +37,7 @@ def orderUitvoeren():
                     elif DATA['state']['order']['kleur'] == 'zilver': 
                         rpi.write('cil3', True)
             else:
+                # stap 2
                 if DATA['state']['order']['kleur'] == 'rood': 
                     rpi.write('cil1', False)
                 elif DATA['state']['order']['kleur'] == 'zwart': 
@@ -51,6 +55,7 @@ def orderUitvoeren():
                 write_high = True
                 running = False
         else: 
+            #stap 3
             running = False
             write_high = True
             start_time = 0
@@ -58,6 +63,16 @@ def orderUitvoeren():
         running = False
         write_high = True
         start_time = 0
+        
+    if blokjes_op_band > 0:
+        if not DATA['io']['motor']:
+            rpi.write('motor', True)
+        if DATA['io']['eind']:
+            end_time = now_time
+        if end_time + band_off_delay <= now_time:
+            blokjes_op_band -= 1
+    elif DATA['io']['motor']:
+        rpi.write('motor', False)
             
 
     
@@ -66,57 +81,48 @@ class loop:
     def run():
         server_info('Running side loop')
         OS = platform.system()
-        error_time = temp_time = loopTime = time.time()
-        # i = 0
+        error_time = loopTime = time.time()
         linux = True if platform.system() == 'Linux' else False
         while True:
-            if time.time() - temp_time > 1.0:
-                temp_time = time.time()
-            # _in = rpi.read('in')
-            # if _in != DATA['IO']['in']:
-            #     TMP['in'] = INPUT['in'] = _in
-            #     rpi.write('test', not INPUT['test'])
-            #     INPUT['test'] = not _in
-            
             # Blink led in loop
+            # knipper sneller als de loadAVG hoger is dan 1.5
             if linux and os.getloadavg()[0] > 1.5:
                 blinkTime = 1/4 #sec
             else:
                 blinkTime = 1/2 #sec
                 
             if time.time() - loopTime > blinkTime:
+                # laat de led knipperen
                 rpi.toggle_loop_run()
-                for user in SOCKET_INFO:
-                    if time.time() - user[1] > 60:
-                        SOCKET_INFO.pop(SOCKET_INFO.index(user))
-                        server_log('User {0} '.format(user[0]) + colors.forground.red + colors.blink + 'removed' + colors.reset)
+                # verwijder user als deze niet actief is
+                try:
+                    for user in SOCKET_INFO:
+                        if time.time() - user[1] > 60:
+                            SOCKET_INFO.pop(SOCKET_INFO.index(user))
+                            server_log('User {0} '.format(user[0]) + colors.forground.red + colors.blink + 'removed' + colors.reset)
+                except:
+                    server_error('User not found in actief users')
                 loopTime = time.time()
-                # write gpio
-
+            
+            # write error pin
             rpi.write('error', DATA['state']['error'], override = True, log=False)
             
+            # read GPIO    
             for pin in PINNEN:
-                # read GPIO    
                 if PINNEN[pin]['direction'] == 'input':
                     DATA['io'][pin] = rpi.read(pin)
-                # # write GPIO
-                # if PINNEN[pin]['direction'] == 'output':
-                #     rpi.write(pin, DATA['io'][pin], log=False)
             
+            # zet error aan als een deurtje open gaat 
             if (not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop']) and not DATA['state']['errorActive'] and OS == 'Linux':
                 DATA['state']['errorActive'] = True
                 error_time = time.time()
-            elif  DATA['io']['mcp1Noodstop'] and  DATA['io']['mcp2Noodstop']: DATA['state']['errorActive'] = False
+            elif DATA['io']['mcp1Noodstop'] and DATA['io']['mcp2Noodstop']: DATA['state']['errorActive'] = False
             if time.time() - error_time > 0.05 and DATA['state']['errorActive']:
                 DATA['state']['error'] = True
             
             # Set time
             DATA['time'] = time.time()
             DATA['state']['cpu'] = list(os.getloadavg()) if linux else 'Windows'
-            # <1.5 is ok
-            # rpi.write('motor', DATA['io']['mag1'])
-            # rpi.write('cil2', (DATA['io']['mag1'] or DATA['io']['mag2'] or DATA['io']['mag3'] or DATA['io']['eind']), log=False)
-            # rpi.write('cil2', DATA['io']['mag1'], log=False)
 
             # stop event
             if DATA['state']['error'] == True:
