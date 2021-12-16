@@ -51,6 +51,13 @@
     z-index: 2;
     transition: color 200ms ease-in;
     overflow: hidden;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .inputGroup label:before {
     width: 10px;

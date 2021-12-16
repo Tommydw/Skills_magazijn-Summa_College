@@ -6,12 +6,14 @@ import time, os, platform
 # init voor orderUitvoeren
 cilinder_uit_tijd   = 1 #sec
 cilinder_in_tijd    = 1 #sec
-band_off_delay      = 2 #sec
+band_off_delay      = 4 #sec
 blokjes_op_band = 0
 running = False
 write_high = True
 start_time = 0
 end_time = 0
+detect = True
+order_compleet = False
 
 def orderUitvoeren():
     global running
@@ -19,7 +21,9 @@ def orderUitvoeren():
     global write_high   
     global blokjes_op_band
     global end_time
-    if DATA['state']['order']['orderActive']:
+    global detect
+    global order_compleet
+    if DATA['state']['order']['orderActive'] and not order_compleet:
         now_time = time.time()
         if not running:
             running = True
@@ -48,29 +52,39 @@ def orderUitvoeren():
                 rpi.write('muntje', False)
                 rpi.write('Kleur1', False)
                 rpi.write('Kleur2', False)
-                DATA['state']['order']['orderActive'] = False
                 DATA['state']['order']['kleur'] = ''
                 DATA['state']['order']['deksel'] = False
                 DATA['state']['order']['muntje'] = False
-                write_high = True
+                write_high = order_compleet = True
                 running = False
+
         else: 
             #stap 3
             running = False
             write_high = True
             start_time = 0
+
     else:
         running = False
         write_high = True
         start_time = 0
         
     if blokjes_op_band > 0:
+        Time = time.time()
         if not DATA['io']['motor']:
             rpi.write('motor', True)
-        if DATA['io']['eind']:
-            end_time = now_time
-        if end_time + band_off_delay <= now_time:
+        if not DATA['io']['eind']:
+            if detect:
+                end_time = Time
+                DATA['state']['order']['orderActive'] = order_compleet = False
+                detect = False
+        else:
+            detect = True
+        if end_time <= Time - band_off_delay and not end_time == 0 and end_time >= Time - band_off_delay - 0.1:
             blokjes_op_band -= 1
+            end_time = 0
+            server_info('-1')
+
     elif DATA['io']['motor']:
         rpi.write('motor', False)
             
