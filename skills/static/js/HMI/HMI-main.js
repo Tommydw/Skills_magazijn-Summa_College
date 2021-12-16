@@ -22,7 +22,7 @@ var buttonEnable = false;
 /* temp */
 var blokje;
 var oldTimeColor = document.querySelector('#time').style.color;
-
+/* get document data */
 var oldSendButtonCLR = document.querySelector('#sendButton').style.getPropertyValue('--clr');
 var oldSendButtonFGC = document.querySelector('#sendButton').style.getPropertyValue('--fgc');
 var oldSendButtonText = document.querySelector('#sendButtonText').text;
@@ -181,10 +181,18 @@ setInterval(()=> {
 // stuur om de 10 sec een bericht naar der server om te bevestigen dat de client online is
 setInterval(() => {
     // als de user niet in de lijst staat, stuur een connect request
-    if (Jdata.users.indexOf(socket.id) == -1 && connected){
+    try
+    {
+        if (Jdata.users.indexOf(socket.id) == -1 && connected){
+            socket.emit('socket_connect');
+        }
+    }
+    catch 
+    {
+        console.warn("No user in Jdata");
         socket.emit('socket_connect');
     }
-    
+
     // stuur een user beacon 
     if (connected) {
         socket.emit('update_user');

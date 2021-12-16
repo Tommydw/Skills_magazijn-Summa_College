@@ -1,5 +1,3 @@
-# import raspberry pi GPIO 
-# import RPi.GPIO as gpio
 from RPiMCP23S17.MCP23S17 import MCP23S17, GPIO as gpio
 from skills.terminalColors import io_log, colors, server_error, server_info, server_log
 import spidev
@@ -101,10 +99,6 @@ class rpi:
                     colors.forground.yellow + pin + colors.reset, 
                     colors.forground.lightred + PINNEN[pin]['direction'] + colors.reset, 
                     colors.forground.lightcyan + PINNEN[pin]['module'] + colors.reset))
-                    
-            # script is aan het starten 
-            # gpio.output(PINNEN["io_active"]['pin'], gpio.HIGH) 
-            # rpi.write('io_active', 1)
             return True
         except:
             return False
@@ -147,16 +141,6 @@ class rpi:
                 server_error('{0} state is not defined for pin "{1}"'.format(state, pin))
         else:
             server_error('cannot assing state {0} to pin "{1}" in error event'.format(state, pin))
-    # # write to pi GPIO without logging      
-    # def write_loop(pin, state):
-    #     if state == 'low'.lower() or state == 0:
-    #         gpio.output(PINNEN[pin]['pin'], gpio.LOW) # pull LOW
-    #         # write status to data
-    #         DATA['io'][pin] = False
-    #     elif state == 'high'.lower() or state == 1:
-    #         gpio.output(PINNEN[pin]['pin'], gpio.HIGH) # pull HIGH
-    #         # write status to data
-    #         DATA['io'][pin] = True
     
     # read GPIO
     def read(pin, overwrite=False):
@@ -180,60 +164,3 @@ class rpi:
         rpi.write('loopRun', (not DATA['io']['loopRun']), override=True, log=False)
         rpi.write('MCP1', (not DATA['io']['MCP1']), override=True, log=False)
         rpi.write('MCP2', (not DATA['io']['MCP2']), override=True, log=False)
-        # if DATA['io']['loopRun'] == True:
-        #     rpi.write_loop('loopRun', False)
-        # else:
-        #     rpi.write_loop('loopRun', True)
-        
-        
-    
-    '''OUDE GPIO DEFINE CODE:'''
-    # 'script_status':    {'pin': 26, 'direction': gpio.OUT, 'state': gpio.LOW},    # gaat aan na het initalizeren
-    # 'io_active':        {'pin': 19, 'direction': gpio.OUT, 'state': gpio.LOW},    # gaat aan bij starten van script
-    # 'loop_active':      {'pin': 21, 'direction': gpio.OUT, 'state': gpio.LOW},    # gaat aan bij starten van script
-    # 'test':             {'pin': 13, 'direction': gpio.OUT, 'state': gpio.LOW},    # TEST pin
-    # 'in':               {'pin': 16, 'direction': gpio.IN, 'pull': gpio.PUD_UP},   # TEST input pin pullup
-
-
-    # # set pin on the pi 
-    # if PINNEN[pin]['module'] == 'pi':
-    #     if PINNEN[pin]['direction'] == gpio.IN:
-    #         if 'pull' in PINNEN[pin]:
-    #             gpio.setup(PINNEN[pin]['pin'], PINNEN[pin]['direction'], pull_up_down=PINNEN[pin]['pull']) # define as input and set pullup/down
-    #         else: 
-    #             raise Exception(' "pull" is not defind in PINNEN - {0}'.format(pin))
-    #     elif PINNEN[pin]['direction'] == gpio.OUT:
-    #         gpio.setup(PINNEN[pin]['pin'], PINNEN[pin]['direction']) # define output
-    #         gpio.output(PINNEN[pin]['pin'], PINNEN[pin]['state']) # write state to output
-    #     else:
-    #         raise Exception('Error while trying to define pin {0}'.format(pin))
-        
-    # # set pin on MCP1
-    # elif PINNEN[pin]['module'] == 'mcp1':
-    #     if PINNEN[pin]['direction'] == 'input':
-    #         if 'pull' in PINNEN[pin]:
-    #             mcp1.setDirection(PINNEN[pin]['pin'], PINNEN[pin]['direction']) # define as input and set pullup/down
-    #             mcp1.setPullupMode(PINNEN[pin]['pin'], PINNEN[pin]['pull'])
-    #         else: 
-    #             raise Exception(' "pull" is not defind in PINNEN - {0}'.format(pin))
-    #     elif PINNEN[pin]['direction'] == 'output':
-    #         mcp1.setDirection(PINNEN[pin]['pin'], PINNEN[pin]['direction']) # define output
-    #         mcp1.digitalWrite(PINNEN[pin]['pin'], PINNEN[pin]['state']) # write state to output
-    #     else:
-    #         raise Exception('Error while trying to define pin {0}'.format(pin))
-        
-    # # set pin on MCP1
-    # elif PINNEN[pin]['module'] == 'mcp2':
-    #     if PINNEN[pin]['direction'] == 'input':
-    #         if 'pull' in PINNEN[pin]:
-    #             mcp2.setDirection(PINNEN[pin]['pin'], PINNEN[pin]['direction']) # define as input and set pullup/down
-    #             mcp2.setPullupMode(PINNEN[pin]['pin'], PINNEN[pin]['pull'])
-    #         else: 
-    #             raise Exception(' "pull" is not defind in PINNEN - {0}'.format(pin))
-    #     elif PINNEN[pin]['direction'] == 'output':
-    #         mcp2.setDirection(PINNEN[pin]['pin'], PINNEN[pin]['direction']) # define output
-    #         mcp2.digitalWrite(PINNEN[pin]['pin'], PINNEN[pin]['state']) # write state to output
-    #     else:
-    #         raise Exception('Error while trying to define pin {0}'.format(pin))
-    # else:
-    #         raise Exception('Error while trying to define pin {0}, no vallid module: {1}'.format(pin, PINNEN[pin]['module']))

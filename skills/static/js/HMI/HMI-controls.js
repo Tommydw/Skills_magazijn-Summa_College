@@ -2,10 +2,6 @@ function updateDisplay(Jdata){
     // document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2); // print JSON in html
 }
 
-// setInterval(() => {
-    
-// }, 500);
-
 function updateBlokje(){
     if (document.getElementById('Rood').checked) document.getElementById('hetBlokje').src = blokje[0].src;
     else if (document.getElementById('Zwart').checked) document.getElementById('hetBlokje').src = blokje[1].src;
@@ -38,44 +34,3 @@ function sendOrder(){
         socket.emit('order', order);
     }else console.log('Wachten op vorige bevestiging');
 }
-
-// var motor = false;
-// function toggel(){
-//     if (motor){
-//         motor = false;
-//     }else{
-//         motor= true;
-//     }
-//     console.log(motor);
-//     socket.emit('motor', motor);
-// }
-// var cil1 = false;
-// function cilinder1(){
-//     if (cil1){
-//         cil1 = false;
-//     }else{
-//         cil1= true;
-//     }
-//     // console.log(cil1);
-//     socket.emit('cil1', cil1);
-// }
-// var cil2 = false;
-// function cilinder2(){
-//     if (cil2){
-//         cil2 = false;
-//     }else{
-//         cil2= true;
-//     }
-//     // console.log(cil2);
-//     socket.emit('cil2', cil2);
-// }
-// var cil3 = false;
-// function cilinder3(){
-//     if (cil3){
-//         cil3 = false;
-//     }else{
-//         cil3= true;
-//     }
-//     // console.log(cil3);
-//     socket.emit('cil3', cil3);
-// }

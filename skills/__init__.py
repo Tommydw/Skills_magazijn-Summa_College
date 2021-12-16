@@ -4,9 +4,8 @@ from data import DATA
 from skills.terminalColors import server_error, server_info, server_log
 import platform
 
+# detect platform
 server_info("Running on {0}".format('Linux' if platform.system() == 'Linux' else 'Windows'))
-
-
 if platform.system() == 'Linux':
     from skills.raspberrypi import rpi
 elif platform.system() == 'Windows':
@@ -14,6 +13,7 @@ elif platform.system() == 'Windows':
 else: 
     raise Exception("OS unknown")
 
+# IO setup
 if rpi.setup():
     DATA['state']['error'] = False
 else:
@@ -26,7 +26,7 @@ socket_ = SocketIO(flaskapp)
 socket_.init_app(flaskapp, cors_allowed_origins=[
     "http://localhost:5000",
     'http://raspberrypi.local:5000',
-    '192.168.137.1:5000',
+    'http://192.168.137.1:5000',
     'http://192.168.1.1:5000'])
 
 SOCKET_INFO = []
@@ -38,6 +38,7 @@ flaskapp.register_blueprint(LEON, url_prefix='/leon')
 from skills.HMI.routes import hmi
 flaskapp.register_blueprint(hmi, url_prefix='/hmi')
 
+# detect MCP power
 if not rpi.read('MCP1_pi'):
     if platform.system() == 'Linux':
         DATA['state']['error'] = True
