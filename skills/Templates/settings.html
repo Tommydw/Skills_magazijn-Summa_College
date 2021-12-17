@@ -1,5 +1,60 @@
 {% extends "base.html" %}
 {% block titel %}{{titel}}{%endblock%}
 {% block content%}
-<link rel='stylesheet' type="text/css" href='static/css/Settings.css'>
+<link rel='stylesheet' type="text/css" href='static/css/settings.css'>
+
+<body> 
+    <!-- max venster size -->
+    <div class="maxSize">
+
+        <div class="settingswitches">
+            <!-- selectie master slave -->
+            <div class="masterswitch">
+                <p style="--clr:#ffffff;"> Zet magazijn in Master-mode of Slave-mode.</p>
+                <div class="switch singleSwitch" id="masterswitch">
+                    <label>
+                        <b class="links">Master</b>
+                        <div class="centerswitch">
+                            <input type="checkbox">
+                            <span class="lever"></span>
+                        </div>
+                        <b class="rechts">Slave</b>
+                    </label>
+                </div>
+            </div>
+            <!-- selectie wifi hotspot -->
+            <div class="wifiswitch">
+                <p style="--clr:#ffffff;"> Wifi inschakelen zodat het magazijn berijkbaar is over wifi.</p>
+                <div class="switch singleSwitch" id="wifiswitch">
+                    <!-- <label> -->
+                        <b class="links">Hotspot off</b>
+                        <label style="zoom:1.5;">
+                            <div class="centerswitch">
+                                    <input type="checkbox">
+                                    <span class="lever"></span>
+                            </div>
+                        </label>
+                        <b class="rechts">Hotspot on</b>
+                    <!-- </label> -->
+                </div>
+            </div>
+            <!-- selectie developer mode -->
+            <div class="devswitch">
+                <p style="--clr:#ffffff;"> Developer settings inschakelen.</p>
+                <div class="switch singleSwitch" id="devswitch">
+                    <label>
+                        <b class="links">default</b>
+                        <div class="centerswitch">
+                            <input type="checkbox">
+                            <span class="lever"></span>
+                        </div>
+                        <b class="rechts">developer</b>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
 {% endblock %}

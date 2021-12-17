@@ -1,0 +1,82 @@
+.links{
+    width: 0;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rechts{
+    width: 0;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.centerswitch{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  /* margin:5px; */
+}
+
+.singleSwitch{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.masterswitch{
+    margin-top: 64px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    
+}
+
+/* #masterswitch{
+    zoom: 1.5;
+} */
+
+.switch b{
+    color: floralwhite;
+}
+
+.wifiswitch{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#wifiswitch{
+    display: flex;
+    /* zoom: 1.5; */
+}
+
+.devswitch{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#devswitch{
+    display: flex;
+    /* zoom: 1.5; */
+}
+
+.settingswitches{
+    margin-top: 64px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
