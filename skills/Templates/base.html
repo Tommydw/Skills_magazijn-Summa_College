@@ -18,8 +18,9 @@
         <nav role="navigation">
             <div class="nav-wrapper container">
                 <!-- Home button -->
-                <a class="brand-logo" href="{{url_for('home')}}">
-                    <img src="../static/icons/home.png"/>
+                <a id="homeButton" class="expandingButton" href="{{url_for('home')}}">
+                    <img src="{{ url_for('static', filename='icons/home.png')}}"/>
+                    <span class="text" id="homeText">Home</span>
                 </a>
                 <!-- end home button -->
 
@@ -28,23 +29,23 @@
                     <!-- HMI -->
                     <li><a href="{{url_for('hmi.start')}}" class="expandingButton" style="border-radius:5px;--clr:#rgba(0, 0, 0, 0.0);--hovclr:#0039688c;">
                         <span class="icon">
-                            <embed style="margin-left: -5px;" src='static/icons/HMI.png' height="32" width="32"/>
+                            <embed style="margin-left: -5px;" src="{{ url_for('static', filename='icons/HMI.png')}}" height="32" width="32"/>
                         </span>
                         <span class="text">HMI</span>
                     </a></li>
                     <!-- end HMI -->
 
                     <!-- Test page -->
-                    <li><a href="{{url_for('test')}}" class="expandingButton" style="--clr:#rgba(0, 0, 0, 0.0);--hovclr:#73ff00;">
+                    <!-- <li><a href="{{url_for('test')}}" class="expandingButton" style="--clr:#rgba(0, 0, 0, 0.0);--hovclr:#73ff00;">
                         <span class="icon">⚙</span>
                         <span class="text">Test</span>
-                    </a></li>
+                    </a></li> -->
                     <!-- end test page -->
 
                     <!-- Settings page -->
                     <li><a href="{{url_for('Settings')}}" class="expandingButton" style="--clr:#rgba(0, 0, 0, 0.0);--hovclr:#0000006e;">
                         <span class="icon">
-                            <embed style="margin-left: -5px;" src='static/icons/settings.svg' height="32" width="32"/>
+                            <embed style="margin-left: -5px;" src="{{ url_for('static', filename='icons/settings.svg')}}" height="32" width="32"/>
                         </span>
                         <span class="text">Settings</span>
                     </a></li>
@@ -53,7 +54,7 @@
                     <!-- Info page -->
                     <li><a href="{{url_for('info')}}" class="expandingButton" style="--clr:rgba(0, 0, 0, 0.0);--hovclr:#008cff;">
                         <span class="icon">
-                            <embed style="margin-left: -5px;" src='static/icons/info.svg' height="32" width="32"/>
+                            <embed style="margin-left: -5px;" src="{{ url_for('static', filename='icons/info.svg')}}" height="32" width="32"/>
                         </span>
                         <span class="text">Info</span>
                     </a></li>
@@ -64,7 +65,7 @@
                 <!-- mobile menu items -->
                 <ul id="nav-mobile" class="sidenav">
                     <li><a href="{{url_for('hmi.start')}}">HMI</a></li>
-                    <li><a href="{{url_for('test')}}">Test</a></li>
+                    <!-- <li><a href="{{url_for('test')}}">Test</a></li> -->
                     <li><a href="{{url_for('Settings')}}">Settings</a></li>
                     <li><a href="{{url_for('info')}}">Info</a></li>
                 </ul>

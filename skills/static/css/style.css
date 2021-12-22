@@ -112,6 +112,19 @@ p {
   white-space: nowrap;
   padding-right: 7px;
 }
+#homeButton{
+  border-radius: 0; 
+  --clr: #rgba(0, 0, 0, 0.0); 
+  --hovclr: #00000000; 
+  vertical-align: middle; 
+  height: 48px; 
+  min-width: 48px;
+}
+#homeText{
+  font-size: 2.1rem;
+  padding: 0 7px; 
+  font-family: cursive;
+}
 
 footer.page-footer {
   margin: 0;
