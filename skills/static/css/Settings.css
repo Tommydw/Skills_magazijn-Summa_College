@@ -30,24 +30,25 @@
 }
 
 .masterswitch{
-    margin-top: 64px;
-    margin-bottom: 1rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: flex-start;
-    
+    justify-content: flex-start;    
 }
 
-/* #masterswitch{
-    zoom: 1.5;
-} */
+#masterswitch{
+    zoom: 1.;
+}
 
 .switch b{
     color: floralwhite;
 }
 
 .wifiswitch{
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -56,10 +57,12 @@
 
 #wifiswitch{
     display: flex;
-    /* zoom: 1.5; */
+    zoom: 1.;
 }
 
 .devswitch{
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -68,7 +71,7 @@
 
 #devswitch{
     display: flex;
-    /* zoom: 1.5; */
+    zoom: 1.;
 }
 
 .settingswitches{
@@ -80,3 +83,47 @@
     justify-content: flex-start;
 }
 
+.Maxium{
+    margin-top: -5px;
+    min-height: calc(100vh - 64px);
+    /* display: flex; */
+    align-content: center;
+    justify-content: center;
+}
+
+.text{
+    display: flex;
+    text-align: left;
+    width: max-content;
+}
+
+.settingbox{
+    display: flex;
+    height: fit-content;
+    width: fit-content; 
+    justify-content: center;
+    border-radius: 30px;
+    background-color: #444444;
+    min-width: 600px;
+    margin-top: 10px;
+}
+
+.infotext{
+    --clr:#ffffff; 
+    margin:0px; 
+    zoom: 1.4;
+}
+
+.powericon{
+    display: inherit;
+    margin: 20%;
+}
+
+.powerbutton{
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+    position: relative;
+    left: 30px;
+    bottom: 30px;
+}

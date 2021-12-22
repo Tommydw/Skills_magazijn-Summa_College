@@ -5,55 +5,79 @@
 
 <body> 
     <!-- max venster size -->
-    <div class="maxSize">
+    <div class="Maxium">
 
         <div class="settingswitches">
             <!-- selectie master slave -->
-            <div class="masterswitch">
-                <p style="--clr:#ffffff;"> Zet magazijn in Master-mode of Slave-mode.</p>
-                <div class="switch singleSwitch" id="masterswitch">
-                    <label>
-                        <b class="links">Master</b>
-                        <div class="centerswitch">
-                            <input type="checkbox">
-                            <span class="lever"></span>
+            <div class="settingbox" style="margin-top: 64px;">
+                <div class="masterswitch">
+                    <p class="infotext"> Zet magazijn in Master-mode of Slave-mode.</p>
+                    <div class="switch singleSwitch" id="masterswitch">
+                        <div class="links">
+                            <b class="links">MASTER</b>
                         </div>
-                        <b class="rechts">Slave</b>
-                    </label>
+                        <label>
+                            <div class="centerswitch">
+                                <input type="checkbox">
+                                <span class="lever"></span>
+                            </div>
+                        </label>
+                        <div class="rechts">
+                            <b class="rechts">SLAVE</b>                            
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- selectie wifi hotspot -->
-            <div class="wifiswitch">
-                <p style="--clr:#ffffff;"> Wifi inschakelen zodat het magazijn berijkbaar is over wifi.</p>
-                <div class="switch singleSwitch" id="wifiswitch">
-                    <!-- <label> -->
-                        <b class="links">Hotspot off</b>
-                        <label style="zoom:1.5;">
+            <div class="settingbox">
+                <div class="wifiswitch">
+                    <p class="infotext"> Wifi inschakelen zodat het magazijn berijkbaar is over wifi.</p>
+                    <div class="switch singleSwitch" id="wifiswitch">
+                        <div class="links">
+                            <div class="text">
+                                <b>HOTSPOT OFF</b>
+                            </div>
+                        </div>
+                        <label>
                             <div class="centerswitch">
-                                    <input type="checkbox">
-                                    <span class="lever"></span>
+                                <input type="checkbox">
+                                <span class="lever"></span>
                             </div>
                         </label>
-                        <b class="rechts">Hotspot on</b>
-                    <!-- </label> -->
+                        <div class="rechts">
+                            <div class="text">
+                                <b>HOTSPOT ON</b>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- selectie developer mode -->
-            <div class="devswitch">
-                <p style="--clr:#ffffff;"> Developer settings inschakelen.</p>
-                <div class="switch singleSwitch" id="devswitch">
-                    <label>
-                        <b class="links">default</b>
-                        <div class="centerswitch">
-                            <input type="checkbox">
-                            <span class="lever"></span>
+            <div class="settingbox">
+                <div class="devswitch">
+                    <p class="infotext"> Developer settings inschakelen.</p>
+                    <div class="switch singleSwitch" id="devswitch">
+                        <dev class="links">
+                            <b>DEFAULT</b>
+                        </dev>
+                        <label>
+                            <div class="centerswitch">
+                                <input type="checkbox">
+                                <span class="lever"></span>
+                            </div>
+                        </label>
+                        <div class="rechts">
+                            <b>DEVELOPER</b>
                         </div>
-                        <b class="rechts">developer</b>
-                    </label>
+                    </div>
                 </div>
-            </div>
+            </div>  
         </div>
-
+        <div class="powerbutton">
+            <a class="btn-floating btn-large waves-effect waves-light red">
+                <embed class="powericon" src='..\static\icons\power_settings.svg' height="32" width="32"></embed>
+            </a>
+        </div>
     </div>
 </body>
 
