@@ -18,7 +18,7 @@
         <nav role="navigation">
             <div class="nav-wrapper container">
                 <!-- Home button -->
-                <a id="homeButton" class="expandingButton" href="{{url_for('home')}}">
+                <a id="homeButton" class="expandingButton hide-on-med-and-down" href="{{url_for('home')}}">
                     <img src="{{ url_for('static', filename='icons/home.png')}}"/>
                     <span class="text" id="homeText">Home</span>
                 </a>
@@ -64,6 +64,7 @@
 
                 <!-- mobile menu items -->
                 <ul id="nav-mobile" class="sidenav">
+                    <li><a href="{{url_for('home')}}">Home</a></li>
                     <li><a href="{{url_for('hmi.start')}}">HMI</a></li>
                     <!-- <li><a href="{{url_for('test')}}">Test</a></li> -->
                     <li><a href="{{url_for('settings')}}">Settings</a></li>

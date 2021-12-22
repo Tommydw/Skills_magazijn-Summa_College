@@ -86,11 +86,17 @@ h3.tooltipped{
 }
 
 .devOutput:hover{
-    background-color: #666;
+    /* background-color: #4040a9; */
+    background-color: #008cff;
 }
 
 .devOutput{
     cursor: pointer;
+    border: solid;
+    /* border-color: blue; */
+    border-color: #008cff;
+    border-style: outset;
+    border-width: thin;
 }
 .onderhoud .state .stateIO{
     margin: 10px;
@@ -125,13 +131,20 @@ h3.tooltipped{
     justify-content: space-around;
     margin: 10px 0;
     width: -webkit-fill-available;
-    border-bottom: solid;
+    border-color: #008cff;
+    border-width: thin;
+
+    /* border-bottom: solid;
     padding-bottom: 10px;
     border-top: solid;
-    padding-top: 10px;
+    padding-top: 10px; */
+
+    border-style: outset;
+    border-radius: 10px;
 }
 .jsonSwitch label{
-    margin: 5px 10px;
+    display: inline;
+    margin: 7px 10px;
     color: var(--text-color);
     font-size: revert;
 }
