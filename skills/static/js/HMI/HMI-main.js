@@ -30,19 +30,10 @@ var oldSendButtonText = document.querySelector('#sendButtonText').text;
 
 // functie secondes naar tijd String
 function sec2time(timeInSeconds) {
-    var pad = function(num, size) { return ('000' + num).slice(size * -1); },
-    time = parseFloat(timeInSeconds).toFixed(3),
-    hours = Math.floor(time / 60 / 60),
-    minutes = Math.floor(time / 60) % 60,
-    seconds = Math.floor(time - minutes * 60),
-    milliseconds = time.slice(-3);
-    if (hours > 0){
-        return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2) + '.' + pad(milliseconds, 3);
-    }else if (minutes > 0){
-        return pad(minutes, 2) + ':' + pad(seconds, 2) + '.' + pad(milliseconds, 3);
-    }else{
-        return pad(seconds, 2) + '.' + pad(milliseconds, 3) + ' Sec.';
-    }
+    if (timeInSeconds < 60)
+        return new Date(timeInSeconds * 1000).toISOString().substring(17,23);
+    // else return new Date(timeInSeconds * 1000).toISOString().substring(11,23);
+    else return new Date(timeInSeconds * 1000).toISOString().substring(11,19);
 }
 
 // Combineer de nieuwe data met de oude data
@@ -93,6 +84,10 @@ function zoomScreen(){
     }
 }
 
+function clientTimeMS(){
+    return (new Date().getTime() - (new Date().getTimezoneOffset() * 60 * 1000))
+}
+
 // krijg connected van server, client is verbonden met de server
 socket.on('connected', () => {
     console.log('Websocket connected');
@@ -115,8 +110,7 @@ socket.on('data', function(data){
             // console.log(Jdata);
             newtime = parseFloat(Jdata.time);   // nieuwe tijd opslaan
             updateTijd = waitTime + Jdata.users.indexOf(socket.id);
-            const d = new Date();   // client tijd aanmaken
-            oldClientTime = (d.getTime() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
+            oldClientTime = (clientTimeMS() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
             updateDisplay(Jdata);
             buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
             // verberg loading
@@ -139,8 +133,7 @@ socket.on('data', function(data){
 // start loop van 100ms
 setInterval(()=> {
     // Update de tijd
-    const d = new Date();
-    clientTime = d.getTime() / 1000;
+    clientTime = clientTimeMS() / 1000;
     // display huidige client tijd min de laatste update van de server
     document.getElementById('time').innerHTML = sec2time(clientTime-oldClientTime); 
     // controller of er om nieuwe data gevraagd kan worden
