@@ -14,6 +14,6 @@ def info():
 def test():
     return render_template('test.html', test='hoi')
 
-@flaskapp.route("/Settings")
-def Settings():
-    return render_template('Settings.html', test='hoi')
+@flaskapp.route("/settings")
+def settings():
+    return render_template('settings.html', test='hoi')
