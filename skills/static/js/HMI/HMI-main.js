@@ -1,5 +1,5 @@
 // start WebSocket
-var socket = io.connect('/');
+var socket = io.connect('/hmi');
 
 // Om de hoeveel sec moet de client om een update vragen
 var waitTime = 0.5;
@@ -19,6 +19,7 @@ let clientTime;
 var connected = false;
 var requested = false;
 var buttonEnable = false;
+var startingDone = false;
 /* temp */
 var blokje;
 var oldTimeColor = document.querySelector('#time').style.color;
@@ -67,7 +68,7 @@ function mergeObject(oldObject, newObject){
 function preloadImage(name){
     const img = new Image();
     //const img = document.createElement('img');
-    img.src = 'static/photos/' + name;
+    img.src = "../static/photos/" + name;
     return img
 }
 
@@ -109,25 +110,29 @@ socket.on('data', function(data){
     if (connected){
         // nieuwe data omzetten
         Jdata = mergeObject(Jdata, JSON.parse(data));
-        // console.log(Jdata);
-        newtime = parseFloat(Jdata.time);   // nieuwe tijd opslaan
-        updateTijd = waitTime + Jdata.users.indexOf(socket.id);
-        const d = new Date();   // client tijd aanmaken
-        oldClientTime = (d.getTime() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
-        updateDisplay(Jdata);
-        buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
-        // verberg loading
-        $('#loading').hide();  
-        // aantal active users weergeven.
-        document.getElementById('users').innerHTML = Jdata.users.length;
-        // print JSON data
-        // document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2); // print JSON in html
-        // $('#content').show();
-    
-        // // stuur een connect request als de user niet meer op de lijst staat
-        // if (Jdata.users.indexOf(socket.id) == -1){
-        //     socket.emit('socket_connect');
-        // }
+        if (Jdata.type == 'full') startingDone = true;
+        if (startingDone){
+            // console.log(Jdata);
+            newtime = parseFloat(Jdata.time);   // nieuwe tijd opslaan
+            updateTijd = waitTime + Jdata.users.indexOf(socket.id);
+            const d = new Date();   // client tijd aanmaken
+            oldClientTime = (d.getTime() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
+            updateDisplay(Jdata);
+            buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
+            // verberg loading
+            $('#loading').hide();  
+            // aantal active users weergeven.
+            document.getElementById('users').innerHTML = Jdata.users.length;
+            // print JSON data
+            // document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2); // print JSON in html
+            // $('#content').show();
+        
+            // // stuur een connect request als de user niet meer op de lijst staat
+            // if (Jdata.users.indexOf(socket.id) == -1){
+            //     socket.emit('socket_connect');
+            // }
+        }
+        else console.warn('Waiting for a full Jdata');
     }
 });
 

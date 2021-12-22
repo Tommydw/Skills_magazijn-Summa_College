@@ -43,6 +43,8 @@ def orderUitvoeren():
                         rpi.write('cil2', True)
                     elif DATA['state']['order']['kleur'] == 'zilver': 
                         rpi.write('cil3', True)
+                    server_log('Aantal blokjes nu: {0}'.format(blokjes_op_band))
+
             else:
                 # stap 2
                 if DATA['state']['order']['kleur'] == 'rood': 
@@ -86,7 +88,7 @@ def orderUitvoeren():
         if end_time <= Time - band_off_delay and not end_time == 0 and end_time >= Time - band_off_delay - 0.1:
             blokjes_op_band -= 1
             end_time = 0
-            server_info('-1')
+            server_log('Aantal blokjes nu: {0}'.format(blokjes_op_band))
 
     elif DATA['io']['motor'] and blokjes_op_band == 0:
         blokjes_op_band = -1
@@ -143,7 +145,7 @@ class loop:
             DATA['state']['cpu'] = list(os.getloadavg()) if linux else 'Windows'
 
             # stop event
-            if DATA['state']['error'] == True:
+            if DATA['state']['error'] == True and not DATA['state']['devMode']:
                 rpi.write('motor', PINNEN['motor']['state'], override=True, log=False)
 
             orderUitvoeren()

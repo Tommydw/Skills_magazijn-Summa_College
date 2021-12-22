@@ -1,5 +1,5 @@
 // start WebSocket
-var socket = io.connect('/');
+var socket = io.connect('/hmi/onderhoud');
 
 // Om de hoeveel sec moet de client om een update vragen
 var waitTime = 0.5;
@@ -19,6 +19,7 @@ let clientTime;
 var connected = false;
 var requested = false;
 var buttonEnable = false;
+var startingDone = false;
 var warningGiven = false;
 /* temp */
 var oldTimeColor = document.querySelector('#time').style.color;
@@ -166,26 +167,30 @@ socket.on('data', function(data){
     if (connected){
         // nieuwe data omzetten
         Jdata = mergeObject(Jdata, JSON.parse(data));
-        // console.log(Jdata);
-        newtime = parseFloat(Jdata.time);   // nieuwe tijd opslaan
-        updateTijd = waitTime + Jdata.users.indexOf(socket.id);
-        const d = new Date();   // client tijd aanmaken
-        oldClientTime = (d.getTime() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
-        updateDisplay();
-        buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
-        // verberg loading
-        $('#loading').hide();  
-        // aantal active users weergeven.
-        document.getElementById('users').innerHTML = Jdata.users.length;
-        // print JSON data
-        document.getElementById('data').innerHTML = syntaxHighlight(JSON.stringify(Jdata, null, 2)); // print JSON in html
-        document.getElementById('devModeOnderhoud').checked = Jdata.state.devMode;
-        // $('#content').show();        
-        
-        if (!warningGiven && Jdata.state.devMode){
-            window.alert('Letop! In developer mode worden de outputs overschreden. En de inputs worden ook uitgelezen in een error state, het is dus mogelijk dat er een proces in werking treed!');
-            warningGiven = true;
+        if (Jdata.type == 'full') startingDone = true;
+        if (startingDone){
+            // console.log(Jdata);
+            newtime = parseFloat(Jdata.time);   // nieuwe tijd opslaan
+            updateTijd = waitTime + Jdata.users.indexOf(socket.id);
+            const d = new Date();   // client tijd aanmaken
+            oldClientTime = (d.getTime() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
+            updateDisplay();
+            buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
+            // verberg loading
+            $('#loading').hide();  
+            // aantal active users weergeven.
+            document.getElementById('users').innerHTML = Jdata.users.length;
+            // print JSON data
+            document.getElementById('data').innerHTML = syntaxHighlight(JSON.stringify(Jdata, null, 2)); // print JSON in html
+            document.getElementById('devModeOnderhoud').checked = Jdata.state.devMode;
+            // $('#content').show();        
+            
+            if (!warningGiven && Jdata.state.devMode){
+                window.alert('Letop! In developer mode worden de outputs overschreden. En de inputs worden ook uitgelezen in een error state, het is dus mogelijk dat er een proces in werking treed!');
+                warningGiven = true;
+            }
         }
+        else console.warn('Waiting for a full Jdata');
     }
 });
 

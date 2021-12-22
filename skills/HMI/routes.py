@@ -5,10 +5,11 @@ from data import DATA, PINNEN
 import json, time, copy
 
 from skills.terminalColors import server_error, server_info, server_log
-hmi = Blueprint('hmi', __name__, static_folder='../static', template_folder='./Templates')
+hmi = Blueprint('hmi', __name__, template_folder='./Templates')
 
 # krijg socket_connect van client
-@socket_.on('socket_connect')
+@socket_.on('socket_connect', namespace='/hmi')
+@socket_.on('socket_connect', namespace='/hmi/onderhoud')
 def socket_connect():
     if not request.sid in SOCKET_INFO:
         SOCKET_INFO.append([request.sid, time.time()])
@@ -19,19 +20,21 @@ def socket_connect():
 
 # disconnect event
 # TODO fix it
-@socket_.on('disconnect')
+@socket_.on('disconnect', namespace='/hmi')
 def disconnecting():
     return
 
 # update user, zet de huidige server tijd bij de user | user is nog actief
-@socket_.on('update_user')
+@socket_.on('update_user', namespace='/hmi')
+@socket_.on('update_user', namespace='/hmi/onderhoud')
 def update_user():
     for i in range(len(SOCKET_INFO)):
         if request.sid in SOCKET_INFO[i]:
             SOCKET_INFO[i][1] = time.time()
 
 # get_data request handeler
-@socket_.on('get_data')
+@socket_.on('get_data', namespace='/hmi')
+@socket_.on('get_data', namespace='/hmi/onderhoud')
 def getData(oldData, getType):
     TMP = copy.deepcopy(DATA)
     if getType == 'full': 
@@ -63,7 +66,8 @@ def getData(oldData, getType):
 
 
 # krijg de bestelling    
-@socket_.on('order')
+@socket_.on('order', namespace='/hmi')
+@socket_.on('order', namespace='/hmi/onderhoud')
 def getOrder(order):
     server_log(str(order))
     DATA['state']['order']['kleur'] = order['kleur']
@@ -89,13 +93,13 @@ def getOrder(order):
             rpi.write('Kleur2', True)
     return
     
-@socket_.on('devMode')
+@socket_.on('devMode', namespace='/hmi/onderhoud')
 def devMode(state):
     DATA['state']['devMode'] = state
     server_info('Developer mode {0}'.format(state))
     getData({''}, 'full')  
     
-@socket_.on('toggleSate')
+@socket_.on('toggleSate', namespace='/hmi/onderhoud')
 def toggleSate(name):
     if name in DATA['io']:
         server_log('developer toggle {0}'.format(name))
@@ -119,4 +123,5 @@ def onderhoud():
     if resetSate == 'jip': 
         DATA['state']['error'] = False
         DATA['state']['errorActive'] = False
+        server_info('Reset error')
     return render_template('onderhoud.html',  title='Onderhoud')
