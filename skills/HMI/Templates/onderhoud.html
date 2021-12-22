@@ -1,19 +1,246 @@
 {% extends "base.html" %}
 {% block titel %}{{titel}}{%endblock%}
 {% block content%}
+<!-- import CSS -->
 <link rel='stylesheet' type="text/css" href='static/css/HMI.css'>
+<link rel='stylesheet' type="text/css" href='static/css/onderhoud.css'>
 <body>
+    <!-- loader begin -->
     <div id="loading" class="loader">
         <h1>Loading</h1>
     </div>
-    <div class='topInfo'>
+    <!-- loader end -->
+
+    <!-- stricky info -->
+    <div class='stickyInfo'>
         <p id='timeText'>Time past: <b id='time'></b></p>
         <p id='timeText'>Active users: <b id='users'></b></p>
     </div>
+    <!-- end stricky info -->
+
+    <!-- content -->
     <div id='content' class="container">
-        <p>Hoi</p>
-        <p><pre id='data'></pre></p>
+        <!-- top info -->
+        <div class="devTopInfo">
+            <!-- time -->
+            <div class='state'>
+                <p id='name_time'>System time</p>
+                <div id='state_timeState' class="stateInfo"></div>
+            </div>
+            <!-- CPU -->
+            <div class='state'>
+                <p id='name_cpu'>CPU</p>
+                <div id='state_cpu' class="stateInfo"></div>
+            </div>
+            <!-- dev mode -->
+            <div class='state'>
+                <p id='name_devMode'>Dev mode</p>
+                <div id='state_devMode' class="stateInfo"></div>
+            </div>
+            <!-- error mode -->
+            <div class='state'>
+                <p id='name_errorActive'>In error mode</p>
+                <div id='state_errorActive' class="stateInfo"></div>
+            </div>
+            <!-- master -->
+            <div class='state'>
+                <p id='name_master'>Master state</p>
+                <div id='state_master' class="stateInfo"></div>
+            </div>
+            <!-- gpio -->
+            <div class='state'>
+                <p id='name_gpio'>GPIO</p>
+                <div id='state_gpio' class="stateInfo"></div>
+            </div>
+            <!-- mcp1 -->
+            <div class='state'>
+                <p id='name_mcp1'>MCP1</p>
+                <div id='state_mcp1' class="stateInfo"></div>
+            </div>
+            <!-- mcp2 -->
+            <div class='state'>
+                <p id='name_mcp2'>MCP2</p>
+                <div id='state_mcp2' class="stateInfo"></div>
+            </div>
+            <!-- error -->
+            <div class='state'>
+                <p id='name_error'>Error</p>
+                <div id='state_error' class="stateInfo"></div>
+            </div>
+        </div>
+        <!-- end top info -->
+
+        <!-- Switches -->
+        <div class="switch jsonSwitch">
+            <!-- show JSON -->
+            <label>
+                JSON info OFF
+                <input type="checkbox" id="showJsonInfo">
+                <span class="lever"></span>
+                JSON info ON
+            </label>
+            <!-- end show JSON -->
+
+            <!-- dev mode -->
+            <label>
+                Developer mode OFF
+                <input type="checkbox" id="devModeOnderhoud">
+                <span class="lever"></span>
+                Developer mode ON
+            </label>
+            <!-- end dev mode -->
+        </div>
+        <!-- end switches -->
+
+        <!-- data -->
+        <div class="devContent">
+            <div class="onderhoud">
+                <!-- inputs -->
+                <div class="inputsDev">
+                    <!-- title -->
+                    <h3 class="tooltipped" data-position="right" data-tooltip="Inputs zijn read-only">Inputs</h3>
+                    <!-- MCP1 noodstop -->
+                    <div class='state devBox'>
+                        <div id='state_mcp1Noodstop' class="stateIO"></div>
+                        <p id='name_mcp1Noodstop'>MCP1 noodstop</p>
+                    </div>
+                    <!-- Sensor magazijn 1 -->
+                    <div class='state devBox'>
+                        <div id='state_mag1' class="stateIO"></div>
+                        <p id='name_mag1'>Sensor magazijn 1</p>
+                    </div>
+                    <!-- Sensor magazijn 2 -->
+                    <div class='state devBox'>
+                        <div id='state_mag2' class="stateIO"></div>
+                        <p id='name_mag2'>Sensor magazijn 2</p>
+                    </div>
+                    <!-- Sensor magazijn 3 -->
+                    <div class='state devBox'>
+                        <div id='state_mag3' class="stateIO"></div>
+                        <p id='name_mag3'>Sensor magazijn 3</p>
+                    </div>
+                    <!-- Sensor einde band -->
+                    <div class='state devBox'>
+                        <div id='state_eind' class="stateIO"></div>
+                        <p id='name_eind'>Sensor einde band</p>
+                    </div>
+                    <!-- Power MCP1 -->
+                    <div class='state devBox'>
+                        <div id='state_MCP1_pi' class="stateIO"></div>
+                        <p id='name_MCP1_pi'>Power MCP1</p>
+                    </div>
+                    <!-- MCP2 noodstop -->
+                    <div class='state devBox'>
+                        <div id='state_mcp2Noodstop' class="stateIO"></div>
+                        <p id='name_mcp2Noodstop'>MCP2 noodstop</p>
+                    </div>
+                    <!-- PLC - actief -->
+                    <div class='state devBox'>
+                        <div id='state_PLCactief' class="stateIO"></div>
+                        <p id='name_PLCactief'>PLC - actief</p>
+                    </div>
+                    <!-- PLC - bezig -->
+                    <div class='state devBox'>
+                        <div id='state_PLCbusy' class="stateIO"></div>
+                        <p id='name_PLCbusy'>PLC - bezig</p>
+                    </div>
+                    <!-- PLC - error -->
+                    <div class='state devBox'>
+                        <div id='state_PLCerror' class="stateIO"></div>
+                        <p id='name_PLCerror'>PLC - error</p>
+                    </div>
+                    <!-- Power MCP2 -->
+                    <div class='state devBox'>
+                        <div id='state_MCP2_pi' class="stateIO"></div>
+                        <p id='name_MCP2_pi'>Power MCP2</p>
+                    </div>
+                </div>
+                <!-- end inputs -->
+
+                <!-- outputs -->
+                <div class="outputssDev">
+                    <h3 class="tooltipped" data-position="right" data-tooltip="Klik op een output om hem te schakelen">Outputs</h3>
+                    <!-- Loop actief -->
+                    <div class='state devBox tooltipped' data-position="right" data-tooltip="System defined">
+                        <div id='state_loopRun' class="stateIO"></div>
+                        <p id='name_loopRun'>Loop actief</p>
+                    </div>
+                    <!-- Script actief -->
+                    <div class='state devBox tooltipped' data-position="right" data-tooltip="System defined">
+                        <div id='state_scriptRun' class="stateIO"></div>
+                        <p id='name_scriptRun'>Script actief</p>
+                    </div>
+                    <!-- Error -->
+                    <div class='state devBox tooltipped' data-position="right" data-tooltip="System defined">
+                        <div id='state_error_io' class="stateIO"></div>
+                        <p id='name_error_io'>Error</p>
+                    </div>
+                    <!-- Cilinder 1 -->
+                    <div class='state devBox devOutput waves-effect waves-green' onclick="sendSate('cil1');">
+                        <div id='state_cil1' class="stateIO"></div>
+                        <p id='name_cil1'>Cilinder 1</p>
+                    </div>
+                    <!-- Cilinder 2 -->
+                    <div class='state devBox devOutput waves-effect waves-green' onclick="sendSate('cil2');">
+                        <div id='state_cil2' class="stateIO"></div>
+                        <p id='name_cil2'>Cilinder 2</p>
+                    </div>
+                    <!-- Cilinder 3 -->
+                    <div class='state devBox devOutput waves-effect waves-green' onclick="sendSate('cil3');">
+                        <div id='state_cil3' class="stateIO"></div>
+                        <p id='name_cil3'>Cilinder 3</p>
+                    </div>
+                    <!-- Motor band -->
+                    <div class='state devBox devOutput waves-effect waves-green' onclick="sendSate('motor');">
+                        <div id='state_motor' class="stateIO"></div>
+                        <p id='name_motor'>Motor band</p>
+                    </div>
+                    <!-- MCP1 actief -->
+                    <div class='state devBox tooltipped' data-position="right" data-tooltip="System defined">
+                        <div id='state_MCP1' class="stateIO"></div>
+                        <p id='name_MCP1'>MCP1 actief</p>
+                    </div>
+                    <!-- PLC - deksel -->
+                    <div class='state devBox devOutput waves-effect waves-green' onclick="sendSate('deksel');">
+                        <div id='state_deksel' class="stateIO"></div>
+                        <p id='name_deksel'>PLC - deksel</p>
+                    </div>
+                    <!-- PLC - muntje -->
+                    <div class='state devBox devOutput waves-effect waves-green' onclick="sendSate('muntje');">
+                        <div id='state_muntje' class="stateIO"></div>
+                        <p id='name_muntje'>PLC - muntje</p>
+                    </div>
+                    <!-- PLC - kleur bit 1 -->
+                    <div class='state devBox devOutput waves-effect waves-green' onclick="sendSate('Kleur1');">
+                        <div id='state_Kleur1' class="stateIO"></div>
+                        <p id='name_Kleur1'>PLC - kleur bit 1</p>
+                    </div>
+                    <!-- PLC- kleur bit 2 -->
+                    <div class='state devBox devOutput waves-effect waves-green' onclick="sendSate('Kleur2');">
+                        <div id='state_Kleur2' class="stateIO"></div>
+                        <p id='name_Kleur2'>PLC- kleur bit 2</p>
+                    </div>
+                    <!-- PLC - check -->
+                    <div class='state devBox devOutput waves-effect waves-green' onclick="sendSate('check');">
+                        <div id='state_check' class="stateIO"></div>
+                        <p id='name_check'>PLC - check</p>
+                    </div>
+                    <!-- MCP2 actief -->
+                    <div class='state devBox tooltipped' data-position="right" data-tooltip="System defined">
+                        <div id='state_MCP2' class="stateIO"></div>
+                        <p id='name_MCP2'>MCP2 actief</p>
+                    </div>
+                </div>
+                <!-- end outputs -->
+            </div>
+            <!-- JSON data -->
+            <pre class="jsonInfo" id='data'></pre>
+            <!-- end JSON data -->
+        </div>
+        <!-- end data -->
     </div>
+    <!-- end content -->
 </body>
+<!-- import script -->
 <script src="{{ url_for('static', filename='js/HMI/onderhoud.js') }}"></script>
 {% endblock %}

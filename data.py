@@ -15,6 +15,7 @@ DATA = {
             'deksel': bool(),
             'muntje': bool()
             },
+        'devMode': bool(),
         # 'orderDone': bool(),
         'cpu': str()
         },

@@ -42,7 +42,11 @@ class rpi:
     #     else:
     #         server_error('{0} state is not defined for pin "{1}"'.format(state, pin))
             
-    def read(pin):
+    def read(pin, overwrite=False):
+        if not DATA['state']['error'] or overwrite:
+            pass
+        else:
+            server_error('pin "{1}" is not found in IO list'.format(pin))
         #io_log('Reading pin {0}, returning 0 while running on Windows'.format(pin))
         # returning 0 while running on Windows
         return False

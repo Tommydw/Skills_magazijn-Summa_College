@@ -7,7 +7,7 @@ import time, os, platform
 cilinder_uit_tijd   = 1 #sec
 cilinder_in_tijd    = 1 #sec
 band_off_delay      = 4 #sec
-blokjes_op_band = 0
+blokjes_op_band = -1
 running = False
 write_high = True
 start_time = 0
@@ -33,7 +33,10 @@ def orderUitvoeren():
                 # stap 1
                 if write_high:
                     write_high = False
-                    blokjes_op_band += 1
+                    if blokjes_op_band == -1:
+                        blokjes_op_band = 1
+                    else:
+                        blokjes_op_band += 1
                     if DATA['state']['order']['kleur'] == 'rood': 
                         rpi.write('cil1', True)
                     elif DATA['state']['order']['kleur'] == 'zwart': 
@@ -85,7 +88,8 @@ def orderUitvoeren():
             end_time = 0
             server_info('-1')
 
-    elif DATA['io']['motor']:
+    elif DATA['io']['motor'] and blokjes_op_band == 0:
+        blokjes_op_band = -1
         rpi.write('motor', False)
             
 
@@ -124,7 +128,7 @@ class loop:
             # read GPIO    
             for pin in PINNEN:
                 if PINNEN[pin]['direction'] == 'input':
-                    DATA['io'][pin] = rpi.read(pin)
+                    DATA['io'][pin] = rpi.read(pin, overwrite=DATA['state']['devMode'])
             
             # zet error aan als een deurtje open gaat 
             if (not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop']) and not DATA['state']['errorActive'] and OS == 'Linux':

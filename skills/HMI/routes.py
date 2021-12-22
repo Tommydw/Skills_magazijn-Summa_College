@@ -4,7 +4,7 @@ from flask import render_template, Blueprint, request
 from data import DATA, PINNEN
 import json, time, copy
 
-from skills.terminalColors import server_log
+from skills.terminalColors import server_error, server_info, server_log
 hmi = Blueprint('hmi', __name__, static_folder='../static', template_folder='./Templates')
 
 # krijg socket_connect van client
@@ -89,6 +89,19 @@ def getOrder(order):
             rpi.write('Kleur2', True)
     return
     
+@socket_.on('devMode')
+def devMode(state):
+    DATA['state']['devMode'] = state
+    server_info('Developer mode {0}'.format(state))
+    getData({''}, 'full')  
+    
+@socket_.on('toggleSate')
+def toggleSate(name):
+    if name in DATA['io']:
+        server_log('developer toggle {0}'.format(name))
+        rpi.write(name, not DATA['io'][name], override=True)
+    else:
+        server_error('"{0}" was not found in PINNEN'.format(name))
 
 # render HMI (home) template
 @hmi.route("/")
