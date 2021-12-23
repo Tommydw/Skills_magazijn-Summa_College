@@ -3,7 +3,7 @@ DATA = {
     'type': str(),
     'time': str(),
     'state': {
-        'master': bool(),
+        'master': True,
         'gpio': bool(),
         'mcp1': bool(),
         'mcp2': bool(),

@@ -13,7 +13,7 @@ function updateBlokje(){
 }
 
 function sendOrder(){
-    if (buttonEnable){
+    if (buttonEnable && !Jdata.state.error){
         buttonEnable = false;
         var rood = document.getElementById('Rood').checked;
         var zwart = document.getElementById('Zwart').checked;
@@ -32,5 +32,9 @@ function sendOrder(){
         order.muntje = munt;
         console.log(order)
         socket.emit('order', order);
-    }else console.log('Wachten op vorige bevestiging');
+    }else if (Jdata.state.error){
+        console.error('Server staat in error modus!');
+        alert('Error modus is actief!');
+    }
+    else console.log('Wachten op vorige bevestiging');
 }

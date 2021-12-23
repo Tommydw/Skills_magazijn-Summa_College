@@ -323,7 +323,7 @@ function updateDisplay(){
     if (Jdata.state.hotspotMode) document.querySelector('#state_hotspotMode').className = 'stateInfo led-blue-on';
     else document.querySelector('#state_hotspotMode').className = 'stateInfo led-blue-off';
 
-    if (Jdata.state.orderActive) document.querySelector('#state_orderActive').className = 'stateInfo led-blue-on';
+    if (Jdata.state.order.orderActive) document.querySelector('#state_orderActive').className = 'stateInfo led-blue-on';
     else document.querySelector('#state_orderActive').className = 'stateInfo led-blue-off';
 
     document.querySelector('#state_cpu').textContent = String(Jdata.state.cpu[0]);

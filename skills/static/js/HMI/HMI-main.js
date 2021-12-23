@@ -112,7 +112,8 @@ socket.on('data', function(data){
             updateTijd = waitTime + Jdata.users.indexOf(socket.id);
             oldClientTime = (clientTimeMS() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
             updateDisplay(Jdata);
-            buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
+            if (Jdata.state.error) buttonEnable = false; 
+            else buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
             // verberg loading
             $('#loading').hide();  
             // aantal active users weergeven.
@@ -161,18 +162,38 @@ setInterval(()=> {
         document.querySelector('#timeText').style.color = oldTimeColor;
     }
 
-    if (buttonEnable)
+    try{
+        if ( Jdata.state.error)
+        {
+                document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
+                document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
+                document.querySelector('#sendButtonText').text = 'Error mode!';
+        }
+        else
+        {
+            if (buttonEnable)
+            {
+                document.querySelector('#sendButton').style.setProperty('--clr', oldSendButtonCLR);
+                document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
+                document.querySelector('#sendButtonText').text = oldSendButtonText;
+            }
+            else 
+            {
+                document.querySelector('#sendButton').style.setProperty('--clr', '#000');
+                document.querySelector('#sendButton').style.setProperty('--fgc', '#111');
+                document.querySelector('#sendButtonText').text = 'Verwerken...';
+            }
+        }
+    }
+    catch
     {
+        buttonEnable = false;
         document.querySelector('#sendButton').style.setProperty('--clr', oldSendButtonCLR);
         document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
         document.querySelector('#sendButtonText').text = oldSendButtonText;
     }
-    else 
-    {
-        document.querySelector('#sendButton').style.setProperty('--clr', '#000');
-        document.querySelector('#sendButton').style.setProperty('--fgc', '#33');
-        document.querySelector('#sendButtonText').text = 'Verwerken...';
-    }
+    
+        
 
 },100);
 
