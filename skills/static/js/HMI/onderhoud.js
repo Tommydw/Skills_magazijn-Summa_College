@@ -23,6 +23,7 @@ var startingDone = false;
 var warningGiven = false;
 /* temp */
 var oldTimeColor = document.querySelector('#time').style.color;
+var oldCPUColor = document.querySelector('#state_cpu').style.color;
 
 // als de screen-size word aangepast, word er opnieuw de verhouding berekend
 window.addEventListener("orientationchange", function(event) {
@@ -174,10 +175,17 @@ socket.on('data', function(data){
             document.getElementById('devModeOnderhoud').checked = Jdata.state.devMode;
             // $('#content').show();        
             
+            // geef waarschuwig voor devmode
             if (!warningGiven && Jdata.state.devMode){
                 window.alert('Letop! In developer mode worden de outputs overschreden. En de inputs worden ook uitgelezen in een error state, het is dus mogelijk dat er een proces in werking treed!');
                 warningGiven = true;
             }
+            
+            // cpu color warning
+            if (Jdata.state.cpu[0] >= 1.5){
+                if (Jdata.state.cpu[0] >= 2) document.querySelector('#state_cpu').style.color = 'red';
+                else document.querySelector('#state_cpu').style.color = 'orange';
+            } else document.querySelector('#state_cpu').style.color = oldCPUColor;
         }
         else console.warn('Waiting for a full Jdata');
     }
