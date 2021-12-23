@@ -92,13 +92,15 @@ def getOrder(order):
             rpi.write('Kleur1', True)
             rpi.write('Kleur2', True)
     return
-    
+
+# dev mode
 @socket_.on('devMode', namespace='/hmi/onderhoud')
 def devMode(state):
     DATA['state']['devMode'] = state
     server_info('Developer mode {0}'.format(state))
     getData({''}, 'full')  
-    
+
+# write gpio
 @socket_.on('toggleSate', namespace='/hmi/onderhoud')
 def toggleSate(name):
     if name in DATA['io']:
@@ -106,6 +108,14 @@ def toggleSate(name):
         rpi.write(name, not DATA['io'][name], override=True)
     else:
         server_error('"{0}" was not found in PINNEN'.format(name))
+
+# clear error
+@socket_.on('clearErrors', namespace='/hmi/onderhoud')
+def clearErrors():
+    DATA['state']['error'] = False
+    DATA['state']['errorActive'] = False
+    server_info('Reset error')
+    return
 
 # render HMI (home) template
 @hmi.route("/")
@@ -121,7 +131,5 @@ def start():
 def onderhoud():
     resetSate = request.args.get('reset_error')
     if resetSate == 'jip': 
-        DATA['state']['error'] = False
-        DATA['state']['errorActive'] = False
-        server_info('Reset error')
+        clearErrors()
     return render_template('onderhoud.html',  title='Onderhoud')

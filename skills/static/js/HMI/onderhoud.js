@@ -35,14 +35,13 @@ const jsonInfo = document.getElementById('showJsonInfo')
 jsonInfo.addEventListener('change', (event) => {
     if (event.currentTarget.checked) {
         // display json data
-        document.querySelector('#data').style.position = 'relative';
-        document.querySelector('#data').style.visibility = 'visible';
+        document.querySelector('#data').style.display = 'block';
         document.querySelector('#data').style.height = 'fit-content';
         document.querySelector(".onderhoud").style.width = 'auto';
+
     } else {
         // hide json data
-        document.querySelector('#data').style.position = 'absolute';
-        document.querySelector('#data').style.visibility = 'hidden';
+        document.querySelector('#data').style.display = 'none';
         document.querySelector('#data').style.height = '0';
         document.querySelector(".onderhoud").style.width = '-webkit-fill-available';
     }
@@ -141,6 +140,11 @@ function zoomScreen(){
     }
 }
 
+function clearErrors(){
+    console.log('Send clear errors');
+    socket.emit('clearErrors');
+}
+
 // krijg connected van server, client is verbonden met de server
 socket.on('connected', () => {
     console.log('Websocket connected');
@@ -186,6 +190,12 @@ socket.on('data', function(data){
                 if (Jdata.state.cpu[0] >= 2) document.querySelector('#state_cpu').style.color = 'red';
                 else document.querySelector('#state_cpu').style.color = 'orange';
             } else document.querySelector('#state_cpu').style.color = oldCPUColor;
+
+            if (Jdata.state.devMode){
+                document.querySelector('#resetButton').style.display = 'block';
+            } else {
+                document.querySelector('#resetButton').style.display = 'none';
+            }
         }
         else console.warn('Waiting for a full Jdata');
     }

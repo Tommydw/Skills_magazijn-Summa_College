@@ -41,6 +41,12 @@
     color: var(--text-color);
 }
 
+#resetButton{
+    width: -webkit-fill-available;
+    margin: 10px;
+    display: none;
+}
+
 .onderhoud{
     display: flex; 
     flex-direction:row;
@@ -152,8 +158,9 @@ h3.tooltipped{
     width: 250px;
     margin: 10px 20px;
     color: var(--text-color);
-    visibility: hidden;
-    position: absolute;
+    /* visibility: hidden;
+    position: absolute; */
+    display: block;
     height: 0;
 }
 
