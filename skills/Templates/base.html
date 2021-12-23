@@ -12,6 +12,17 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/materialize.min.css') }}">
         <link href="{{ url_for('static', filename='css/style.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
     </head>
+
+    <!-- loader -->
+    <div id="loading" class="fancyboiiloader">
+        <section class = "loader">
+            <div class = "ring-frame"></div>
+            <div class = "disc-frame"></div>
+            <section class = "loading">LOADING...</section>
+        </section>
+    </div>
+    <!-- end loader -->
+
     <!-- Let's the game begin! -->
     <body>
         <!-- navigation bar -->
@@ -77,17 +88,6 @@
             </div>
         </nav>
         <!-- end navigation bar -->
-
-        <!-- loader -->
-        
-        <div id="loading" class="fancyboiiloader">
-            <section class = "loader">
-                <div class = "ring-frame"></div>
-                <div class = "disc-frame"></div>
-                <section class = "loading">LOADING...</section>
-            </section>
-        </div>
-        <!-- end loader -->
         
         <!-- content -->
         {% block content %}{% endblock %}
