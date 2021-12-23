@@ -92,12 +92,10 @@ socket.on('data', function(data){
                 warningGiven = true;
             }
             if (Jdata.state.devMode){
-                document.querySelector("#onderhoudtoggle").style.visibility="visible";
-                document.querySelector("#onderhoudtoggle").style.position="relative";
+                document.querySelector('#onderhoudtoggle').style.display='flex';
             }
             else{
-                document.querySelector("#onderhoudtoggle").style.visibility="hidden";
-                document.querySelector("#onderhoudtoggle").style.position="absolute";
+                document.querySelector('#onderhoudtoggle').style.display='none';
             }
 
         }
