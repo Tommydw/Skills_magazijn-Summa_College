@@ -6,8 +6,7 @@ from flask_socketio import SocketIO, emit, namespace, send, disconnect
 from skills import flaskapp, rpi, socket_, SOCKET_INFO
 import json, time, copy
 from skills.terminalColors import server_error, server_info, server_log
-
-
+import subprocess
 
 @flaskapp.route("/")
 def home():
@@ -81,12 +80,10 @@ def devMode(state):
 
 @socket_.on('shutdownActivate', namespace='/settings')
 def shutdown():
-        print("shutting down")
+        server_info("Shutting down...")
+        server_error("Good bye")
         command = "/usr/bin/sudo /sbin/shutdown -h now"
-        import subprocess
         process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-        output = process.communicate()[0]
-        print(output)
 
 @socket_.on('MasterSlave', namespace='/settings')
 def MasterSlave(waardeSlave):
@@ -103,6 +100,14 @@ def Hotspot(waarde):
         DATA['state']['hotspotMode'] = waarde
         server_info("hotspot = {0}".format(waarde))
         getData({''}, 'full') 
+        if DATA['state']['hotspotMode']:
+            server_info("Hotspot on")
+            command = "/usr/bin/sudo systemctl start hostapd.service"
+            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        else:
+            server_info("Hotspot off")
+            command = "/usr/bin/sudo systemctl stop hostapd.service"
+            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
     else:
         server_error("hotspot waarde niet bekend")
     
