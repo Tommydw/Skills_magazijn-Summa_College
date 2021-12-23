@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% block titel %}{{titel}}{%endblock%}
 {% block content%}
-<link rel='stylesheet' type="text/css" href='static/css/settings.css'>
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/settings.css') }}">
 
 <body> 
+    <div id="loading" class="loader">
+        <h1>Loading</h1>
+    </div>
     <!-- max venster size -->
     <div class="Maxium">
 
@@ -62,7 +65,7 @@
                         </dev>
                         <label>
                             <div class="centerswitch">
-                                <input type="checkbox">
+                                <input type="checkbox" id="devswitchtoggle">
                                 <span class="lever"></span>
                             </div>
                         </label>
@@ -72,13 +75,42 @@
                     </div>
                 </div>
             </div>  
-        </div>
-        <div class="powerbutton">
-            <a class="btn-floating btn-large waves-effect waves-light red">
-                <embed class="powericon" src='..\static\icons\power_settings.svg' height="32" width="32"></embed>
-            </a>
+
+            <div class="settingbox">
+                    <p class="infotext">Hostname:</p>
+                    <p class="infotextsmall">{{hostname}}.local</p>
+            </div>  
+    
+            <div class="settingbox">
+                    <p class="infotext">IP-adress:</p>
+                    <p class="infotextsmall">{{ipaddres}}</p>
+            </div>  
+
+            <div class="settingbox" id="onderhoudtoggle">
+                <div class="onderhoud">
+                    <p class="infotext">Onderhoud pagina</p>
+                        <div class="onderhoudbutton">
+                            <a class="waves-effect waves-light btn" href="{{url_for('hmi.onderhoud')}}">Onderhoudspagina</a>
+                        </div>
+                </div>
+            </div>  
+
+            <div class="settingbox">
+                <div class="shutdown">
+                    <p class="infotext"> shutdown</p>
+                        <div class="powerbutton">
+                            <a class="btn-floating btn-large waves-effect waves-light red" href="#">
+                                <embed class="powericon" src="{{ url_for('static', filename='icons/power_settings.svg')}}" height="32" width="32"></embed>
+                            </a>
+                        </div>
+                </div>
+            </div>   
         </div>
     </div>
 </body>
+
+
+
+<script src="{{ url_for('static', filename='js/settings/settings.js') }}"></script>
 
 {% endblock %}
