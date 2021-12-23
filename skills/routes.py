@@ -78,3 +78,31 @@ def devMode(state):
     DATA['state']['devMode'] = state
     server_info('Developer mode {0}'.format(state))
     getData({''}, 'full')  
+
+@socket_.on('shutdownActivate', namespace='/settings')
+def shutdown():
+        print("shutting down")
+        command = "/usr/bin/sudo /sbin/shutdown -h now"
+        import subprocess
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        output = process.communicate()[0]
+        print(output)
+
+@socket_.on('MasterSlave', namespace='/settings')
+def MasterSlave(waardeSlave):
+    if type(waardeSlave) == bool:
+        DATA['state']['master'] = waardeSlave
+        server_info("master = {0}".format(waardeSlave))
+        getData({''}, 'full') 
+    else:
+        server_error("MasterSlave waarde niet bekend")
+
+@socket_.on('hotspot', namespace='/settings')
+def Hotspot(waarde):
+    if type(waarde) == bool:
+        DATA['state']['hotspotMode'] = waarde
+        server_info("hotspot = {0}".format(waarde))
+        getData({''}, 'full') 
+    else:
+        server_error("hotspot waarde niet bekend")
+    

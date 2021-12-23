@@ -16,6 +16,7 @@ DATA = {
             'muntje': bool()
             },
         'devMode': bool(),
+        'hotspotMode': bool(),
         # 'orderDone': bool(),
         'cpu': str()
         },

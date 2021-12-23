@@ -18,7 +18,7 @@
                         </div>
                         <label>
                             <div class="centerswitch">
-                                <input type="checkbox">
+                                <input type="checkbox" id="MasterSlaveToggle">
                                 <span class="lever"></span>
                             </div>
                         </label>
@@ -40,7 +40,7 @@
                         </div>
                         <label>
                             <div class="centerswitch">
-                                <input type="checkbox">
+                                <input type="checkbox" id="WifiToggle">
                                 <span class="lever"></span>
                             </div>
                         </label>
@@ -85,18 +85,18 @@
 
             <div class="settingbox" id="onderhoudtoggle">
                 <div class="onderhoud">
-                    <p class="infotext">Onderhoud pagina</p>
+                    <p class="infotext">Knop naar onderhoudpagina</p>
                         <div class="onderhoudbutton">
-                            <a class="waves-effect waves-light btn" href="{{url_for('hmi.onderhoud')}}">Onderhoudspagina</a>
+                            <a class="waves-effect waves-light btn" href="{{url_for('hmi.onderhoud')}}">Klik Hier</a>
                         </div>
                 </div>
             </div>  
 
             <div class="settingbox">
                 <div class="shutdown">
-                    <p class="infotext"> shutdown</p>
+                    <p class="infotext">Shutdown</p>
                         <div class="powerbutton">
-                            <a class="btn-floating btn-large waves-effect waves-light red" href="#">
+                            <a class="btn-floating btn-large waves-effect waves-light red" onclick="socket.emit('shutdownActivate');">
                                 <embed class="powericon" src="{{ url_for('static', filename='icons/power_settings.svg')}}" height="32" width="32"></embed>
                             </a>
                         </div>

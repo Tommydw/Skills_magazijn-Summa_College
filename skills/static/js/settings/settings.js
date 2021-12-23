@@ -77,7 +77,7 @@ socket.on('data', function(data){
         Jdata = mergeObject(Jdata, JSON.parse(data));
         if (Jdata.type == 'full') startingDone = true;
         if (startingDone){
-            // console.log(Jdata);
+            // console.log(Jdata.state.master);
             newtime = parseFloat(Jdata.time);   // nieuwe tijd opslaan
             updateTijd = waitTime + Jdata.users.indexOf(socket.id);
             oldClientTime = (clientTimeMS() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
@@ -85,6 +85,8 @@ socket.on('data', function(data){
             $('#loading').hide();  
             // print JSON data
             document.getElementById('devswitchtoggle').checked = Jdata.state.devMode;
+            document.getElementById('MasterSlaveToggle').checked = Jdata.state.master;
+            document.getElementById('WifiToggle').checked = Jdata.state.hotspotMode;
             // $('#content').show();        
             
             if (!warningGiven && Jdata.state.devMode){
@@ -151,4 +153,26 @@ $(document).ready(function() {
         // stuur socket_connect naar backend
         socket.emit('socket_connect');        
     }); 
+});
+
+const MasterSlaveChoice = document.getElementById('MasterSlaveToggle')
+MasterSlaveChoice.addEventListener('change', (event) => {
+    if (event.currentTarget.checked) {
+        document.getElementById('MasterSlaveToggle').checked = Jdata.state.master; // zet de switch weer uit
+        socket.emit('MasterSlave', true);
+    } else {
+        document.getElementById('MasterSlaveToggle').checked = Jdata.state.master; // zet de switch weer aan
+        socket.emit('MasterSlave', false);
+    }
+});
+
+const hotspotChoice = document.getElementById('WifiToggle')
+hotspotChoice.addEventListener('change', (event) => {
+    if (event.currentTarget.checked) {
+        document.getElementById('WifiToggle').checked = Jdata.state.hotspotMode; // zet de switch weer uit
+        socket.emit('hotspot', true);
+    } else {
+        document.getElementById('WifiToggle').checked = Jdata.state.hotspotMode; // zet de switch weer aan
+        socket.emit('hotspot', false);
+    }
 });
