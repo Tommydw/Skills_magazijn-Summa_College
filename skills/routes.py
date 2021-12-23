@@ -1,6 +1,13 @@
 from flask import render_template, redirect, url_for, request
 from skills import flaskapp, rpi
 from data import DATA
+from socket import gethostbyname, gethostname, gethostname
+from flask_socketio import SocketIO, emit, namespace, send, disconnect
+from skills import flaskapp, rpi, socket_, SOCKET_INFO
+import json, time, copy
+from skills.terminalColors import server_error, server_info, server_log
+
+
 
 @flaskapp.route("/")
 def home():
@@ -16,4 +23,58 @@ def test():
 
 @flaskapp.route("/settings")
 def settings():
-    return render_template('settings.html', test='hoi')
+    return render_template('settings.html', ipaddres=gethostbyname(gethostname()), hostname=gethostname() )
+
+# krijg socket_connect van client
+@socket_.on('socket_connect', namespace='/settings')
+def socket_connect():
+    if not request.sid in SOCKET_INFO:
+        SOCKET_INFO.append([request.sid, time.time()])
+        server_log("User '{0}' verbonden".format(request.sid))
+        # Stuur connected naar client
+        emit('connected')
+    return
+
+# update user, zet de huidige server tijd bij de user | user is nog actief
+@socket_.on('update_user', namespace='/settings')
+def update_user():
+    for i in range(len(SOCKET_INFO)):
+        if request.sid in SOCKET_INFO[i]:
+            SOCKET_INFO[i][1] = time.time()
+
+# get_data request handeler
+@socket_.on('get_data', namespace='/settings')
+def getData(oldData, getType):
+    TMP = copy.deepcopy(DATA)
+    if getType == 'full': 
+        # stuur het voledige object DATA
+        TMP['type'] = 'full'
+    elif getType == 'small':
+        # stuur allen wijzigingen
+        for x in oldData:
+            if type(oldData[x]) == dict and not x == 'users':
+                for i in oldData[x]:
+                    if TMP[x][i] == oldData[x][i]:
+                        TMP[x].pop(i)
+            else:
+                if 'type' in oldData:
+                    if TMP[x] == oldData[x]:
+                        TMP.pop(x)
+                else:
+                    TMP['type'] = 'full'
+                    emit('data', json.dumps(TMP))
+                    return
+        TMP['type'] = 'small'
+    users = []
+    for user in SOCKET_INFO:
+        users.append(user[0])
+    TMP['users'] = users
+    # Stuur data naar ALLE clients
+    emit('data', json.dumps(TMP), broadcast=True)
+    return
+
+@socket_.on('devMode', namespace='/settings')
+def devMode(state):
+    DATA['state']['devMode'] = state
+    server_info('Developer mode {0}'.format(state))
+    getData({''}, 'full')  
