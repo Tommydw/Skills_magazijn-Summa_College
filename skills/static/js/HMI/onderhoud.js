@@ -28,6 +28,7 @@ var oldCPUColor = document.querySelector('#state_cpu').style.color;
 // als de screen-size word aangepast, word er opnieuw de verhouding berekend
 window.addEventListener("orientationchange", function(event) {
     zoomScreen();
+    topInfoZoom();
 });
 
 // wanneer op JSON switch geklikt word
@@ -67,6 +68,7 @@ function sec2time(timeInSeconds) {
     else return new Date(timeInSeconds * 1000).toISOString().substring(11,19);
 }
 
+// client time 
 function clientTimeMS(){
     return (new Date().getTime() - (new Date().getTimezoneOffset() * 60 * 1000))
 }
@@ -131,14 +133,24 @@ function sendSate(name){
 // zoom, voor blijvoorbeeld telefoons
 function zoomScreen(){
 //     var formWidth = document.getElementsByClassName('switch')[0].offsetWidth;
-    if (screen.width - 15 < 380){
+    if (screen.width - 15 < 380)
         document.getElementsByClassName('switch')[0].style.zoom = (screen.width - 15) / 380;
-    }
     else
-    {
         document.getElementsByClassName('switch')[0].style.zoom = 1;
+}
+
+function topInfoZoom(){
+    if (screen.width < 1258){
+        document.getElementsByClassName('devTopInfo')[0].className = 'devTopInfo';
+        document.getElementsByClassName('devTopInfo')[0].style.padding = '0 5%';
+    }
+    else{
+        document.getElementsByClassName('devTopInfo')[0].className = 'devTopInfo container';
+        document.getElementsByClassName('devTopInfo')[0].style.padding = '0';
     }
 }
+
+topInfoZoom();
 
 function clearErrors(){
     console.log('Send clear errors');
@@ -307,6 +319,12 @@ function updateDisplay(){
     
     if (Jdata.state.devMode) document.querySelector('#state_devMode').className = 'stateInfo led-blue-on';
     else document.querySelector('#state_devMode').className = 'stateInfo led-blue-off';
+
+    if (Jdata.state.hotspotMode) document.querySelector('#state_hotspotMode').className = 'stateInfo led-blue-on';
+    else document.querySelector('#state_hotspotMode').className = 'stateInfo led-blue-off';
+
+    if (Jdata.state.orderActive) document.querySelector('#state_orderActive').className = 'stateInfo led-blue-on';
+    else document.querySelector('#state_orderActive').className = 'stateInfo led-blue-off';
 
     document.querySelector('#state_cpu').textContent = String(Jdata.state.cpu[0]);
     

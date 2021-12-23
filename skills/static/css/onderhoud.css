@@ -23,6 +23,7 @@
     flex-direction:row;
     justify-content: space-around;
     flex-wrap: wrap;
+    padding: 0 5%;
 }
 .devTopInfo .state {
     display: flex;
@@ -160,7 +161,7 @@ h3.tooltipped{
     color: var(--text-color);
     /* visibility: hidden;
     position: absolute; */
-    display: block;
+    display: none;
     height: 0;
 }
 

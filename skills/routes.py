@@ -83,7 +83,7 @@ def shutdown():
         server_info("Shutting down...")
         server_error("Good bye")
         command = "/usr/bin/sudo /sbin/shutdown -h now"
-        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        subprocess.Popen(command.split(), stdout=subprocess.PIPE)
 
 @socket_.on('MasterSlave', namespace='/settings')
 def MasterSlave(waardeSlave):
@@ -98,16 +98,15 @@ def MasterSlave(waardeSlave):
 def Hotspot(waarde):
     if type(waarde) == bool:
         DATA['state']['hotspotMode'] = waarde
-        server_info("hotspot = {0}".format(waarde))
         getData({''}, 'full') 
         if DATA['state']['hotspotMode']:
             server_info("Hotspot on")
             command = "/usr/bin/sudo systemctl start hostapd.service"
-            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+            subprocess.Popen(command.split(), stdout=subprocess.PIPE)
         else:
             server_info("Hotspot off")
             command = "/usr/bin/sudo systemctl stop hostapd.service"
-            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+            subprocess.Popen(command.split(), stdout=subprocess.PIPE)
     else:
         server_error("hotspot waarde niet bekend")
     

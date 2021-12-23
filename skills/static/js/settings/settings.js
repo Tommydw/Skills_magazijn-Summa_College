@@ -39,6 +39,37 @@ devModeOnderhoud.addEventListener('change', (event) => {
 });
 
 
+const MasterSlaveChoice = document.getElementById('MasterSlaveToggle')
+MasterSlaveChoice.addEventListener('change', (event) => {
+    if (event.currentTarget.checked) {
+        document.getElementById('MasterSlaveToggle').checked = Jdata.state.master; // zet de switch weer uit
+        socket.emit('MasterSlave', true);
+    } else {
+        document.getElementById('MasterSlaveToggle').checked = Jdata.state.master; // zet de switch weer aan
+        socket.emit('MasterSlave', false);
+    }
+});
+
+const hotspotChoice = document.getElementById('WifiToggle')
+hotspotChoice.addEventListener('change', (event) => {
+    if (event.currentTarget.checked){var state = "aan";}
+    else{var state = "uit";}
+    if (confirm("Weet je zeker dat je de hotspot " + state + " wilt zetten, want de server zal even offline gaan."))
+    {
+        if (event.currentTarget.checked) {
+            document.getElementById('WifiToggle').checked = Jdata.state.hotspotMode; // zet de switch weer uit
+            socket.emit('hotspot', true);
+        } else {
+            document.getElementById('WifiToggle').checked = Jdata.state.hotspotMode; // zet de switch weer aan
+            socket.emit('hotspot', false);
+        } 
+    }
+});
+
+function powerOff(){
+    if (confirm("Weet je zeker dat je de server wilt uitzetten?"))
+        socket.emit('shutdownActivate');
+}
 // Combineer de nieuwe data met de oude data
 function mergeObject(oldObject, newObject){
     if (Jdata == startupJson || newObject.type == 'full'){
@@ -153,26 +184,4 @@ $(document).ready(function() {
         // stuur socket_connect naar backend
         socket.emit('socket_connect');        
     }); 
-});
-
-const MasterSlaveChoice = document.getElementById('MasterSlaveToggle')
-MasterSlaveChoice.addEventListener('change', (event) => {
-    if (event.currentTarget.checked) {
-        document.getElementById('MasterSlaveToggle').checked = Jdata.state.master; // zet de switch weer uit
-        socket.emit('MasterSlave', true);
-    } else {
-        document.getElementById('MasterSlaveToggle').checked = Jdata.state.master; // zet de switch weer aan
-        socket.emit('MasterSlave', false);
-    }
-});
-
-const hotspotChoice = document.getElementById('WifiToggle')
-hotspotChoice.addEventListener('change', (event) => {
-    if (event.currentTarget.checked) {
-        document.getElementById('WifiToggle').checked = Jdata.state.hotspotMode; // zet de switch weer uit
-        socket.emit('hotspot', true);
-    } else {
-        document.getElementById('WifiToggle').checked = Jdata.state.hotspotMode; // zet de switch weer aan
-        socket.emit('hotspot', false);
-    }
 });
