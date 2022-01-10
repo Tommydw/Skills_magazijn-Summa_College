@@ -112,6 +112,7 @@ def Hotspot(waarde):
     
 # error handeling
 # 404
+@flaskapp.route('/404')
 @flaskapp.errorhandler(404)
-def page_not_found(error):
+def page_not_found(error=None):
     return render_template('error_page.html')

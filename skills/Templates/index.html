@@ -6,13 +6,13 @@
       <div class="section no-pad-bot">
         <div class="container">
           <br><br>
-          <h1 class="header center blue-text text-darken-1">FANCY BOIIIIIIIIIIIII</h1>
+          <h1 class="header center blue-text text-lighten-1">Skills magazijn</h1>
           <div class="row center">
-            <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-            <p>Groetjes NIEMAND</p>
+            <h5 class="header col s12 light">Een interactief magazijn gebaseerd op Industry 4.0</h5>
+            <!-- <p>Groetjes NIEMAND</p> -->
           </div>
           <div class="row center">
-            <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light blue lighten-1">Get Started</a>
+            <a href="{{url_for('hmi.start')}}" id="homePageButton" class="btn-large waves-effect waves-light blue">Ga naar HMI</a>
           </div>
           <br><br>
   
@@ -29,28 +29,28 @@
         <div class="row">
           <div class="col s12 m4">
             <div class="icon-block">
-              <h2 class="center blue-text text-darken-2"><i class="material-icons">flash_on</i></h2>
-              <h5 class="center">Speeds up development</h5>
+              <h2 class="center" style="margin: -10px 0;"><img height="64px" width="64px" src="{{url_for('static', filename='icons/conveyor.png')}}"></h2>
+              <h5 class="center">Industry 4.0</h5>
   
-              <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+              <p class="light">Smart Industry of Industry 4.0 maakt wat men noemt een "smart factory". Binnen deze slimme fabrieken, worden machines gekoppeld en uitgelezen, zodat er een goed inzicht kan worden verkregen in wat er werkelijk in de fabriek gebeurt en de processen sneller kunnen worden geoptimaliseerd.</p>
             </div>
           </div>
   
           <div class="col s12 m4">
             <div class="icon-block">
-              <h2 class="center blue-text text-darken-2"><i class="material-icons">group</i></h2>
-              <h5 class="center">User Experience Focused</h5>
+              <h2 class="center" style="margin: -10px 0;"><embed height="64px" width="64px"  src="{{url_for('static', filename='icons/connect.svg')}}"></h2>
+              <h5 class="center">Web socket</h5>
   
-              <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+              <p class="light">Doormiddel van een Websocket is het mogelijk om live data van de client en de server te communiceren. Deze communicatie met de server word ook automatisch doorgevoerd naar de andere clients. </p>
             </div>
           </div>
   
           <div class="col s12 m4">
             <div class="icon-block">
-              <h2 class="center blue-text text-darken-2"><i class="material-icons">settings</i></h2>
-              <h5 class="center">Easy to work with</h5>
+              <h2 class="center" style="margin: -10px 0;"><img height="64px" width="64px"  src="{{url_for('static', filename='icons/energy.png')}}"></h2>
+              <h5 class="center">Efficiëntie</h5>
   
-              <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+              <p class="light">Instellingen en status worden efficiënt doorgevoerd van en naar de server om bandbreedte te besparen. Onze efficiënte datacommunicatie heeft ook een ingebouwde fout herstel. Doordat de data pakketten efficiëntie worden doorgevoerd, kan een snelle update frequentie gegarandeerd worden. </p>
             </div>
           </div>
         </div>
@@ -63,7 +63,10 @@
       <div class="section no-pad-bot">
         <div class="container">
           <div class="row center">
-            <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+            <h5 class="header col s12 light">Met een eenvoudige Settings pagina die zeer gebruiksvriendelijk is.</h5>
+          </div>
+          <div class="row center">
+            <a href="{{url_for('settings')}}" id="homePageButton" class="btn-large waves-effect waves-light blue">Ga naar Settings</a>
           </div>
         </div>
       </div>
@@ -76,8 +79,16 @@
         <div class="row">
           <div class="col s12 center">
             <h3><i class="mdi-content-send brown-text"></i></h3>
-            <h4>Contact Us</h4>
-            <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+            <h4>Het project</h4>
+            <p class="left-align light">
+              Het project draait om industrie 4.0. Het is namelijk een fabricagelijn die aangesloten kan worden op een selectie van Festo MPS modules. 
+              Op de computer kan via de webinterface geselecteerd  worden welke extra handelingen je wilt uitvoeren op de potjes. 
+              De eerste optie is of je er een muntje in het potje wilt (via de MPS Handeling). 
+              De tweede optie is of je er een deksel op wilt (via de MPS Handeling) en als laatste kan je zeggen in welk magazijn je het potje wil laten eindigen (via de MPS Sorting). 
+            </p><p class="left-align light">
+              Dit wordt allemaal aangestuurd via een Raspberry Pi 4 (master) en een siemens PLC.
+              Het magazijn kan 3 verschillende soorten potjes aangeven (Rode, Zwarte, Zilveren). Op een computer kan je aangeven welke kleur je wilt ontvangen en de hoeveelheid.
+              </p>
           </div>
         </div>
   
@@ -89,7 +100,7 @@
       <div class="section no-pad-bot">
         <div class="container">
           <div class="row center">
-            <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+            <h5 class="header col s12 light grey-text text-lighten-5">Op de Settings pagina is het ook mogelijk om Dev-modus aan te zetten, hierdoor is de onderhouds pagina beschiktbaar.</h5>
           </div>
         </div>
       </div>

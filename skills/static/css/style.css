@@ -13,7 +13,6 @@ nav .brand-logo {
   block-size: 64px;
   flex-wrap: nowrap;
   align-items: center;
-
 }
 nav{
   color: #ccc;
@@ -27,6 +26,10 @@ nav ul li a {
 }
 nav ul li span embed{
   margin-left: -5px;
+}
+
+.parallax-container .parallax img{
+  filter: blur(3px);
 }
 
 body{
@@ -74,6 +77,10 @@ p {
 }
 .icon-block .material-icons {
   font-size: inherit;
+}
+
+#homePageButton:hover {
+  box-shadow: 0 0 5px #2196F3, 0 0 15px #2196F3, 0 0 30px #2196F3, 0 0 50px #2196F3;
 }
 
 .expandingButton {

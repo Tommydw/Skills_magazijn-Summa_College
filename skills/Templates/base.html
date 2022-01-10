@@ -98,33 +98,26 @@
         <footer class="page-footer teal">
             <div class="container">
                 <div class="row">
-                    <div class="col l6 s12">
-                        <h5 class="white-text">Company Bio</h5>
-                        <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>            
+                    <div class="col l9 s12">
+                        <h5 class="white-text">Skills project team</h5>
+                        <p class="grey-text text-lighten-4">We zijn een team van studenten die aan dit project werken alsof het onze fulltime baan is. Elk bedrag zou helpen de ontwikkeling van dit project te ondersteunen en voort te zetten en wordt zeer op prijs gesteld.</p>            
+                        <p class="grey-text text-lighten-4">Voor status van het magazijn, ga naar de Onderhouds pagina. Om outputs te overschrijven, schakel Dev-modes in op de Settings pagina </p>            
                     </div>
                     <div class="col l3 s12">
-                        <h5 class="white-text">Settings</h5>
+                        <h5 class="white-text">Links</h5>
                         <ul>
-                            <li><a class="white-text" href="#!">Link 1</a></li>
-                            <li><a class="white-text" href="#!">Link 2</a></li>
-                            <li><a class="white-text" href="#!">Link 3</a></li>
-                            <li><a class="white-text" href="#!">Link 4</a></li>
-                        </ul>
-                    </div>
-                    <div class="col l3 s12">
-                        <h5 class="white-text">Connect</h5>
-                        <ul>
-                            <li><a class="white-text" href="#!">Link 1</a></li>
-                            <li><a class="white-text" href="#!">Link 2</a></li>
-                            <li><a class="white-text" href="#!">Link 3</a></li>
-                            <li><a class="white-text" href="#!">Link 4</a></li>
+                            <li><a class="white-text" href="{{url_for('hmi.start')}}">HMI</a></li>
+                            <li><a class="white-text" href="{{url_for('settings')}}">Settings</a></li>
+                            <li><a class="white-text" href="{{url_for('hmi.onderhoud')}}">Onderhoud</a></li>
+                            <li><a class="white-text" href="{{url_for('info')}}">Info</a></li>
+                            <li><a class="white-text" href="{{url_for('page_not_found')}}">Overige</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+                Made by <a class="brown-text text-lighten-3" href="{{url_for('info')}}">Tommy de Wever, Thijm van Lier, Leon Hulsebos</a>
                 </div>
             </div>
         </footer>
