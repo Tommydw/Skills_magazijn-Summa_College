@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>404</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link href="{{ url_for('static', filename='css/error.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    </head>
+    <body style="margin: 0;">
+        <div class="err-page">
+            <div class="err-content">
+                <div class="interstitial-wrapper">
+                    <embed class="icon" src="{{ url_for('static', filename='photos/error/404.png') }}">
+                    <div class="main-message">
+                        <h1>Deze pagina is niet goed geladen</h1>
+                        <p>Deze pagina is niet goed geladen. Er wordt een diagnose van het probleem uitgevoerd.</p>
+                        <div class="error-code">
+                            <p>err_page_loading</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 51px; display:block;">
+                        <button onclick="reload();">Opnieuw laden</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg">
+            <embed style="display: none;" id="rick" src="{{ url_for('static', filename='photos/error/gif.gif') }}">
+            <audio id="ricky" src="{{ url_for('static', filename='photos/error/sound.mp3') }}" loop="loop"></audio>
+        </div>
+    </body>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/error.js') }}"></script>
+</html>

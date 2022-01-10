@@ -110,3 +110,8 @@ def Hotspot(waarde):
     else:
         server_error("hotspot waarde niet bekend")
     
+# error handeling
+# 404
+@flaskapp.errorhandler(404)
+def page_not_found(error):
+    return render_template('error_page.html')
