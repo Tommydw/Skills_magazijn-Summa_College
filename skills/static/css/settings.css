@@ -115,6 +115,8 @@
     --clr:#ffffff; 
     margin:0px; 
     zoom: 1.4;
+    display: flex;
+    justify-content: center;
 }
 
 .powericon{
@@ -154,3 +156,9 @@
     justify-content: center;
 }
 
+.handleidingknop{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 10px;
+}
