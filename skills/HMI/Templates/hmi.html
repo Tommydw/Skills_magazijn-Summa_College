@@ -3,16 +3,24 @@
 {% block content%}
 <link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/HMI.css')}}">
 <body>
-    <div class='topInfo'>
+    <!-- <div class='topInfo'>
         <p id='timeText'>Time past: <b id='time'></b></p>
         <p id='activeUsers'>Active users: <b id='users'></b></p>
+    </div> -->
+    <!-- stricky info -->
+    <div class='stickyInfo'>
+        <p id='timeText'>Time past: <b id='time'></b></p>
+        <p id='timeText'>Active users: <b id='users'></b></p>
     </div>
+    <!-- end stricky info -->
     <div id='content' class="HMIcontent"><!--class="container"> -->
         <div class="fotoBlokje hmicard">
             <h4>Order preview</h4>
-            <img id="deDeksel"  height="50" width="300">
-            <img id="hetMuntje"  height="50" width="300">
-            <img id="hetBlokje"  height="200" width="300">
+            <div class="photos">
+                <img id="deDeksel"  height="50" width="300">
+                <img id="hetMuntje"  height="50" width="300">
+                <img id="hetBlokje"  height="200" width="300">
+            </div>
         </div>
         <div class="options hmicard">
             <h4>Order </h4>
@@ -47,6 +55,10 @@
                 </div>
             </form>
         </div>
+        <div class="statusWindow">
+            <img id="statusSystem" width="1440">
+        </div>
+
         <!-- <div class='glowingButton' onclick="toggel();" style="--clr:#22aeff;--i:0;--fgc:#00d9ff;">
             <a>Motor</a>
         </div>

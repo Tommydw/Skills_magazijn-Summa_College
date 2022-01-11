@@ -240,8 +240,24 @@ footer.page-footer {
 	border:2px solid var(--red);
 	opacity:.9;
 	border-radius:50%;
-	animation:rotate 3s linear infinite;
-	
+	animation:rotate 3s linear infinite;	
+}
+
+.stickyInfo{
+  position: sticky;
+  width: fit-content;
+  top: 0px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  margin-left: auto;
+  border-radius: 5px;
+  z-index: 8;
+  background: rgba(54, 54, 54, 0.6);
+  color: rgb(202, 202, 202);
+}
+.stickyInfo p{
+  margin: 0 5px;
 }
 
 /* .loading{

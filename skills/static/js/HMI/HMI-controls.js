@@ -1,7 +1,9 @@
-function updateDisplay(Jdata){
+function updateDisplay(){
     // document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2); // print JSON in html
+    if (Jdata.state.order.kleur == "rood") document.getElementById('statusSystem').src = statusMagazijn[1].src;
+    else if (Jdata.state.order.kleur == "zwart") document.getElementById('statusSystem').src = statusMagazijn[2].src;
+    else if (Jdata.state.order.kleur == "zilver") document.getElementById('statusSystem').src = statusMagazijn[3].src;
 }
-
 function updateBlokje(){
     if (document.getElementById('Rood').checked) document.getElementById('hetBlokje').src = blokje[0].src;
     else if (document.getElementById('Zwart').checked) document.getElementById('hetBlokje').src = blokje[1].src;

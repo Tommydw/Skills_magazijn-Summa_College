@@ -258,6 +258,18 @@
     background: transparent;
 }
 
+.fotoBlokje img{
+    margin-top: -0.5px;
+    background-color: #fff;
+}
+
+
+.fotoBlokje .photos{
+    zoom: 0.8;
+    max-width: fit-content;
+    padding: 40px;
+    background-color: #fff;
+}
 .fotoBlokje{
     display: flex;
     flex-wrap: nowrap;
@@ -283,10 +295,6 @@
                 inset -6px -6px 20px #56565675;
 }
 
-.fotoBlokje img{
-    margin-top: -0.5px;
-}
-
 .HMIcontent{
     margin: var(--contentDistance);
     position: initial;
@@ -304,4 +312,10 @@
 .HMIcontent h4{
     margin-top: 3%;
     margin-bottom: 3%;
+}
+
+.statusWindow{
+    width: 1440px;
+    max-width: 1440px;
+    margin: 20px 40px;
 }

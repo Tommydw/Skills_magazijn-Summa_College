@@ -82,6 +82,15 @@ function zoomScreen(){
     {
         document.getElementsByClassName('form')[0].style.zoom = 1;
     }
+
+    var statusWindowWidth = document.getElementsByClassName('statusWindow')[0].offsetWidth;
+    if (statusWindowWidth + 30 > screen.width){
+        document.getElementsByClassName('statusWindow')[0].style.zoom = (screen.width - 30) / statusWindowWidth;
+    }
+    else
+    {
+        document.getElementsByClassName('statusWindow')[0].style.zoom = (1000 - 30) / statusWindowWidth;
+    }
 }
 
 function clientTimeMS(){
@@ -111,7 +120,7 @@ socket.on('data', function(data){
             newtime = parseFloat(Jdata.time);   // nieuwe tijd opslaan
             updateTijd = waitTime + Jdata.users.indexOf(socket.id);
             oldClientTime = (clientTimeMS() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
-            updateDisplay(Jdata);
+            updateDisplay();
             if (Jdata.state.error) buttonEnable = false; 
             else buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
             // verberg loading
@@ -176,6 +185,7 @@ setInterval(()=> {
                 document.querySelector('#sendButton').style.setProperty('--clr', oldSendButtonCLR);
                 document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
                 document.querySelector('#sendButtonText').text = oldSendButtonText;
+                document.getElementById('statusSystem').src = statusMagazijn[0].src;
             }
             else 
             {
@@ -234,7 +244,12 @@ $(document).ready(function() {
                             'blokje/deksel.png', 
                             'blokje/muntje.png',
                             'blokje/niets.png']);
+    statusMagazijn = preloadImages(['status/leeg.png',
+                                    'status/mag1.png',
+                                    'status/mag2.png',
+                                    'status/mag3.png']);
     updateBlokje();       
+    document.getElementById('statusSystem').src = statusMagazijn[0].src;
 });
 
 // als de screen-size word aangepast, word er opnieuw de verhouding berekend

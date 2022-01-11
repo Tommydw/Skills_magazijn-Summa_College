@@ -2,22 +2,6 @@
     --text-color: #e4e4e4;
 }
 
-.stickyInfo{
-    position: sticky;
-    width: fit-content;
-    top: 0px;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    margin-left: auto;
-    border-radius: 5px;
-    z-index: 8;
-    background: rgba(54, 54, 54, 0.6);
-    color: rgb(202, 202, 202);
-}
-.stickyInfo p{
-    margin: 0 5px;
-}
 .devTopInfo{
     display: flex; 
     flex-direction:row;
