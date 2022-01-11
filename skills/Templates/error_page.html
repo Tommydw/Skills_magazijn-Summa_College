@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="bg">
-            <embed style="display: none;" id="rick" src="{{ url_for('static', filename='photos/error/gif.gif') }}">
+            <video autoplay muted loop style="display: none; pointer-events: none; zoom: 2;" id="rick"><source src="{{ url_for('static', filename='photos/error/gifmp4.mp4') }}"  type="video/mp4"> </video>
             <audio id="ricky" src="{{ url_for('static', filename='photos/error/sound.mp3') }}" loop="loop"></audio>
         </div>
     </body>

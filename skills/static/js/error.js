@@ -14,6 +14,7 @@ function zoom(){
 }
 window.onload = function(){
     zoom();
+    document.getElementsByClassName("bg")[0].style.display = 'flex';
 }
 window.addEventListener("orientationchange", function(event) {
     zoom();
