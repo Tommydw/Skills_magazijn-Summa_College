@@ -97,7 +97,7 @@ def orderUitvoeren():
 def magazijnControle():
     if DATA['io']['mag1'] and DATA['state']['stock']['mag1'] == 2:
         DATA['state']['stock']['mag1'] = 1
-        server_info('Magazijn 1 is bijna leeg (zilver)')
+        server_info('Magazijn 1 is bijna leeg (rood)')
     elif not DATA['io']['mag1']:
         DATA['state']['stock']['mag1'] = 2
 
@@ -109,22 +109,22 @@ def magazijnControle():
 
     if DATA['io']['mag3'] and DATA['state']['stock']['mag3'] == 2:
         DATA['state']['stock']['mag3'] = 1
-        server_info('Magazijn 3 is bijna leeg (rood)')
+        server_info('Magazijn 3 is bijna leeg (zilver)')
     elif not DATA['io']['mag3']:
         DATA['state']['stock']['mag3'] = 2
 
 def magazijnLeeg():
-    if DATA['state']['stock']['mag1'] == 1 and DATA['state']['order']['kleur'] == 'zilver':
+    if DATA['state']['stock']['mag1'] == 1 and DATA['state']['order']['kleur'] == 'rood':
         DATA['state']['stock']['mag1'] = 0
-        server_error("Magazijn 1 is leeg! (zilver)")
+        server_error("Magazijn 1 is leeg! (rood)")
 
     if DATA['state']['stock']['mag2'] == 1 and DATA['state']['order']['kleur'] == 'zwart':
         DATA['state']['stock']['mag2'] = 0
         server_error("Magazijn 2 is leeg! (zwart)")
 
-    if DATA['state']['stock']['mag3'] == 1 and DATA['state']['order']['kleur'] == 'rood':
+    if DATA['state']['stock']['mag3'] == 1 and DATA['state']['order']['kleur'] == 'zilver':
         DATA['state']['stock']['mag3'] = 0
-        server_error("Magazijn 3 is leeg! (rood)")
+        server_error("Magazijn 3 is leeg! (zilver)")
 
 
 class loop:

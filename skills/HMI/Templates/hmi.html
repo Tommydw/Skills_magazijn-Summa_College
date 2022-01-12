@@ -35,16 +35,16 @@
                         <input id="Muntje" name="option2" type="checkbox" onclick="updateBlokje();"/>
                         <label for="Muntje">Muntje</label>
                     </div>
-                    <div style="display: inline-flex; flex-direction: row; margin-top: -9.5px;">
-                        <div class="inputGroup">
+                    <div class="colorSelect">
+                        <div id="roodBox" class="inputGroup">
                             <input id="Rood" name="radio" type="radio" onclick="updateBlokje();" checked/>
                             <label for="Rood">Rood</label>
                         </div>
-                        <div class="inputGroup">
+                        <div id="zwartBox" class="inputGroup">
                             <input id="Zwart" name="radio" type="radio" onclick="updateBlokje();"/>
                             <label for="Zwart">Zwart</label>
                         </div>
-                        <div class="inputGroup">
+                        <div id="zilverBox" class="inputGroup">
                             <input id="Zilver" name="radio" type="radio" onclick="updateBlokje();"/>
                             <label for="Zilver">Zilver</label>
                         </div>
@@ -66,9 +66,12 @@
                     <div style="width: 1440px; height:544px; position: absolute;">
                         <img class="blokie" id="blokie" width="180" height="120">
                     </div>
-                    <div id='magEen' class="led-red-on magEen"></div>
-                    <div id='magTwee' class="led-red-on magTwee"></div>
-                    <div id='magDrie' class="led-red-on magDrie"></div>
+                    <div id='magEen' class="led-red-on magEen blink"></div>
+                    <div id='magEenText' class='blink magEen infoText'><b>Hervullen</b></div>
+                    <div id='magTwee' class="led-red-on magTwee blink"></div>
+                    <div id='magTweeText' class='blink magTwee infoText'><b>Hervullen</b></div>
+                    <div id='magDrie' class="led-red-on magDrie blink"></div>
+                    <div id='magDrieText' class='blink magDrie infoText'><b>Hervullen</b></div>
                 </div>
             </div>
         </div>

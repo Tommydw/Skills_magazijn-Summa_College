@@ -189,9 +189,18 @@ setInterval(()=> {
         {
             if (buttonEnable)
             {
-                document.querySelector('#sendButton').style.setProperty('--clr', oldSendButtonCLR);
-                document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
-                document.querySelector('#sendButtonText').text = oldSendButtonText;
+                if (Jdata.state.stock.mag1 == 0 && Jdata.state.stock.mag2 == 0 && Jdata.state.stock.mag3 == 0)
+                {
+                    document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
+                    document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
+                    document.querySelector('#sendButtonText').text = 'Magazijnen leeg!';
+                }
+                else
+                {
+                    document.querySelector('#sendButton').style.setProperty('--clr', oldSendButtonCLR);
+                    document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
+                    document.querySelector('#sendButtonText').text = oldSendButtonText;
+                }
             }
             else 
             {
