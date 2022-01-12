@@ -20,6 +20,13 @@ function updateDisplay(){
     }
     if (Jdata.state.order.muntje) document.getElementById('orderInfo').textContent = document.getElementById('orderInfo').textContent + ", met muntje";
     if (Jdata.state.order.deksel) document.getElementById('orderInfo').textContent = document.getElementById('orderInfo').textContent + ", met deksel";
+
+    if (Jdata.io.mag1) document.getElementById('magEen').style.position = 'absolute';
+    else document.getElementById('magEen').style.position = '';
+    if (Jdata.io.mag2) document.getElementById('magTwee').style.position = 'absolute';
+    else document.getElementById('magTwee').style.position = '';
+    if (Jdata.io.mag3) document.getElementById('magDrie').style.position = 'absolute';
+    else document.getElementById('magDrie').style.position = '';
 }
 function updateBlokje(){
     if (document.getElementById('Rood').checked) document.getElementById('hetBlokje').src = blokje[0].src;

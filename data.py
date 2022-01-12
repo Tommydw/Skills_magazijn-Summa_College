@@ -62,9 +62,9 @@ PINNEN = {
     'motor':        {'module': 'mcp1',  'pin': 3,   'pin_name': 'GPA3',     'direction': 'output',   'state': 'low'},	    # lopendeband
     'MCP1':         {'module': 'mcp1',  'pin': 7,   'pin_name': 'GPA7',     'direction': 'output',   'state': 'low'},	    # gaat aan waneer het script is gestart
     'mcp1Noodstop': {'module': 'mcp1',  'pin': 8,   'pin_name': 'GPB0',     'direction': 'input',    'pull': 'down'},	    # noodstop (deurtje) schakakelaar HIGH
-    'mag1':         {'module': 'mcp1',  'pin': 9,   'pin_name': 'GPB1',     'direction': 'input',    'pull': 'down'},	    # gaat hoog waneer er nog maar een blokje in magazijn 1 zit
+    'mag3':         {'module': 'mcp1',  'pin': 9,   'pin_name': 'GPB1',     'direction': 'input',    'pull': 'down'},	    # gaat hoog waneer er nog maar een blokje in magazijn 1 zit
     'mag2':         {'module': 'mcp1',  'pin': 10,  'pin_name': 'GPB2',     'direction': 'input',    'pull': 'down'},	    # gaat hoog waneer er nog maar een blokje in magazijn 2 zit
-    'mag3':         {'module': 'mcp1',  'pin': 11,  'pin_name': 'GPB3',     'direction': 'input',    'pull': 'down'},	    # gaat hoog waneer er nog maar een blokje in magazijn 3 zit
+    'mag1':         {'module': 'mcp1',  'pin': 11,  'pin_name': 'GPB3',     'direction': 'input',    'pull': 'down'},	    # gaat hoog waneer er nog maar een blokje in magazijn 3 zit
     'eind':         {'module': 'mcp1',  'pin': 12,  'pin_name': 'GPB4',     'direction': 'input',    'pull': 'down'},	    # gaat hoog waneer het blokje aan het einde van de band is
     'MCP1_pi':      {'module': 'mcp1',  'pin': 15,  'pin_name': 'GPB7',     'direction': 'input',    'pull': 'down'},	    # gaat hoog waneer 3.3 actief is op de pi
     'deksel':       {'module': 'mcp2',  'pin': 0,   'pin_name': 'GPA0',     'direction': 'output',   'state': 'low'},	    # gaat hoog als er een deksel gewenst is
