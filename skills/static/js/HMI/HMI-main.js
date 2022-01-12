@@ -123,6 +123,13 @@ socket.on('data', function(data){
             updateDisplay();
             if (Jdata.state.error) buttonEnable = false; 
             else buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
+
+            if (!Jdata.state.order.orderActive){
+                document.getElementById('statusSystem').src = statusMagazijn[0].src;
+                document.getElementById('blokie').style.animation = '';
+                document.getElementById('blokie').src = blokje[5].src;
+                document.getElementById('orderInfo').textContent = '';
+            }
             // verberg loading
             $('#loading').hide();  
             // aantal active users weergeven.
@@ -185,9 +192,6 @@ setInterval(()=> {
                 document.querySelector('#sendButton').style.setProperty('--clr', oldSendButtonCLR);
                 document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
                 document.querySelector('#sendButtonText').text = oldSendButtonText;
-                document.getElementById('statusSystem').src = statusMagazijn[0].src;
-                document.getElementById('blokie').style.animation = '';
-                document.getElementById('blokie').src = blokje[5].src
             }
             else 
             {

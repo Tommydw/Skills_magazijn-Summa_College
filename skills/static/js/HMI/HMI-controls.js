@@ -4,17 +4,22 @@ function updateDisplay(){
         document.getElementById('statusSystem').src = statusMagazijn[1].src;
         document.getElementById('blokie').src = blokje[0].src;
         document.getElementById('blokie').style.animation = 'blokje1 2s ease-out infinite';
+        document.getElementById('orderInfo').textContent = 'Kleur: rood';
     }
     else if (Jdata.state.order.kleur == "zwart"){
         document.getElementById('statusSystem').src = statusMagazijn[2].src;
         document.getElementById('blokie').src = blokje[1].src;
         document.getElementById('blokie').style.animation = 'blokje2 2.5s ease-out infinite';
+        document.getElementById('orderInfo').textContent = 'Kleur: zwart';
     }
     else if (Jdata.state.order.kleur == "zilver"){
         document.getElementById('statusSystem').src = statusMagazijn[3].src;
         document.getElementById('blokie').src = blokje[2].src;
         document.getElementById('blokie').style.animation = 'blokje3 3s ease-out infinite';
+        document.getElementById('orderInfo').textContent = 'Kleur: zilver';
     }
+    if (Jdata.state.order.muntje) document.getElementById('orderInfo').textContent = document.getElementById('orderInfo').textContent + ", met muntje";
+    if (Jdata.state.order.deksel) document.getElementById('orderInfo').textContent = document.getElementById('orderInfo').textContent + ", met deksel";
 }
 function updateBlokje(){
     if (document.getElementById('Rood').checked) document.getElementById('hetBlokje').src = blokje[0].src;

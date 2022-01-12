@@ -318,13 +318,16 @@
     /* padding: 20px 40px; */
     position: relative;
     width: 100%;
+    max-width: 1000px;
     height: fit-content;
-    overflow: hidden;
     display: inline-flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 .statusBox .statusWindow{
+    width: fit-content;
+    overflow: hidden;
     max-width: 1440px;
     /* margin: 20px 40px; */
 }
@@ -334,6 +337,21 @@
     left: 1234px;
     bottom: 96px;
     z-index: 1;
+}
+.orderInfo{
+    display: inline-flex;
+    align-items: center;
+    width: max-content;
+    padding: 10px 20px;
+    padding-bottom: 7px;
+    margin-bottom: -3px;
+}
+.orderInfo b{
+    padding-right: 5px;
+}
+.orderInfo p{
+    margin: 0;
+    padding: 0;
 }
 
 @keyframes blokje1 {
