@@ -27,8 +27,6 @@ var oldTimeColor = document.querySelector('#time').style.color;
 var oldSendButtonCLR = document.querySelector('#sendButton').style.getPropertyValue('--clr');
 var oldSendButtonFGC = document.querySelector('#sendButton').style.getPropertyValue('--fgc');
 var oldSendButtonText = document.querySelector('#sendButtonText').text;
-/* animatie */
-var blokieLocatie = ['translateX(-506px)', 'translateX(-758px)', 'translateX(-1006px)', 'translateX(0px)'];
 
 // functie secondes naar tijd String
 function sec2time(timeInSeconds) {
@@ -188,6 +186,8 @@ setInterval(()=> {
                 document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
                 document.querySelector('#sendButtonText').text = oldSendButtonText;
                 document.getElementById('statusSystem').src = statusMagazijn[0].src;
+                document.getElementById('blokie').style.animation = '';
+                document.getElementById('blokie').src = blokje[5].src
             }
             else 
             {
