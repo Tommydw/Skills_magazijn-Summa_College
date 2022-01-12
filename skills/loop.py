@@ -55,19 +55,19 @@ def orderUitvoeren():
                     rpi.write('cil3', False)
                 write_high = order_compleet = True
                 running = False
-
+                if DATA['state']['master']:
+                    rpi.write('deksel', False)
+                    rpi.write('muntje', False)
+                    rpi.write('Kleur1', False)
+                    rpi.write('Kleur2', False)
+                    DATA['state']['order']['kleur'] = ''
+                    DATA['state']['order']['deksel'] = False
+                    DATA['state']['order']['muntje'] = False
         else: 
             #stap 3
             running = False
             write_high = True
             start_time = 0
-            rpi.write('deksel', False)
-            rpi.write('muntje', False)
-            rpi.write('Kleur1', False)
-            rpi.write('Kleur2', False)
-            DATA['state']['order']['kleur'] = ''
-            DATA['state']['order']['deksel'] = False
-            DATA['state']['order']['muntje'] = False
 
     else:
         running = False

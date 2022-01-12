@@ -345,9 +345,11 @@
     padding: 10px 20px;
     padding-bottom: 7px;
     margin-bottom: -3px;
+    height: 50px;
 }
 .orderInfo b{
     padding-right: 5px;
+    margin: 5px 0;
 }
 .orderInfo p{
     margin: 0;
