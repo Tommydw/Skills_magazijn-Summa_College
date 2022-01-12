@@ -27,6 +27,22 @@ function updateDisplay(){
     else document.getElementById('magTwee').style.position = '';
     if (Jdata.io.mag3) document.getElementById('magDrie').style.position = 'absolute';
     else document.getElementById('magDrie').style.position = '';
+
+    if (Jdata.state.stock.mag1 == 0){
+        document.getElementById('Rood').disabled = true;
+        if (document.getElementById('Rood').checked) document.getElementById('Rood').checked = false;
+    } 
+    else document.getElementById('Rood').disabled = false;
+    if (Jdata.state.stock.mag2 == 0){
+        document.getElementById('Zwart').disabled = true;
+        if (document.getElementById('Zwart').checked) document.getElementById('Zwart').checked = false;
+    } 
+    else document.getElementById('Zwart').disabled = false;
+    if (Jdata.state.stock.mag3 == 0){
+        document.getElementById('Zilver').disabled = true;
+        if (document.getElementById('Zilver').checked) document.getElementById('Zilver').checked = false;
+    } 
+    else document.getElementById('Zilver').disabled = false;
 }
 function updateBlokje(){
     if (document.getElementById('Rood').checked) document.getElementById('hetBlokje').src = blokje[0].src;

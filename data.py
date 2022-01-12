@@ -18,7 +18,13 @@ DATA = {
         'devMode': bool(),
         'hotspotMode': True,
         # 'orderDone': bool(),
-        'cpu': str()
+        'cpu': str(),
+        'stock':{
+            'mag1': 2,
+            'mag2': 2,
+            'mag3': 2
+        }
+        
         },
     'io': {
         'loopRun': bool(),

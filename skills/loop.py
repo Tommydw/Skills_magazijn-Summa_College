@@ -44,7 +44,7 @@ def orderUitvoeren():
                     elif DATA['state']['order']['kleur'] == 'zilver': 
                         rpi.write('cil3', True)
                     server_log('Aantal blokjes nu: {0}'.format(blokjes_op_band))
-
+                    magazijnLeeg()
             else:
                 # stap 2
                 if DATA['state']['order']['kleur'] == 'rood': 
@@ -68,7 +68,6 @@ def orderUitvoeren():
             running = False
             write_high = True
             start_time = 0
-
     else:
         running = False
         write_high = True
@@ -95,7 +94,38 @@ def orderUitvoeren():
         rpi.write('motor', False)
             
 
-    
+def magazijnControle():
+    if DATA['io']['mag1'] and DATA['state']['stock']['mag1'] == 2:
+        DATA['state']['stock']['mag1'] = 1
+        server_info('Magazijn 1 is bijna leeg (zilver)')
+    elif not DATA['io']['mag1']:
+        DATA['state']['stock']['mag1'] = 2
+
+    if DATA['io']['mag2'] and DATA['state']['stock']['mag2'] == 2:
+        DATA['state']['stock']['mag2'] = 1
+        server_info('Magazijn 2 is bijna leeg (zwart)')
+    elif not DATA['io']['mag2']:
+        DATA['state']['stock']['mag2'] = 2
+
+    if DATA['io']['mag3'] and DATA['state']['stock']['mag3'] == 2:
+        DATA['state']['stock']['mag3'] = 1
+        server_info('Magazijn 3 is bijna leeg (rood)')
+    elif not DATA['io']['mag3']:
+        DATA['state']['stock']['mag3'] = 2
+
+def magazijnLeeg():
+    if DATA['state']['stock']['mag1'] == 1 and DATA['state']['order']['kleur'] == 'zilver':
+        DATA['state']['stock']['mag1'] = 0
+        server_error("Magazijn 1 is leeg! (zilver)")
+
+    if DATA['state']['stock']['mag2'] == 1 and DATA['state']['order']['kleur'] == 'zwart':
+        DATA['state']['stock']['mag2'] = 0
+        server_error("Magazijn 2 is leeg! (zwart)")
+
+    if DATA['state']['stock']['mag3'] == 1 and DATA['state']['order']['kleur'] == 'rood':
+        DATA['state']['stock']['mag3'] = 0
+        server_error("Magazijn 3 is leeg! (rood)")
+
 
 class loop:
     def run():
@@ -149,3 +179,4 @@ class loop:
                 rpi.write('motor', PINNEN['motor']['state'], override=True, log=False)
 
             orderUitvoeren()
+            magazijnControle()
