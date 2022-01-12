@@ -331,7 +331,7 @@
 
 .statusWindow .blokie{
     position: absolute;
-    left: 1340px;
+    left: 1234px;
     bottom: 96px;
     z-index: 1;
 }
@@ -341,7 +341,7 @@
         transform: translateX(0px);
     }
     0%{
-        transform: translateX(-506px);
+        transform: translateX(-537px);
     }
 }
 @keyframes blokje2 {
@@ -349,7 +349,7 @@
         transform: translateX(0px);
     }
     0%{
-        transform: translateX(-758px);
+        transform: translateX(-785px);
     }
 }
 @keyframes blokje3 {
@@ -357,6 +357,6 @@
         transform: translateX(0px);
     }
     0%{
-        transform: translateX(-1006px);
+        transform: translateX(-1038px);
     }
 }

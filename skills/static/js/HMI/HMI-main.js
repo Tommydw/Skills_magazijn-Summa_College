@@ -27,8 +27,6 @@ var oldTimeColor = document.querySelector('#time').style.color;
 var oldSendButtonCLR = document.querySelector('#sendButton').style.getPropertyValue('--clr');
 var oldSendButtonFGC = document.querySelector('#sendButton').style.getPropertyValue('--fgc');
 var oldSendButtonText = document.querySelector('#sendButtonText').text;
-/* animatie */
-var blokieLocatie = ['translateX(-506px)', 'translateX(-758px)', 'translateX(-1006px)', 'translateX(0px)'];
 
 // functie secondes naar tijd String
 function sec2time(timeInSeconds) {
