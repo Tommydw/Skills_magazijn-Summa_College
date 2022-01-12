@@ -1,17 +1,29 @@
 function updateDisplay(){
     // document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2); // print JSON in html
-    if (Jdata.state.order.kleur == "rood") document.getElementById('statusSystem').src = statusMagazijn[1].src;
-    else if (Jdata.state.order.kleur == "zwart") document.getElementById('statusSystem').src = statusMagazijn[2].src;
-    else if (Jdata.state.order.kleur == "zilver") document.getElementById('statusSystem').src = statusMagazijn[3].src;
+    if (Jdata.state.order.kleur == "rood"){
+        document.getElementById('statusSystem').src = statusMagazijn[1].src;
+        document.getElementById('blokie').src = blokje[0].src;
+        document.getElementById('blokie').style.animation = 'blokje1 2s ease-out infinite';
+    }
+    else if (Jdata.state.order.kleur == "zwart"){
+        document.getElementById('statusSystem').src = statusMagazijn[2].src;
+        document.getElementById('blokie').src = blokje[1].src;
+        document.getElementById('blokie').style.animation = 'blokje2 2.5s ease-out infinite';
+    }
+    else if (Jdata.state.order.kleur == "zilver"){
+        document.getElementById('statusSystem').src = statusMagazijn[3].src;
+        document.getElementById('blokie').src = blokje[2].src;
+        document.getElementById('blokie').style.animation = 'blokje3 3s ease-out infinite';
+    }
 }
 function updateBlokje(){
     if (document.getElementById('Rood').checked) document.getElementById('hetBlokje').src = blokje[0].src;
     else if (document.getElementById('Zwart').checked) document.getElementById('hetBlokje').src = blokje[1].src;
     else if (document.getElementById('Zilver').checked) document.getElementById('hetBlokje').src = blokje[2].src;
     if (document.getElementById('Deksel').checked) document.getElementById('deDeksel').src = blokje[3].src;
-    else document.getElementById('deDeksel').src = blokje[5].src;
+    else if(document.getElementById('deDeksel').src != blokje[5].src) document.getElementById('deDeksel').src = blokje[5].src;
     if (document.getElementById('Muntje').checked) document.getElementById('hetMuntje').src = blokje[4].src;
-    else document.getElementById('hetMuntje').src = blokje[5].src;
+    else if (document.getElementById('hetMuntje').src != blokje[5].src) document.getElementById('hetMuntje').src = blokje[5].src;
 }
 
 function sendOrder(){

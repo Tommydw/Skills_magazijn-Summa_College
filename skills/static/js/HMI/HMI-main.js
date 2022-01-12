@@ -27,6 +27,8 @@ var oldTimeColor = document.querySelector('#time').style.color;
 var oldSendButtonCLR = document.querySelector('#sendButton').style.getPropertyValue('--clr');
 var oldSendButtonFGC = document.querySelector('#sendButton').style.getPropertyValue('--fgc');
 var oldSendButtonText = document.querySelector('#sendButtonText').text;
+/* animatie */
+var blokieLocatie = ['translateX(-506px)', 'translateX(-758px)', 'translateX(-1006px)', 'translateX(0px)'];
 
 // functie secondes naar tijd String
 function sec2time(timeInSeconds) {
@@ -83,13 +85,13 @@ function zoomScreen(){
         document.getElementsByClassName('form')[0].style.zoom = 1;
     }
 
-    var statusWindowWidth = document.getElementsByClassName('statusWindow')[0].offsetWidth;
-    if (statusWindowWidth + 30 > screen.width){
-        document.getElementsByClassName('statusWindow')[0].style.zoom = (screen.width - 30) / statusWindowWidth;
+    var statusWindowWidth = document.getElementsByClassName('statusBox')[0].offsetWidth;
+    if (1000 > statusWindowWidth){
+        document.getElementsByClassName('statusWindow')[0].style.zoom = statusWindowWidth / 1440;
     }
     else
     {
-        document.getElementsByClassName('statusWindow')[0].style.zoom = (1000 - 30) / statusWindowWidth;
+        document.getElementsByClassName('statusWindow')[0].style.zoom = 1000 / 1440;
     }
 }
 
@@ -250,6 +252,7 @@ $(document).ready(function() {
                                     'status/mag3.png']);
     updateBlokje();       
     document.getElementById('statusSystem').src = statusMagazijn[0].src;
+    document.getElementById('blokie').src = blokje[5].src;
 });
 
 // als de screen-size word aangepast, word er opnieuw de verhouding berekend

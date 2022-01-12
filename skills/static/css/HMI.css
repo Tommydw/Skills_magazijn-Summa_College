@@ -314,8 +314,49 @@
     margin-bottom: 3%;
 }
 
-.statusWindow{
-    width: 1440px;
+.statusBox{
+    /* padding: 20px 40px; */
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    overflow: hidden;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.statusBox .statusWindow{
     max-width: 1440px;
-    margin: 20px 40px;
+    /* margin: 20px 40px; */
+}
+
+.statusWindow .blokie{
+    position: absolute;
+    left: 1340px;
+    bottom: 96px;
+    z-index: 1;
+}
+
+@keyframes blokje1 {
+    100%{
+        transform: translateX(0px);
+    }
+    0%{
+        transform: translateX(-506px);
+    }
+}
+@keyframes blokje2 {
+    100%{
+        transform: translateX(0px);
+    }
+    0%{
+        transform: translateX(-758px);
+    }
+}
+@keyframes blokje3 {
+    100%{
+        transform: translateX(0px);
+    }
+    0%{
+        transform: translateX(-1006px);
+    }
 }
