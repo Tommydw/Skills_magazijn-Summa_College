@@ -19,6 +19,7 @@ let clientTime;
 var connected = false;
 var requested = false;
 var buttonEnable = false;
+var buttonPushed = false;
 var startingDone = false;
 /* temp */
 var blokje;
@@ -121,7 +122,7 @@ socket.on('data', function(data){
             updateTijd = waitTime + Jdata.users.indexOf(socket.id);
             oldClientTime = (clientTimeMS() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
             updateDisplay();
-            if (Jdata.state.error) buttonEnable = false; 
+            if (Jdata.state.error || (!Jdata.state.master && !Jdata.io.PLCactief)) buttonEnable = false; 
             else buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
 
             if (!Jdata.state.order.orderActive){
@@ -179,7 +180,8 @@ setInterval(()=> {
     }
 
     try{
-        if ( Jdata.state.error)
+        // in error modes
+        if (Jdata.state.error)
         {
                 document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
                 document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
@@ -187,22 +189,51 @@ setInterval(()=> {
         }
         else
         {
-            if (buttonEnable)
+            // slave
+            if (!Jdata.state.master)
             {
+                if (Jdata.io.PLCerror)
+                {
+                    document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
+                    document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
+                    document.querySelector('#sendButtonText').text = 'PLC error!';
+                }
+                if (Jdata.io.PLCactief || Jdata.io.PLCbusy)
+                {
+                    if (!Jdata.io.PLCactief)
+                    {
+                        document.querySelector('#sendButton').style.setProperty('--clr', '#000');
+                        document.querySelector('#sendButton').style.setProperty('--fgc', '#111');
+                        document.querySelector('#sendButtonText').text = 'Verwerken...';
+                    }
+                }
+                else
+                {
+                    document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
+                    document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
+                    document.querySelector('#sendButtonText').text = 'PLC niet aanwezig!'
+                }
+                
+            }
+            // master
+            // klaar voor een order
+            else if (buttonEnable)
+            {
+                // voorraad controle
                 if (Jdata.state.stock.mag1 == 0 && Jdata.state.stock.mag2 == 0 && Jdata.state.stock.mag3 == 0)
                 {
                     document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
                     document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
                     document.querySelector('#sendButtonText').text = 'Magazijnen leeg!';
                 }
-                else
+                else // alles OK
                 {
                     document.querySelector('#sendButton').style.setProperty('--clr', oldSendButtonCLR);
                     document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
                     document.querySelector('#sendButtonText').text = oldSendButtonText;
                 }
             }
-            else 
+            else // bezig met een order
             {
                 document.querySelector('#sendButton').style.setProperty('--clr', '#000');
                 document.querySelector('#sendButton').style.setProperty('--fgc', '#111');
@@ -217,9 +248,6 @@ setInterval(()=> {
         document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
         document.querySelector('#sendButtonText').text = oldSendButtonText;
     }
-    
-        
-
 },100);
 
 // stuur om de 10 sec een bericht naar der server om te bevestigen dat de client online is

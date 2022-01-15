@@ -23,35 +23,35 @@ function updateDisplay(){
 
     if (Jdata.io.mag1)
     {
-        document.getElementById('magEen').style.position = 'absolute';
-        document.getElementById('magEenText').style.position = 'absolute';
+        document.getElementById('magEen').style.display = 'block';
+        document.getElementById('magEenText').style.display = 'block';
     }
     else
     {
-        document.getElementById('magEen').style.position = '';
-        document.getElementById('magEenText').style.position = '';
+        document.getElementById('magEen').style.display = 'none';
+        document.getElementById('magEenText').style.display = 'none';
     }
 
     if (Jdata.io.mag2)
     {
-        document.getElementById('magTwee').style.position = 'absolute';
-        document.getElementById('magTweeText').style.position = 'absolute';
+        document.getElementById('magTwee').style.display = 'block';
+        document.getElementById('magTweeText').style.display = 'block';
     }
     else
     {
-        document.getElementById('magTwee').style.position = '';
-        document.getElementById('magTweeText').style.position = '';
+        document.getElementById('magTwee').style.display = 'none';
+        document.getElementById('magTweeText').style.display = 'none';
     }
 
     if (Jdata.io.mag3)
     {
-        document.getElementById('magDrie').style.position = 'absolute';
-        document.getElementById('magDrieText').style.position = 'absolute';
+        document.getElementById('magDrie').style.display = 'block';
+        document.getElementById('magDrieText').style.display = 'block';
     }
     else
     {
-        document.getElementById('magDrie').style.position = '';
-        document.getElementById('magDrieText').style.position = '';
+        document.getElementById('magDrie').style.display = 'none';
+        document.getElementById('magDrieText').style.display = 'none';
     }
 
     if (Jdata.state.stock.mag1 == 0){
@@ -98,6 +98,11 @@ function updateBlokje(){
     else if (document.getElementById('hetMuntje').src != blokje[5].src) document.getElementById('hetMuntje').src = blokje[5].src;
 }
 
+function warning(text){
+    console.warn(text);
+    alert(text);
+}
+
 function sendOrder(){
     var rood = document.getElementById('Rood').checked;
     var zwart = document.getElementById('Zwart').checked;
@@ -110,7 +115,8 @@ function sendOrder(){
     if (buttonEnable && 
         !Jdata.state.error && 
         !(Jdata.state.stock.mag1 == 0 && Jdata.state.stock.mag2 == 0 && Jdata.state.stock.mag3 == 0) &&
-        (rood || zwart || zilver)
+        (rood || zwart || zilver) &&
+        !(!Jdata.state.master && !Jdata.io.PLCactief)
         )
     {
         buttonEnable = false;
@@ -131,12 +137,13 @@ function sendOrder(){
             alert('Error modus is actief!');
         }
         else if(Jdata.state.stock.mag1 == 0 && Jdata.state.stock.mag2 == 0 && Jdata.state.stock.mag3 == 0)
-        {
-            alert('Geen vooraad meer in het magazijnen');
-            console.warn('Geen vooraad meer in het magazijnen');
-        }
-        else if (!(rood || zwart || zilver)) alert('Geen kleur geselecteerd!')
-        else console.log('Wachten op vorige bevestiging');
+            warning('Geen vooraad meer in het magazijnen');
+        else if (!(rood || zwart || zilver)) 
+            warning('Geen kleur geselecteerd!')
+        else if (!Jdata.state.master && !Jdata.io.PLCactief)
+            warning('PLC is nog niet klaar, wachten op PLCactief signaal');
+        else 
+            warning('Wachten op vorige bevestiging');
     }
         
 }

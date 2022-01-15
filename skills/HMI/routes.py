@@ -7,6 +7,26 @@ import json, time, copy
 from skills.terminalColors import server_error, server_info, server_log
 hmi = Blueprint('hmi', __name__, template_folder='./Templates')
 
+# render HMI (home) template
+@hmi.route("/")
+def start():
+    masterState = request.args.get('master')
+    if masterState == 'jip':
+        DATA['state']['master'] = True  
+    elif masterState == 'nope' :
+        DATA['state']['master'] = False
+    return render_template('hmi.html', title='HMI')
+
+# onderhoud spagina 
+@hmi.route("/onderhoud")
+def onderhoud():
+    # reset by URL = URL?reset_error=jip
+    resetSate = request.args.get('reset_error')
+    if resetSate == 'jip': 
+        clearErrors()
+    return render_template('onderhoud.html',  title='Onderhoud')
+
+
 # krijg socket_connect van client
 @socket_.on('socket_connect', namespace='/hmi')
 @socket_.on('socket_connect', namespace='/hmi/onderhoud')
@@ -69,28 +89,35 @@ def getData(oldData, getType):
 @socket_.on('order', namespace='/hmi')
 @socket_.on('order', namespace='/hmi/onderhoud')
 def getOrder(order):
-    server_log(str(order))
-    DATA['state']['order']['kleur'] = order['kleur']
-    DATA['state']['order']['deksel'] = order['deksel']
-    DATA['state']['order']['muntje'] = order['muntje']
-    DATA['state']['order']['orderActive'] = True
-    getData({''}, 'full')  
-    # schrijf gpio als master = True
-    if DATA['state']['master']:
-        rpi.write('deksel', order['deksel'])
-        rpi.write('muntje', order['muntje'])
-        # schrijf 01 = rood
-        if order['kleur'] == 'rood':
-            rpi.write('Kleur1', True)
-            rpi.write('Kleur2', False)
-        # schrijf 10 = zwart
-        elif order['kleur'] == 'zwart':
-            rpi.write('Kleur1', False)
-            rpi.write('Kleur2', True)
-        # schrijf 11 = zilver
-        elif order['kleur'] == 'zilver':
-            rpi.write('Kleur1', True)
-            rpi.write('Kleur2', True)
+    if not DATA['state']['order']['orderActive']:
+        if DATA['state']['master'] or (not DATA['state']['master'] and DATA['io']['PLCactief']):
+            server_log(str(order))
+            DATA['state']['order']['kleur'] = order['kleur']
+            DATA['state']['order']['deksel'] = order['deksel']
+            DATA['state']['order']['muntje'] = order['muntje']
+            DATA['state']['order']['orderActive'] = True
+            getData({''}, 'full')  
+
+            rpi.write('deksel', order['deksel'])
+            rpi.write('muntje', order['muntje'])
+            # schrijf 01 = rood
+            if order['kleur'] == 'rood':
+                rpi.write('Kleur1', True)
+                rpi.write('Kleur2', False)
+            # schrijf 10 = zwart
+            elif order['kleur'] == 'zwart':
+                rpi.write('Kleur1', False)
+                rpi.write('Kleur2', True)
+            # schrijf 11 = zilver
+            elif order['kleur'] == 'zilver':
+                rpi.write('Kleur1', True)
+                rpi.write('Kleur2', True)
+                
+            rpi.write('check', True)
+        else:
+            server_error('PLC is niet actief (PLCready)')
+    else:
+        server_info('Er is al een order bezig')
     return
 
 # dev mode
@@ -116,20 +143,3 @@ def clearErrors():
     DATA['state']['errorActive'] = False
     server_info('Reset error')
     return
-
-# render HMI (home) template
-@hmi.route("/")
-def start():
-    masterState = request.args.get('master')
-    if masterState == 'jip':
-        DATA['state']['master'] = True  
-    elif masterState == 'nope' :
-        DATA['state']['master'] = False
-    return render_template('hmi.html', title='HMI')
-
-@hmi.route("/onderhoud")
-def onderhoud():
-    resetSate = request.args.get('reset_error')
-    if resetSate == 'jip': 
-        clearErrors()
-    return render_template('onderhoud.html',  title='Onderhoud')

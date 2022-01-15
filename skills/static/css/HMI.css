@@ -195,6 +195,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
 }
   
 .glowingButton:hover
@@ -214,6 +215,11 @@
     width: 40px;
     height: 4000%;
     background: var(--clr);
+    
+    -webkit-transition: background 2s ease-out;
+    -moz-transition: background 2s ease-out;
+    -o-transition: background 2s ease-out;
+    transition: background 2s ease-out;
     /* background: blue; */
     transition: 1s;
     animation: animate 5s linear infinite;
@@ -288,6 +294,7 @@
     align-items: center;
     overflow: hidden;
     width: 304px;
+    min-width: 304px;
     /* margin: 5px;
     margin: var(--contentDistance);
     border-radius: 8px;
@@ -334,19 +341,22 @@
     display: inline-flex;
     justify-content: center;
     flex-direction: column;
+    overflow: hidden;
+    margin-bottom: 50px;
 }
 
 .statusBox .statusWindow{
     width: fit-content;
-    overflow: hidden;
+    /* overflow: hidden; */
     max-width: 1440px;
     /* margin: 20px 40px; */
+    margin-bottom: -5px;
 }
 
 .statusWindow .blokie{
     position: absolute;
     left: 1234px;
-    bottom: 96px;
+    bottom: 91px;
     z-index: 1;
 }
 .orderInfo{
@@ -393,10 +403,12 @@
 }
 
 .led-red-on {
-    /* position: absolute; */
+    position: absolute;
+    display: none;
     width: 50px;
     height: 50px;
-    top: 107px;
+    /* top: 107px; */
+    bottom: 469px;
     background-color: #ff2424;
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #ff3f3f 0.5px 0.5px 7px;
@@ -407,13 +419,14 @@
     position: none;
     animation: flash 1s ease-in-out infinite;
 }
-.infoText{
-    position: none;
+.warnText{
+    position: absolute;
+    display: none;
     color: red;
-    /* position: absolute; */
-    top: 161px;
+    /* top: 161px; */
+    bottom: 407px;
     transform: translateX(-38px);
-    font-size: 2rem;
+    font-size: 29px;
 }
 
 @keyframes flash{
@@ -432,4 +445,15 @@
 }
 .magDrie{
     left: 260px;
+}
+
+.infoText{
+    position: absolute;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 30px;
+    font-weight: 100;
+    font-variant-caps: all-petite-caps;
+    margin: 0;
+    transform: translateX(-6px);
+    bottom: 515px;
 }
