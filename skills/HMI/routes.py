@@ -2,6 +2,7 @@ from skills import flaskapp, rpi, socket_, SOCKET_INFO
 from flask_socketio import SocketIO, emit, namespace, send, disconnect
 from flask import render_template, Blueprint, request
 from data import DATA, PINNEN
+from skills.loop import running, start_time, write_high, blokjes_op_band, end_time, detect, order_compleet, detectBokje, detectPLC
 import json, time, copy
 
 from skills.terminalColors import server_error, server_info, server_log
@@ -141,5 +142,15 @@ def toggleSate(name):
 def clearErrors():
     DATA['state']['error'] = False
     DATA['state']['errorActive'] = False
+    DATA['state']['order']['orderActive'] = False
+    
+    rpi.write('check', False)
+    rpi.write('deksel', False)
+    rpi.write('muntje', False)
+    rpi.write('Kleur1', False)
+    rpi.write('Kleur2', False)
+    DATA['state']['order']['kleur'] = ''
+    DATA['state']['order']['deksel'] = False
+    DATA['state']['order']['muntje'] = False
     server_info('Reset error')
     return

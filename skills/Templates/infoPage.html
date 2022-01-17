@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block titel %}{{titel}}{%endblock%}
 {% block content%}
-<link rel='stylesheet' type="text/css" href='static/css/infoPage.css'>
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/infoPage.css') }}">
 
 <div id="stars2"></div>
 <div id="stars3"></div>
@@ -9,40 +9,36 @@
 
 <body>
     <div class="maxSize">
-            
         <div class="magicCard">
             <div class="box">
                 <span></span>
                 <div class='content'>
                     <div class="cardPicture">
-                        <img src='static/photos/background1.jpg' height="200" width="150">
+                        <img style="margin: -30px 0;" src="{{ url_for('static', filename='icons/onderhoud.png') }}" height="200" width="200">
                     </div>
-                    <h2>Naam van persoon</h2>
-                    <p>Leeftijd: xx
-                    </p>
+                    <h2>Onderhoudspagina</h2>
+                    <p>Wat is de onderhoudspagina en wat is Developer mode/settings</p>
                     <div class='hidden'>
-                        <p>hier kan nog wat extra informatie over de persoon in de foto
-                        </p>
-                        <!-- <div id='cardButton' style="--clr:#ff6600;--i:0;--fgc:#d48206;"><a>Button</a></div> -->
+                        <p></p>
+                        <a id="onderhoudsURL" href="">Link naar de onderhoudspagina</a>
                     </div>
-                    <a href="#">Go to</a>
                 </div>
             </div>
             <div class="box">
                 <span></span>
                 <div class='content'>
                     <div class="cardPicture">
-                        <img src='static/photos/background1.jpg' height="200" width="150">
+                        <img style="margin: -30px 0;" src="{{ url_for('static', filename='icons/reset.png') }}" height="200" width="200">
                     </div>
-                    <h2>Naam van persoon</h2>
-                    <p>Leeftijd: xx
-                    </p>
+                    <h2>Resetprocedure</h2>
+                    <p>Hoe moet je reseten</p>
                     <div class='hidden'>
-                        <p>hier kan nog wat extra informatie over de persoon in de foto
-                        </p>
-                        <!-- <div id='cardButton' style="--clr:#ff6600;--i:0;--fgc:#d48206;"><a>Button</a></div> -->
+                        <p>Wanneer het magazijn in Error modes staat, moet deze gereset worden om verder te kunnen. 
+                        Los eerst het probleem op. 
+                        Ga dan naar de onderhoudspagina en kontroleer of het probleem is opgelost. 
+                        Activeer 'Developer mode', nu zal een knop 'Clear errors' verschijnen.</p>
+                        <a id="resetURL" href="">Reset hier om meteen te resetten</a>
                     </div>
-                    <a href="#">Go to</a>
                 </div>
             </div>
             <div class="box">
@@ -53,7 +49,7 @@
                         vnskjfvbasldbvlfsdav dg df
                         gstdgs dgs rebfirbg dfbgsf dsh fthdhdzhz zhbs
                     </p>
-                    <a href="#">Go to</a>
+                    <a href="{{ url_for('static', filename='docs/Slave-protocol.pdf') }}" target="_blank">Go to</a>
                 </div>
             </div>
         </div>
@@ -64,6 +60,7 @@
 <script>
     $(document).ready(function() {
         $('#loading').hide();  
+        document.getElementById("resetURL").href = window.location.href.replace("/info", "/hmi/onderhoud?reset_error=jip");
     });
 </script>
 {%endblock%}

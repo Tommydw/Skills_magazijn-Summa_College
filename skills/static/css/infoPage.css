@@ -125,7 +125,7 @@
 
 .magicCard .box:hover span::before
 {
-    top: -120px;
+    top: -80px;
     left: -50px;
     width: 100px;
     height: 100px;
@@ -173,6 +173,7 @@
 
 .magicCard .box .content
 {
+
     position: relative;
     left: 0;
     padding: 20px 40px;
@@ -211,6 +212,7 @@
     left: -25px;
     transition: 0.5s;
     padding: 60px 40px;
+
 }
 
 @keyframes showing
@@ -230,8 +232,9 @@
 .magicCard .box:hover .content h2
 {
     font-size: 2em;
-    color: #fff;
+    color: rgb(29 29 29);
     margin-bottom: 10px;
+    font-weight: bolder;
 }
 .magicCard .box:hover .content p
 {
@@ -250,18 +253,26 @@
     font-weight: 700;
     margin-top: 5px;
 }
+.magicCard .box .content a:hover
+{
+    color:#006492;
+}
 
 .magicCard .box .content h2
 {
-    font-size: 2.5em;
+    font-size: 2.2em;
+    color: rgb(29 29 29);
 }
 .magicCard .box .content p
 {
     font-size: 1.2em;
+    color: rgb(29 29 29);
 }
 .magicCard .box .content a
 {
-    font-size: 1.2em;
+    font-size: 1em;
+    color: rgb(29 29 29);
+    margin: 0 -15px;
 }
 
 

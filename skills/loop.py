@@ -6,7 +6,7 @@ import time, os, platform
 # init voor orderUitvoeren
 cilinder_uit_tijd   = 1 #sec
 cilinder_in_tijd    = 1 #sec
-band_off_delay      = 6 #sec
+band_off_delay      = 5 #sec
 blokjes_op_band = -1
 running = False
 write_high = True
@@ -28,9 +28,19 @@ def orderUitvoeren():
     global order_compleet
     global detectBokje
     global detectPLC
+    if DATA['state']['error']:
+        blokjes_op_band = -1
+        running = False
+        write_high = True
+        start_time = 0
+        end_time = []
+        detect = False
+        detectBokje = False
+        detectPLC = False
+        order_compleet = False
     
     # bij een nieuw order
-    if DATA['state']['order']['orderActive']:
+    elif DATA['state']['order']['orderActive']:
         '''### cilinders ###'''
         if not order_compleet:
             now_time = time.time()
@@ -74,22 +84,12 @@ def orderUitvoeren():
                     write_high = order_compleet = True
                     running = False
                     start_time = 0
-                                    
-                    # if DATA['state']['master']:
-                    #     # dan reset de order naar default
-                    #     rpi.write('deksel', False)
-                    #     rpi.write('muntje', False)
-                    #     rpi.write('Kleur1', False)
-                    #     rpi.write('Kleur2', False)
-                    #     DATA['state']['order']['kleur'] = ''
-                    #     DATA['state']['order']['deksel'] = False
-                    #     DATA['state']['order']['muntje'] = False
-            # else: 
-            #     '''### stap 3 fallback ###'''
-            #     # hier kom je als het goed is niet, anders reset loop 
-            #     running = False
-            #     write_high = True
-            #     start_time = 0
+            else: 
+                '''### stap 3 fallback ###'''
+                # hier kom je als het goed is niet, anders reset loop 
+                running = False
+                write_high = True
+                start_time = 0
         
         # slave
         if not DATA['state']['master']:
@@ -169,18 +169,24 @@ class magazijn():
             server_info('Magazijn 1 is bijna leeg (rood)')
         elif not DATA['io']['mag1']:
             DATA['state']['stock']['mag1'] = 2
+            if not DATA['state']['order']['orderActive'] and DATA['io']['cil1']:
+                rpi.write('cil1', False)
         # zwart
         if DATA['io']['mag2'] and DATA['state']['stock']['mag2'] == 2:
             DATA['state']['stock']['mag2'] = 1
             server_info('Magazijn 2 is bijna leeg (zwart)')
         elif not DATA['io']['mag2']:
             DATA['state']['stock']['mag2'] = 2
+            if not DATA['state']['order']['orderActive'] and DATA['io']['cil2']:
+                rpi.write('cil2', False)
         # zilver
         if DATA['io']['mag3'] and DATA['state']['stock']['mag3'] == 2:
             DATA['state']['stock']['mag3'] = 1
             server_info('Magazijn 3 is bijna leeg (zilver)')
         elif not DATA['io']['mag3']:
             DATA['state']['stock']['mag3'] = 2
+            if not DATA['state']['order']['orderActive'] and DATA['io']['cil3']:
+                rpi.write('cil3', False)
 
     def leegCheck():
         # als de sensor geen blokjes meer ziet, is er nog één mogelijkheid, daarna zijn ze op
@@ -197,6 +203,16 @@ class magazijn():
         if DATA['state']['stock']['mag3'] == 1 and DATA['state']['order']['kleur'] == 'zilver':
             DATA['state']['stock']['mag3'] = 0
             server_error("Magazijn 3 is leeg! (zilver)")
+
+    def leegState():
+        if DATA['state']['stock']['mag1'] == 0 and not DATA['io']['cil1']:
+            rpi.write('cil1', True)
+        if DATA['state']['stock']['mag2'] == 0 and not DATA['io']['cil2']:
+            rpi.write('cil2', True)
+        if DATA['state']['stock']['mag3'] == 0 and not DATA['io']['cil3']:
+            rpi.write('cil3', True)
+
+
 
 
 class loop:
@@ -255,3 +271,4 @@ class loop:
 
             orderUitvoeren()
             magazijn.Controle()
+            magazijn.leegState()
