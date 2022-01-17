@@ -116,7 +116,7 @@ function sendOrder(){
         !Jdata.state.error && 
         !(Jdata.state.stock.mag1 == 0 && Jdata.state.stock.mag2 == 0 && Jdata.state.stock.mag3 == 0) &&
         (rood || zwart || zilver) &&
-        !(!Jdata.state.master && !Jdata.io.PLCactief)
+        ((!Jdata.state.master && (Jdata.io.PLCactief && Jdata.io.PLCerror && !Jdata.io.PLCbusy)) || Jdata.state.master)
         )
     {
         buttonEnable = false;
@@ -134,13 +134,15 @@ function sendOrder(){
     {
         if (Jdata.state.error){
             console.error('Server staat in error modus!');
-            alert('Error modus is actief!');
+            alert('Error modus is actief! Ga naar de "Settings pagina" om Developer settings te activeren. Op de "onderhoudpagina" kan de Error modes worden gereset.');
         }
         else if(Jdata.state.stock.mag1 == 0 && Jdata.state.stock.mag2 == 0 && Jdata.state.stock.mag3 == 0)
             warning('Geen vooraad meer in het magazijnen');
         else if (!(rood || zwart || zilver)) 
             warning('Geen kleur geselecteerd!')
-        else if (!Jdata.state.master && !Jdata.io.PLCactief)
+        else if (!Jdata.state.master && !(Jdata.io.PLCactief || Jdata.io.PLCerror || Jdata.io.PLCbusy))
+            warning('De PLC is niet verbonden');
+        else if (!Jdata.state.master && !Jdata.io.PLCactief && Jdata.io.PLCbusy)
             warning('PLC is nog niet klaar, wachten op PLCactief signaal');
         else 
             warning('Wachten op vorige bevestiging');

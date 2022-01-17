@@ -183,37 +183,73 @@ setInterval(()=> {
         // in error modes
         if (Jdata.state.error)
         {
+            if (!Jdata.state.master && !Jdata.io.PLCerror)
+            {
+                document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
+                document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
+                document.querySelector('#sendButtonText').text = 'PLC error!';
+            }
+            else // in master
+            {
                 document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
                 document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
                 document.querySelector('#sendButtonText').text = 'Error mode!';
+            }
+                
         }
         else
         {
             // slave
             if (!Jdata.state.master)
             {
-                if (Jdata.io.PLCerror)
+                if (!Jdata.io.PLCerror)
                 {
-                    document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
-                    document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
-                    document.querySelector('#sendButtonText').text = 'PLC error!';
-                }
-                if (Jdata.io.PLCactief || Jdata.io.PLCbusy)
-                {
-                    if (!Jdata.io.PLCactief)
+                    // kijken of een signaal is, zo niet, dan is de plc niet verbonden
+                    if (!(Jdata.io.PLCactief || Jdata.io.PLCbusy || Jdata.io.PLCerror))
                     {
+                        document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
+                        document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
+                        document.querySelector('#sendButtonText').text = 'PLC niet aanwezig!';
+                    }
+                    else
+                    {
+                        document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
+                        document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
+                        document.querySelector('#sendButtonText').text = 'PLC error!';
+                    }
+                    
+                }
+                else if (Jdata.io.PLCactief || Jdata.io.PLCbusy)
+                {
+                    if (Jdata.io.PLCbusy || !buttonEnable)
+                    {   // bezig
                         document.querySelector('#sendButton').style.setProperty('--clr', '#000');
                         document.querySelector('#sendButton').style.setProperty('--fgc', '#111');
                         document.querySelector('#sendButtonText').text = 'Verwerken...';
+                    }
+                    else if (Jdata.io.PLCactief && !Jdata.io.PLCbusy && buttonEnable)
+                    {
+                        // voorraad controle
+                        if (Jdata.state.stock.mag1 == 0 && Jdata.state.stock.mag2 == 0 && Jdata.state.stock.mag3 == 0)
+                        {
+                            document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
+                            document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
+                            document.querySelector('#sendButtonText').text = 'Magazijnen leeg!';
+                        }
+                        else // alles OK
+                        {
+                            document.querySelector('#sendButton').style.setProperty('--clr', oldSendButtonCLR);
+                            document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
+                            document.querySelector('#sendButtonText').text = oldSendButtonText;
+                        }
                     }
                 }
                 else
                 {
                     document.querySelector('#sendButton').style.setProperty('--clr', '#b00');
                     document.querySelector('#sendButton').style.setProperty('--fgc', '#800');
-                    document.querySelector('#sendButtonText').text = 'PLC niet aanwezig!'
-                }
-                
+                    document.querySelector('#sendButtonText').text = 'PLC is niet klaar!';
+                }              
             }
             // master
             // klaar voor een order
@@ -244,9 +280,9 @@ setInterval(()=> {
     catch
     {
         buttonEnable = false;
-        document.querySelector('#sendButton').style.setProperty('--clr', oldSendButtonCLR);
-        document.querySelector('#sendButton').style.setProperty('--fgc', oldSendButtonFGC);
-        document.querySelector('#sendButtonText').text = oldSendButtonText;
+        document.querySelector('#sendButton').style.setProperty('--clr', '#000');
+        document.querySelector('#sendButton').style.setProperty('--fgc', '#111');
+        document.querySelector('#sendButtonText').text = 'Verwerken...';
     }
 },100);
 

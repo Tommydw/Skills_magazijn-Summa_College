@@ -1,4 +1,3 @@
-from sqlite3 import DatabaseError
 from skills import SOCKET_INFO, routes, rpi
 from skills.terminalColors import server_info, server_log, server_error, colors
 from data import DATA, PINNEN
@@ -12,7 +11,7 @@ blokjes_op_band = -1
 running = False
 write_high = True
 start_time = 0
-end_time = 0
+end_time = []
 detect = False
 detectBokje = False
 detectPLC = False
@@ -116,13 +115,13 @@ def orderUitvoeren():
             DATA['state']['order']['kleur'] = ''
             DATA['state']['order']['deksel'] = False
             DATA['state']['order']['muntje'] = False
-            
-    # TODO overbodig???
-    # else:
-    #     '''### stap 3 ###'''
-    #     running = False
-    #     write_high = True
-    #     start_time = 0
+    else:
+        '''### stap 3 ###'''
+        running = False
+        write_high = True
+        start_time = 0
+
+
     '''### Lopende band ###'''        
     # als er een blokje op de band is 
     if blokjes_op_band > 0:
@@ -141,15 +140,17 @@ def orderUitvoeren():
                 # DATA['state']['order']['orderActive'] = order_compleet = False # order klaar, volgende mag besteld worden
         # als de sensor weer laag gaat
         elif detect:
-                end_time = Time # (her)start timer om de band uit te schakelen
-                detectBokje = True
-                detect = False # reset eenmalig proces
+            end_time.append(Time) # (her)start timer om de band uit te schakelen
+            detectBokje = True
+            detect = False # reset eenmalig proces
             
         # timer om de band uit te schakelen
-        if end_time <= Time - band_off_delay and not end_time == 0 and end_time >= Time - band_off_delay - 0.1:
-            blokjes_op_band -= 1
-            end_time = 0 # reset start timer
-            server_log('Aantal blokjes nu: {0}'.format(blokjes_op_band))
+        # if end_time <= Time - band_off_delay and not end_time == 0 and end_time >= Time - band_off_delay - 0.1:
+        for endTims in end_time:
+            if endTims <= Time - band_off_delay and endTims >= Time - band_off_delay - 0.1:
+                blokjes_op_band -= 1
+                end_time.pop(end_time.index(endTims)) # reset start timer
+                server_log('Aantal blokjes nu: {0}'.format(blokjes_op_band))
     
     # als er geen blokjes op de band zijn, maar de moter wel aan is
     elif DATA['io']['motor'] and blokjes_op_band == 0:
@@ -231,13 +232,16 @@ class loop:
             # read GPIO    
             for pin in PINNEN:
                 if PINNEN[pin]['direction'] == 'input':
-                    DATA['io'][pin] = rpi.read(pin, overwrite=DATA['state']['devMode'])
+                    if pin.__contains__('PLC'):
+                        DATA['io'][pin] = rpi.read(pin, overwrite=True)
+                    else:
+                        DATA['io'][pin] = rpi.read(pin, overwrite=DATA['state']['devMode'])
             
             # zet error aan als een deurtje open gaat 
-            if (not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop'] or (not DATA['state']['master'] and DATA['io']['PLCerror'])) and not DATA['state']['errorActive'] and OS == 'Linux':
+            if (not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop'] or (not DATA['state']['master'] and not DATA['io']['PLCerror'])) and not DATA['state']['errorActive'] and OS == 'Linux':
                 DATA['state']['errorActive'] = True
                 error_time = time.time()
-            elif DATA['io']['mcp1Noodstop'] and DATA['io']['mcp2Noodstop']: DATA['state']['errorActive'] = False
+            elif DATA['io']['mcp1Noodstop'] and DATA['io']['mcp2Noodstop'] and not (not DATA['state']['master'] and not DATA['io']['PLCerror']): DATA['state']['errorActive'] = False
             if time.time() - error_time > 0.05 and DATA['state']['errorActive']:
                 DATA['state']['error'] = True
             

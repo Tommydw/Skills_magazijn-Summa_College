@@ -167,6 +167,8 @@ pre {padding: 5px; margin: 5px; }
 /* leds */
 .led-blue-off {
     /* margin: 0 auto; */
+    display: block;
+    position: inherit;
     width: 24px;
     height: 24px;
     background-color: #137281;
@@ -176,6 +178,8 @@ pre {padding: 5px; margin: 5px; }
 
 .led-blue-on {
     /* margin: 0 auto; */
+    display: block;
+    position: inherit;
     width: 24px;
     height: 24px;
     background-color: #24E0FF;
@@ -184,6 +188,8 @@ pre {padding: 5px; margin: 5px; }
 }
 .led-orange-off {
     /* margin: 0 auto; */
+    display: block;
+    position: inherit;
     width: 24px;
     height: 24px;
     background-color: #815e13;
@@ -193,6 +199,8 @@ pre {padding: 5px; margin: 5px; }
 
 .led-orange-on {
     /* margin: 0 auto; */
+    display: block;
+    position: inherit;
     width: 24px;
     height: 24px;
     background-color: #ffbe00;
@@ -201,6 +209,8 @@ pre {padding: 5px; margin: 5px; }
 }
 .led-green-off {
     /* margin: 0 auto; */
+    display: block;
+    position: inherit;
     width: 24px;
     height: 24px;
     background-color: #13811c;
@@ -210,6 +220,8 @@ pre {padding: 5px; margin: 5px; }
 
 .led-green-on {
     /* margin: 0 auto; */
+    display: block;
+    position: inherit;
     width: 24px;
     height: 24px;
     background-color: #24ff2b;
@@ -218,6 +230,8 @@ pre {padding: 5px; margin: 5px; }
 }
 .led-red-off {
     /* margin: 0 auto; */
+    display: block;
+    position: inherit;
     width: 24px;
     height: 24px;
     background-color: #811313;
@@ -227,6 +241,8 @@ pre {padding: 5px; margin: 5px; }
 
 .led-red-on {
     /* margin: 0 auto; */
+    display: block;
+    position: inherit;
     width: 24px;
     height: 24px;
     background-color: #ff2424;
