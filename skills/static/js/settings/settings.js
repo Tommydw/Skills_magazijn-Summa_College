@@ -184,4 +184,11 @@ $(document).ready(function() {
         // stuur socket_connect naar backend
         socket.emit('socket_connect');        
     }); 
+
+    var statusWindowWidth = document.getElementsByClassName('settingbox')[0].offsetWidth - 40;
+    if (screen.width < statusWindowWidth)
+        document.getElementsByClassName('settingswitches')[0].style.zoom = screen.width / statusWindowWidth;
+
+    else
+        document.getElementsByClassName('settingswitches')[0].style.zoom = 1;
 });

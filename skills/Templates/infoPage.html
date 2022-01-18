@@ -19,7 +19,9 @@
                     <h2>Onderhoudspagina</h2>
                     <p>Wat is de onderhoudspagina en wat is Developer mode/settings</p>
                     <div class='hidden'>
-                        <p></p>
+                        <p>Op de onderhoudspagina kan je de status van het magazijn zien. Ook kan je de status van alle in en outputs zien. 
+                            Wanneer Developer mode is geactiveerd, is het mogelijk om de outputs te schakelen op de onderhoudspagina, ook zullen er meer opties beschiktbaar zijn op de website. (in Developer mode kan je ook werken met het deurtje open, veel veiligheidfunties zijn dan uitgeschakeld!)
+                        </p>
                         <a id="onderhoudsURL" href="">Link naar de onderhoudspagina</a>
                     </div>
                 </div>
@@ -44,12 +46,17 @@
             <div class="box">
                 <span></span>
                 <div class='content'>
-                    <h2>Hoi</h2>
-                    <p>heel veel random text.
-                        vnskjfvbasldbvlfsdav dg df
-                        gstdgs dgs rebfirbg dfbgsf dsh fthdhdzhz zhbs
-                    </p>
-                    <a href="{{ url_for('static', filename='docs/Slave-protocol.pdf') }}" target="_blank">Go to</a>
+                    <div class="cardPicture" style="margin-top: 30px;">
+                        <img style="margin: -30px 0;" src="{{ url_for('static', filename='icons/node.png') }}" height="160" width="160">
+                    </div>
+                    <h2>Master - Slave</h2>
+                    <p>Slave-protocol</p>
+                    <div class='hidden'>
+                        <p>Het magazijn staat bij opstarten standaard in Master modes. Het magazijn reageert dan alleen op de website, maar zal wel status op de PLC connector geven.
+                            Wanneer het magazijn in Slave modes staat, wordt het magazijn afhankelijk van een exten apparaat. De communicatie en pinout staat beschereven in het Slave-protocol.
+                        </p>
+                        <a href="{{ url_for('static', filename='docs/Slave-protocol.pdf') }}" target="_blank">Slave-protocol.pdf</a>
+                    </div>
                 </div>
             </div>
         </div>
