@@ -297,7 +297,7 @@ setInterval(()=> {
             verwerkenDone = false;
             verwerkenTime = clientTime;
         }
-        if (verwerken && clientTime-verwerkenTime >= 30)
+        if (verwerken && clientTime-verwerkenTime >= 20)
         {
             document.getElementsByClassName('longLoader')[0].style.display = 'block';
             if (document.querySelector('#loaderimg').src != document.location.origin + '/static/icons/infiiteies_loading.gif') document.querySelector('#loaderimg').src = '/static/icons/infiiteies_loading.gif';
@@ -307,14 +307,14 @@ setInterval(()=> {
     {
         if (!verwerken && !verwerkenDone)
         {
-            if (document.querySelector('#loaderimg').src != document.location.origin + '/static/icons/delivery.gif' && !Jdata.state.devMode){
+            if (document.querySelector('#loaderimg').src != document.location.origin + '/static/icons/delivery.gif' && Jdata.state.devMode){
                 document.getElementsByClassName('longLoader')[0].style.display = 'block';
                 document.querySelector('#loaderimg').src = '/static/icons/delivery.gif';
                 setTimeout(()=>{
                     document.querySelector('#loaderimg').src = '';
                     document.getElementsByClassName('longLoader')[0].style.display = 'none';
                     verwerkenDone = true;
-                }, 2000);
+                }, 1700);
             }
         }else{
             verwerken = false;
@@ -369,6 +369,7 @@ $(document).ready(function() {
     updateBlokje();       
     document.getElementById('statusSystem').src = statusMagazijn[0].src;
     document.getElementById('blokie').src = blokje[5].src;
+    verwerkenDone = true;
 });
 
 // als de screen-size word aangepast, word er opnieuw de verhouding berekend

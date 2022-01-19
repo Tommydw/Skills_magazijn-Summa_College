@@ -28,7 +28,12 @@ socket_.init_app(flaskapp, cors_allowed_origins=[
     'http://raspberrypi.local:5000',
     'http://192.168.137.1:5000',
     'http://192.168.1.1:5000',
-    'http://127.0.0.1:5000'])
+    'http://127.0.0.1:5000',
+    'http://localhost',
+    'http://raspberrypi.local',
+    'http://192.168.137.1',
+    'http://192.168.1.1',
+    'http://127.0.0.1'])
 
 SOCKET_INFO = []
 
