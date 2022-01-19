@@ -24,11 +24,13 @@ var startingDone = false;
 /* temp */
 var blokje;
 var oldTimeColor = document.querySelector('#time').style.color;
+var verwerken = false;
+var verwerkenTime = 0;
+var verwerkenDone = true;
 /* get document data */
 var oldSendButtonCLR = document.querySelector('#sendButton').style.getPropertyValue('--clr');
 var oldSendButtonFGC = document.querySelector('#sendButton').style.getPropertyValue('--fgc');
 var oldSendButtonText = document.querySelector('#sendButtonText').text;
-
 // functie secondes naar tijd String
 function sec2time(timeInSeconds) {
     if (timeInSeconds < 60)
@@ -124,6 +126,9 @@ socket.on('data', function(data){
             updateDisplay();
             if (Jdata.state.error || (!Jdata.state.master && !Jdata.io.PLCactief)) buttonEnable = false; 
             else buttonEnable = !Jdata.state.order.orderActive; // maak de verzend button actief als er geen order is, en niet actief als er een order al geplaatst is
+            
+            if (Jdata.state.master) document.getElementById('masterState').textContent = 'Master';
+            else document.getElementById('masterState').textContent = 'Slave';
 
             if (!Jdata.state.order.orderActive){
                 document.getElementById('statusSystem').src = statusMagazijn[0].src;
@@ -284,7 +289,41 @@ setInterval(()=> {
         document.querySelector('#sendButton').style.setProperty('--fgc', '#111');
         document.querySelector('#sendButtonText').text = 'Verwerken...';
     }
+
+    if (document.querySelector('#sendButtonText').text == 'Verwerken...'){
+        if (!verwerken)
+        {
+            verwerken = true;
+            verwerkenDone = false;
+            verwerkenTime = clientTime;
+        }
+        if (verwerken && clientTime-verwerkenTime >= 30)
+        {
+            document.getElementsByClassName('longLoader')[0].style.display = 'block';
+            if (document.querySelector('#loaderimg').src != document.location.origin + '/static/icons/infiiteies_loading.gif') document.querySelector('#loaderimg').src = '/static/icons/infiiteies_loading.gif';
+        }
+    }
+    else
+    {
+        if (!verwerken && !verwerkenDone)
+        {
+            if (document.querySelector('#loaderimg').src != document.location.origin + '/static/icons/delivery.gif' && !Jdata.state.devMode){
+                document.getElementsByClassName('longLoader')[0].style.display = 'block';
+                document.querySelector('#loaderimg').src = '/static/icons/delivery.gif';
+                setTimeout(()=>{
+                    document.querySelector('#loaderimg').src = '';
+                    document.getElementsByClassName('longLoader')[0].style.display = 'none';
+                    verwerkenDone = true;
+                }, 2000);
+            }
+        }else{
+            verwerken = false;
+            document.getElementsByClassName('longLoader')[0].style.display = 'none';
+            document.querySelector('#loaderimg').src = '';
+        }
+    } 
 },100);
+
 
 // stuur om de 10 sec een bericht naar der server om te bevestigen dat de client online is
 setInterval(() => {

@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 {% block titel %}{{titel}}{%endblock%}
 {% block content%}
+<!-- import css -->
 <link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/HMI.css')}}">
 <body>
-    <!-- <div class='topInfo'>
-        <p id='timeText'>Time past: <b id='time'></b></p>
-        <p id='activeUsers'>Active users: <b id='users'></b></p>
-    </div> -->
     <!-- stricky info -->
     <div class='stickyInfo'>
         <p id='timeText'>Time past: <b id='time'></b></p>
         <p id='timeText'>Active users: <b id='users'></b></p>
     </div>
     <!-- end stricky info -->
-    <div id='content' class="HMIcontent"><!--class="container"> -->
+
+    <!-- card container -->
+    <div id='content' class="HMIcontent">
+        <!-- start card -->
+        <!-- order preview -->
         <div class="fotoBlokje hmicard">
+            <!-- header -->
             <h4>Order preview</h4>
             <div class="photos">
                 <img id="deDeksel"  height="50" width="300">
@@ -22,90 +24,114 @@
                 <img id="hetBlokje"  height="200" width="300">
             </div>
         </div>
+        <!-- end order preview -->
+        <!-- end card -->
+
+        <!-- start card -->
         <div class="options hmicard">
+            <!-- header -->
             <h4>Order </h4>
             <form class="form">
                 <div class="mycheckbox">
+                    <!-- start options -->
+                    <!-- deksel -->
                     <div class="inputGroup">
                         <input id="Deksel" name="option1" type="checkbox" onclick="updateBlokje();"/>
                         <label for="Deksel">Deksel</label>
                     </div>
-                    
+                    <!-- muntje -->
                     <div class="inputGroup">
                         <input id="Muntje" name="option2" type="checkbox" onclick="updateBlokje();"/>
                         <label for="Muntje">Muntje</label>
                     </div>
+                    <!-- end options -->
+
+                    <!-- color select -->
                     <div class="colorSelect">
+                        <!-- rood -->
                         <div id="roodBox" class="inputGroup">
                             <input id="Rood" name="radio" type="radio" onclick="updateBlokje();" checked/>
                             <label for="Rood">Rood</label>
                         </div>
+                        <!-- zwart -->
                         <div id="zwartBox" class="inputGroup">
                             <input id="Zwart" name="radio" type="radio" onclick="updateBlokje();"/>
                             <label for="Zwart">Zwart</label>
                         </div>
+                        <!-- zilver -->
                         <div id="zilverBox" class="inputGroup">
                             <input id="Zilver" name="radio" type="radio" onclick="updateBlokje();"/>
                             <label for="Zilver">Zilver</label>
                         </div>
                     </div>
+                    <!-- en color select -->
                 </div>
+                <!-- send button -->
                 <div id='sendButton' class='glowingButton' onclick="sendOrder();" style="--clr:#3822ff;--i:0;--fgc:#0000ff;">
                     <a id='sendButtonText'>Verzenden</a>
                 </div>
+                <!-- end send button -->
             </form>
         </div>
+        <!-- end card -->
+
+        <!-- start card -->
         <div class="statusBox hmicard">
-            <div class="orderInfo">
-                <b>Order info:</b>
-                <p id='orderInfo'></p>
+            <!-- order info header -->
+            <div style="display: inline-flex; justify-content: space-between;">
+                <!-- order info text -->
+                <div class="orderInfo">
+                    <b>Order info:</b>
+                    <p id='orderInfo'></p>
+                </div>
+
+                <!-- master state -->
+                <div class="masterState">
+                    <b>State:</b>
+                    <p id='masterState'></p>
+                </div>
             </div>
+            <!-- end order info header -->
+
+            <!-- info animation -->
             <div class="statusWindow">
                 <div style="display: inline-flex;">
+                    <!-- base image -->
                     <img id="statusSystem" width="1440" height="544">
+
+                    <!-- animation -->
                     <div style="width: 1440px; height:544px; position: absolute;">
                         <img class="blokie" id="blokie" width="180" height="120">
                     </div>
+
+                    <!-- mag warning -->
                     <div id='magEen' class="led-red-on magEen blink"></div>
                     <div id='magEenText' class='blink magEen warnText'><b>Hervullen</b></div>
                     <div id='magTwee' class="led-red-on magTwee blink"></div>
                     <div id='magTweeText' class='blink magTwee warnText'><b>Hervullen</b></div>
                     <div id='magDrie' class="led-red-on magDrie blink"></div>
                     <div id='magDrieText' class='blink magDrie warnText'><b>Hervullen</b></div>
+
+                    <!-- mag info -->
                     <p class="magEen infoText">Rood</p>
                     <p class="magTwee infoText">Zwart</p>
                     <p class="magDrie infoText">Zilver</p>
                 </div>
+                <!-- long loading -->
+                <!-- easter egg -->
+                <div class="longLoader">
+                    <img id="loaderimg" height="549">
+                </div>
+                <!-- end long loading -->
             </div>
+            <!-- end info animation -->
         </div>
-        
-
-        <!-- <div class='glowingButton' onclick="toggel();" style="--clr:#22aeff;--i:0;--fgc:#00d9ff;">
-            <a>Motor</a>
-        </div>
-        <div style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;">
-        <div class='glowingButton' onclick="cilinder1();" style="--clr:#ff0000;--i:0;--fgc:#bd0000;">
-            <a>Cilinder 1</a>
-        </div>
-        <div class='glowingButton' onclick="cilinder2();" style="--clr:#cec000;--i:0;--fgc:#babd00;">
-            <a>Cilinder 2</a>
-        </div>
-        <div class='glowingButton' onclick="cilinder3();" style="--clr:#09ff00;--i:0;--fgc:#00ac00;">
-            <a>Cilinder 3</a>
-        </div>-->
-    </div> 
-        <!-- <small><pre id='data'></pre></small>
-    </div> -->
+        <!-- end card -->
+   </div> 
+   <!-- end card container -->
 </body>
-<!-- <script>
-    $('#content').hide();
-    $('#loading').show();
-</script> -->
+<!-- import JavaScript -->
 <script src="{{ url_for('static', filename='js/HMI/HMI-main.js') }}"></script>
 <script src="{{ url_for('static', filename='js/HMI/HMI-controls.js') }}"></script>
-
+<!-- end import JavaScript -->
 {% endblock %}

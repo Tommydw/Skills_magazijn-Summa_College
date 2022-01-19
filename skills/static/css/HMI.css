@@ -359,6 +359,7 @@
     bottom: 91px;
     z-index: 1;
 }
+
 .orderInfo{
     display: inline-flex;
     align-items: center;
@@ -368,11 +369,24 @@
     margin-bottom: -3px;
     height: 50px;
 }
-.orderInfo b{
+
+.masterState{
+    display: inline-flex;
+    align-items: center;
+    width: max-content;
+    padding: 10px 20px;
+    padding-bottom: 7px;
+    margin-bottom: -3px;
+    height: 50px;
+    color: #bfbfbf;
+}
+
+.statusBox b{
     padding-right: 5px;
     margin: 5px 0;
 }
-.orderInfo p{
+
+.statusBox p{
     margin: 0;
     padding: 0;
 }
@@ -456,4 +470,24 @@
     margin: 0;
     transform: translateX(-6px);
     bottom: 515px;
+}
+
+.longLoader{
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: -5px;
+    width: 100%;
+    background-color: rgb(0 0 0 / 28%);
+    backdrop-filter: blur(4px);
+    z-index: 5;
+}
+.longLoader img{
+    display: flex;
+    justify-content: center;
+    border-radius: 38px;
+    overflow: hidden;
+    margin: auto;
+    box-shadow: 0px 0px 15px 11px #4a4a4a;
 }

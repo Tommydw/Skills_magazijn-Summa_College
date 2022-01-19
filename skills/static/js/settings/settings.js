@@ -20,6 +20,18 @@ var connected = false;
 var requested = false;
 var startingDone = false;
 var warningGiven = false;
+/* temp */
+var oldTimeColor = document.querySelector('#time').style.color;
+
+
+
+// functie secondes naar tijd String
+function sec2time(timeInSeconds) {
+    if (timeInSeconds < 60)
+        return new Date(timeInSeconds * 1000).toISOString().substring(17,23);
+    // else return new Date(timeInSeconds * 1000).toISOString().substring(11,23);
+    else return new Date(timeInSeconds * 1000).toISOString().substring(11,19);
+}
 
 
 function clientTimeMS(){
@@ -114,6 +126,8 @@ socket.on('data', function(data){
             oldClientTime = (clientTimeMS() / 1000) - (newtime - oldtime);     // client tijd min het verschil tussen de server updates
             // verberg loading
             $('#loading').hide();  
+            // aantal active users weergeven.
+            document.getElementById('users').innerHTML = Jdata.users.length;
             // print JSON data
             document.getElementById('devswitchtoggle').checked = Jdata.state.devMode;
             document.getElementById('MasterSlaveToggle').checked = Jdata.state.master;
@@ -140,6 +154,8 @@ socket.on('data', function(data){
 setInterval(()=> {
     // Update de tijd
     clientTime = clientTimeMS() / 1000;
+    // display huidige client tijd min de laatste update van de server
+    document.getElementById('time').innerHTML = sec2time(clientTime-oldClientTime);
     // controller of er om nieuwe data gevraagd kan worden
     if (connected && !requested){
         if (clientTime-oldClientTime > updateTijd ){
@@ -153,6 +169,16 @@ setInterval(()=> {
                 Type = 'small'
             socket.emit('get_data', Jdata, Type);
         }
+    }
+    // als de laatste update meer dan 10 sec geleden is, word de text rood gemaakt
+    if (clientTime-oldClientTime > 10) {
+        document.querySelector('#time').style.color = 'red';
+        document.querySelector('#timeText').style.color = 'red';
+    }
+    else
+    {
+        document.querySelector('#time').style.color = oldTimeColor;
+        document.querySelector('#timeText').style.color = oldTimeColor;
     }
 },100);
 
@@ -178,6 +204,15 @@ setInterval(() => {
     }
 }, 10000);
 
+function zoomTheScreen(){
+    var statusWindowWidth = document.getElementsByClassName('settingbox')[0].offsetWidth - 40;
+    if (screen.width < statusWindowWidth)
+        document.getElementsByClassName('settingswitches')[0].style.zoom = screen.width / statusWindowWidth;
+
+    else
+        document.getElementsByClassName('settingswitches')[0].style.zoom = 1;
+}
+
 // Klaar met laden
 $(document).ready(function() {
     socket.on('connect', function() {
@@ -185,10 +220,9 @@ $(document).ready(function() {
         socket.emit('socket_connect');        
     }); 
 
-    var statusWindowWidth = document.getElementsByClassName('settingbox')[0].offsetWidth - 40;
-    if (screen.width < statusWindowWidth)
-        document.getElementsByClassName('settingswitches')[0].style.zoom = screen.width / statusWindowWidth;
+    zoomTheScreen();
+});
 
-    else
-        document.getElementsByClassName('settingswitches')[0].style.zoom = 1;
+window.addEventListener("orientationchange", function(event) {
+    zoomTheScreen()
 });
