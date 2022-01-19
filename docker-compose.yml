@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  nginx_static_server:
+    image: nginx
+    container_name: nginx_static_server
+    restart: always
+    volumes: 
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./files/static/:/var/www/static/
+    ports: 
+      - "80:80"
+      # - "443:443"
+    networks: 
+      - my-network
+    depends_on: 
+      - flask_app_server
+
+  flask_app_server:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    container_name: flask_app_server
+    restart: always
+    command: gunicorn --worker-class eventlet -w 1 start:app -b 0.0.0.0:8000 
+    volumes: 
+      - ./:/data/
+    networks: 
+      my-network:
+        aliases: 
+          - flask-app-server
+networks: 
+  my-network:
