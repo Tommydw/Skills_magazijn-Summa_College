@@ -5,7 +5,7 @@ import time, os, platform
 
 # init voor orderUitvoeren
 cilinder_uit_tijd   = 1 #sec
-cilinder_in_tijd    = 1 #sec
+cilinder_in_tijd    = 2 #sec
 band_off_delay      = 5 #sec
 
 def orderUitvoeren():  
@@ -224,10 +224,11 @@ class loop:
                         DATA['io'][pin] = rpi.read(pin, overwrite=DATA['state']['devMode'])
             
             # zet error aan als een deurtje open gaat 
-            if (not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop'] or (not DATA['state']['master'] and not DATA['io']['PLCerror'])) and not DATA['state']['errorActive'] and OS == 'Linux':
+            if (((not DATA['io']['mcp1Noodstop'] or not DATA['io']['mcp2Noodstop']) and not DATA['state']['overRideMode']) 
+            or (not DATA['state']['master'] and not DATA['io']['PLCerror'])) and not DATA['state']['errorActive'] and OS == 'Linux':
                 DATA['state']['errorActive'] = True
                 error_time = time.time()
-            elif DATA['io']['mcp1Noodstop'] and DATA['io']['mcp2Noodstop'] and not (not DATA['state']['master'] and not DATA['io']['PLCerror']): DATA['state']['errorActive'] = False
+            elif (DATA['io']['mcp1Noodstop'] and DATA['io']['mcp2Noodstop'] and not DATA['state']['overRideMode']) and not (not DATA['state']['master'] and not DATA['io']['PLCerror']): DATA['state']['errorActive'] = False
             if time.time() - error_time > 0.05 and DATA['state']['errorActive']:
                 DATA['state']['error'] = True
             
@@ -238,6 +239,11 @@ class loop:
             # stop event
             if DATA['state']['error'] == True and not DATA['state']['devMode']:
                 rpi.write('motor', PINNEN['motor']['state'], override=True, log=False)
+
+            # disable override mode
+            if not DATA['state']['devMode'] and DATA['state']['overRideMode']:
+                DATA['state']['overRideMode'] = False
+                server_log('Noodstop override mode False')
 
             orderUitvoeren()
             magazijn.Controle()

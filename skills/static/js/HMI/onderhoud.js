@@ -60,6 +60,18 @@ devModeOnderhoud.addEventListener('change', (event) => {
     }
 });
 
+// overRidemodus de-/activeren
+const overRide = document.getElementById('overRide')
+overRide.addEventListener('change', (event) => {
+    if (event.currentTarget.checked) {
+        document.getElementById('overRide').checked = Jdata.state.overRideMode; // zet de switch weer uit
+        socket.emit('overRide', true);
+    } else {
+        document.getElementById('overRide').checked = Jdata.state.overRideMode; // zet de switch weer aan
+        socket.emit('overRide', false);
+    }
+});
+
 // functie secondes naar tijd String
 function sec2time(timeInSeconds) {
     if (timeInSeconds < 60)
@@ -189,6 +201,7 @@ socket.on('data', function(data){
             // print JSON data
             document.getElementById('data').innerHTML = syntaxHighlight(JSON.stringify(Jdata, null, 2)); // print JSON in html
             document.getElementById('devModeOnderhoud').checked = Jdata.state.devMode;
+            document.getElementById('overRide').checked = Jdata.state.overRideMode;
             // $('#content').show();        
             
             // geef waarschuwig voor devmode
@@ -205,8 +218,10 @@ socket.on('data', function(data){
 
             if (Jdata.state.devMode){
                 document.querySelector('#resetButton').style.display = 'block';
+                document.querySelector('#overrideButton').style.display = 'block';
             } else {
                 document.querySelector('#resetButton').style.display = 'none';
+                document.querySelector('#overrideButton').style.display = 'none';
             }
         }
         else console.warn('Waiting for a full Jdata');

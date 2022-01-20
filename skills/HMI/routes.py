@@ -126,6 +126,13 @@ def devMode(state):
     DATA['state']['devMode'] = state
     server_info('Developer mode {0}'.format(state))
     getData({''}, 'full')  
+    
+# overRide mode
+@socket_.on('overRide', namespace='/hmi/onderhoud')
+def devMode(state):
+    DATA['state']['overRideMode'] = state
+    server_info('Noodstop override mode {0}'.format(state))
+    getData({''}, 'full')  
 
 # write gpio
 @socket_.on('toggleSate', namespace='/hmi/onderhoud')

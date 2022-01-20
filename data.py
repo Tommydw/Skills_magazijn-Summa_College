@@ -17,7 +17,7 @@ DATA = {
             },
         'devMode': bool(),
         'hotspotMode': True,
-        # 'orderDone': bool(),
+        'overRideMode': False,
         'cpu': str(),
         'stock':{
             'mag1': 2,
