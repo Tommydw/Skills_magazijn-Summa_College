@@ -4,8 +4,8 @@ from data import DATA, PINNEN, TEMP
 import time, os, platform
 
 # init voor orderUitvoeren
-cilinder_uit_tijd   = 1 #sec
-cilinder_in_tijd    = 2 #sec
+cilinder_uit_tijd   = 2 #sec ### pas deze aan om de cilinder slag aan te passen ###
+cilinder_in_tijd    = 1 #sec
 band_off_delay      = 5 #sec
 
 def orderUitvoeren():  
