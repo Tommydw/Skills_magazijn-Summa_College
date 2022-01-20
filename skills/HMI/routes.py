@@ -1,8 +1,7 @@
 from skills import flaskapp, rpi, socket_, SOCKET_INFO
 from flask_socketio import SocketIO, emit, namespace, send, disconnect
 from flask import render_template, Blueprint, request
-from data import DATA, PINNEN
-from skills.loop import running, start_time, write_high, blokjes_op_band, end_time, detect, order_compleet, detectBokje, detectPLC
+from data import DATA, TEMP
 import json, time, copy
 
 from skills.terminalColors import server_error, server_info, server_log
@@ -140,17 +139,33 @@ def toggleSate(name):
 # clear error
 @socket_.on('clearErrors', namespace='/hmi/onderhoud')
 def clearErrors():
+    # reset error state
     DATA['state']['error'] = False
     DATA['state']['errorActive'] = False
     DATA['state']['order']['orderActive'] = False
     
+    # reset outputs
     rpi.write('check', False)
     rpi.write('deksel', False)
     rpi.write('muntje', False)
     rpi.write('Kleur1', False)
     rpi.write('Kleur2', False)
+
+    # reset order state
     DATA['state']['order']['kleur'] = ''
     DATA['state']['order']['deksel'] = False
     DATA['state']['order']['muntje'] = False
+
+    # reset temp data
+    TEMP['blokjes_op_band'] = -1
+    TEMP['running'] = False
+    TEMP['write_high'] = True
+    TEMP['start_time'] = 0
+    TEMP['end_time'] = []
+    TEMP['detect'] = False
+    TEMP['detectBokje'] = False
+    TEMP['detectPLC'] = False
+    TEMP['order_compleet'] = False
+
     server_info('Reset error')
     return

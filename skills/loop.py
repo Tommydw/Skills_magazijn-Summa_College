@@ -1,65 +1,35 @@
 from skills import SOCKET_INFO, routes, rpi
 from skills.terminalColors import server_info, server_log, server_error, colors
-from data import DATA, PINNEN
+from data import DATA, PINNEN, TEMP
 import time, os, platform
 
 # init voor orderUitvoeren
 cilinder_uit_tijd   = 1 #sec
 cilinder_in_tijd    = 1 #sec
 band_off_delay      = 5 #sec
-blokjes_op_band = -1
-running = False
-write_high = True
-start_time = 0
-end_time = []
-detect = False
-detectBokje = False
-detectPLC = False
-order_compleet = False
 
-def orderUitvoeren():
-    # import temp data
-    global running
-    global start_time   
-    global write_high   
-    global blokjes_op_band
-    global end_time
-    global detect
-    global order_compleet
-    global detectBokje
-    global detectPLC
-    if DATA['state']['error']:
-        blokjes_op_band = -1
-        running = False
-        write_high = True
-        start_time = 0
-        end_time = []
-        detect = False
-        detectBokje = False
-        detectPLC = False
-        order_compleet = False
-    
+def orderUitvoeren():  
     # bij een nieuw order
-    elif DATA['state']['order']['orderActive']:
+    if DATA['state']['order']['orderActive']:
         '''### cilinders ###'''
-        if not order_compleet:
+        if not TEMP['order_compleet']:
             now_time = time.time()
             # eerste keer de tijd vast leggen
-            if not running:
-                running = True
-                start_time = time.time()
+            if not TEMP['running']:
+                TEMP['running'] = True
+                TEMP['start_time'] = time.time()
             # als de tijd + cilinder uit + cilinder in delay
-            if start_time >=  now_time - cilinder_uit_tijd - cilinder_in_tijd:
+            if TEMP['start_time'] >=  now_time - cilinder_uit_tijd - cilinder_in_tijd:
                 # als de tijd + cilinder uit delay
-                if start_time >= now_time - cilinder_uit_tijd:
+                if TEMP['start_time'] >= now_time - cilinder_uit_tijd:
                     '''### stap 1 ###''' 
-                    if write_high:
+                    if TEMP['write_high']:
                         # eenmalig uitvoeren
-                        write_high = False
-                        if blokjes_op_band == -1: # als er geen blokjes op de band staan
-                            blokjes_op_band = 1
+                        TEMP['write_high'] = False
+                        if TEMP['blokjes_op_band'] == -1: # als er geen blokjes op de band staan
+                            TEMP['blokjes_op_band'] = 1
                         else: # als er al minimaal één blokje op de band staat
-                            blokjes_op_band += 1
+                            TEMP['blokjes_op_band'] += 1
                             
                         # zet de cilinder aan
                         if DATA['state']['order']['kleur'] == 'rood': 
@@ -68,7 +38,7 @@ def orderUitvoeren():
                             rpi.write('cil2', True)
                         elif DATA['state']['order']['kleur'] == 'zilver': 
                             rpi.write('cil3', True)
-                        server_log('Aantal blokjes nu: {0}'.format(blokjes_op_band))    
+                        server_log('Aantal blokjes nu: {0}'.format(TEMP['blokjes_op_band']))    
                         magazijn.leegCheck() # als de sensor geen blokjes meer ziet, is er nog één mogelijkheid
                 else:
                     '''### stap 2 ###'''
@@ -81,30 +51,30 @@ def orderUitvoeren():
                         rpi.write('cil3', False)
                     
                     # reset en disable cilinder loop
-                    write_high = order_compleet = True
-                    running = False
-                    start_time = 0
+                    TEMP['write_high'] = TEMP['order_compleet'] = True
+                    TEMP['running'] = False
+                    TEMP['start_time'] = 0
             else: 
                 '''### stap 3 fallback ###'''
                 # hier kom je als het goed is niet, anders reset loop 
-                running = False
-                write_high = True
-                start_time = 0
+                TEMP['running'] = False
+                TEMP['write_high'] = True
+                TEMP['start_time'] = 0
         
         # slave
         if not DATA['state']['master']:
             # kijken of de PLC een sigaal heeft gegeven 
-            if DATA['io']['PLCbusy'] and DATA['io']['PLCactief'] and not detectPLC and detectBokje:
-                detectPLC = True
+            if DATA['io']['PLCbusy'] and DATA['io']['PLCactief'] and not TEMP['detectPLC'] and TEMP['detectBokje']:
+                TEMP['detectPLC'] = True
                 
         # MASTER = als er een blokje is gedetecteerd
         # SLAVE = als er een blokje is gedetecteerd en een PLC signaal heeft gekeregen
-        if (not DATA['state']['master'] and detectPLC and detectBokje) or (DATA['state']['master'] and detectBokje):
+        if (not DATA['state']['master'] and TEMP['detectPLC'] and TEMP['detectBokje']) or (DATA['state']['master'] and TEMP['detectBokje']):
             # reset detect voorwaarden
-            detectBokje = detectPLC = False
+            TEMP['detectBokje'] = TEMP['detectPLC'] = False
             
             # order klaar, volgende mag besteld worden
-            DATA['state']['order']['orderActive'] = order_compleet = False 
+            DATA['state']['order']['orderActive'] = TEMP['order_compleet'] = False 
             
             # dan reset de order naar default
             rpi.write('check', False)
@@ -117,14 +87,14 @@ def orderUitvoeren():
             DATA['state']['order']['muntje'] = False
     else:
         '''### stap 3 ###'''
-        running = False
-        write_high = True
-        start_time = 0
+        TEMP['running'] = False
+        TEMP['write_high'] = True
+        TEMP['start_time'] = 0
 
 
     '''### Lopende band ###'''        
     # als er een blokje op de band is 
-    if blokjes_op_band > 0:
+    if TEMP['blokjes_op_band'] > 0:
         Time = time.time()
         
         # als de motor uit staat
@@ -133,29 +103,29 @@ def orderUitvoeren():
         
         # als er een blokje gedetecteerd is
         if not DATA['io']['eind']:
-            if not detect: # eenmalig
-                detect = True
+            if not TEMP['detect']: # eenmalig
+                TEMP['detect'] = True
                 '''### onderstaand was voor stand-alone ###'''
-                # end_time = Time # (her)start timer om de band uit te schakelen
-                # DATA['state']['order']['orderActive'] = order_compleet = False # order klaar, volgende mag besteld worden
+                # TEMP['end_time'] = Time # (her)start timer om de band uit te schakelen
+                # DATA['state']['order']['orderActive'] = TEMP['order_compleet'] = False # order klaar, volgende mag besteld worden
         # als de sensor weer laag gaat
-        elif detect:
-            end_time.append(Time) # (her)start timer om de band uit te schakelen
-            detectBokje = True
-            detect = False # reset eenmalig proces
+        elif TEMP['detect']:
+            TEMP['end_time'].append(Time) # (her)start timer om de band uit te schakelen
+            TEMP['detectBokje'] = True
+            TEMP['detect'] = False # reset eenmalig proces
             
         # timer om de band uit te schakelen
-        # if end_time <= Time - band_off_delay and not end_time == 0 and end_time >= Time - band_off_delay - 0.1:
-        for endTims in end_time:
+        # if TEMP['end_time'] <= Time - band_off_delay and not TEMP['end_time'] == 0 and TEMP['end_time'] >= Time - band_off_delay - 0.1:
+        for endTims in TEMP['end_time']:
             if endTims <= Time - band_off_delay and endTims >= Time - band_off_delay - 0.1:
-                blokjes_op_band -= 1
-                end_time.pop(end_time.index(endTims)) # reset start timer
-                server_log('Aantal blokjes nu: {0}'.format(blokjes_op_band))
+                TEMP['blokjes_op_band'] -= 1
+                TEMP['end_time'].pop(TEMP['end_time'].index(endTims)) # reset start timer
+                server_log('Aantal blokjes nu: {0}'.format(TEMP['blokjes_op_band']))
     
     # als er geen blokjes op de band zijn, maar de moter wel aan is
-    elif DATA['io']['motor'] and blokjes_op_band == 0:
+    elif DATA['io']['motor'] and TEMP['blokjes_op_band'] == 0:
         # reset timer en zet de motor uit
-        blokjes_op_band = -1
+        TEMP['blokjes_op_band'] = -1
         rpi.write('motor', False)          
             
 class magazijn():

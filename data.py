@@ -86,3 +86,16 @@ PINNEN = {
     'PLCerror':     {'module': 'mcp2',  'pin': 11,  'pin_name': 'GPB3',     'direction': 'input',    'pull': 'down'},	    # gaat hoog als de PLC een error heeft
     'MCP2_pi':      {'module': 'mcp2',  'pin': 15,  'pin_name': 'GPB7',     'direction': 'input',    'pull': 'down'}	    # gaat hoog waneer 3.3 actief is op de pi
 }
+
+global TEMP
+TEMP = {
+    'blokjes_op_band': -1,
+    'running': False,
+    'write_high': True,
+    'start_time': 0,
+    'end_time': [],
+    'detect': False,
+    'detectBokje': False,
+    'detectPLC': False,
+    'order_compleet': False
+}
