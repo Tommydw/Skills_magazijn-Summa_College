@@ -1,12 +1,15 @@
 # FancyBoiii2021
 
-Skills project 2021/2022 leerjaar 4
+### **Skills project 2021/2022 leerjaar 4**
+#### **Industry 4.0**
 
-> Dit project is gemaakt door:
->
-> * Tommy de Wever
-> * Leon Hulsebos
-> * Thijm van Lier
+Het skills magazijn is een automatisch magazijn met een website als HMI. Op de website kan je een order plaatsen, deze wordt dan uitgevoerd en doorgevoerd via de connector die als master of slave te configureren is. Het skills magazijn sluit aan op de Festo MPS-lijnen. Het project is ook een goed voorbeeld voor *industry 4.0*
+
+## **Dit project is gemaakt door:**
+
+ * **Tommy de Wever**
+ * **Thijm van Lier**
+ * **Leon Hulsebos**
 
 <br>
 
@@ -28,7 +31,7 @@ Led status gaat knipper (500ms) wanneer de server is opgestart. Als de *system l
 ## Domein/IP toevoegen aan WebSocket
 ___
 SocketIO moet de domein naam of ip adres weten waar de request vandaan komt, deze moeten in `__init__.py` worden toegevoed. <br>
-Ga naar `./skills/__init__.py` en voeg het domein naam/IP toe aan de volgende regel:<br> `socketio.init_app(flaskapp, cors_allowed_origins=[`<br>`"http://localhost.local:5000", `<br>**`"PROTOCOL://DOMAIN.NAME:PORT"`**<br>`])`
+Ga naar `./skills/__init__.py` en voeg het domein naam/IP toe aan de volgende regel:<br> `socketio.init_app(flaskapp, cors_allowed_origins=["http://localhost.local:5000",`**`"PROTOCOL://DOMAIN.NAME:PORT"`**`])`
 
 # Clean install
 1. [`Hotspot maken`](#1.-Hotspot-maken)

@@ -137,7 +137,7 @@ function sendOrder(){
             alert('Error modus is actief! Ga naar de "Settings pagina" om Developer settings te activeren. Op de "onderhoudpagina" kan de Error modes worden gereset.');
         }
         else if(Jdata.state.stock.mag1 == 0 && Jdata.state.stock.mag2 == 0 && Jdata.state.stock.mag3 == 0)
-            warning('Geen vooraad meer in het magazijnen');
+            warning('Geen vooraad meer in de magazijnen');
         else if (!(rood || zwart || zilver)) 
             warning('Geen kleur geselecteerd!')
         else if (!Jdata.state.master && !(Jdata.io.PLCactief || Jdata.io.PLCerror || Jdata.io.PLCbusy))
