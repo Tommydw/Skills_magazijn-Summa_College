@@ -27,6 +27,7 @@ var oldTimeColor = document.querySelector('#time').style.color;
 var verwerken = false;
 var verwerkenTime = 0;
 var verwerkenDone = true;
+var warningGivenHMI = false;
 /* get document data */
 var oldSendButtonCLR = document.querySelector('#sendButton').style.getPropertyValue('--clr');
 var oldSendButtonFGC = document.querySelector('#sendButton').style.getPropertyValue('--fgc');
@@ -140,6 +141,11 @@ socket.on('data', function(data){
             $('#loading').hide();  
             // aantal active users weergeven.
             document.getElementById('users').innerHTML = Jdata.users.length;
+            if (!warningGivenHMI && Jdata.state.devMode)
+            {
+                warningGivenHMI = True;
+                alert('Let op! Developer mode is geactiveerd. Extra functies zullen aanwezig zijn. Hierdoor kunnen onverwachten resultaten zich voordoen.');
+            }
             // print JSON data
             // document.getElementById('data').innerHTML = JSON.stringify(Jdata, null, 2); // print JSON in html
             // $('#content').show();
