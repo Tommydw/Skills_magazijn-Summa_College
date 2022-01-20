@@ -205,7 +205,7 @@ class loop:
                 # verwijder user als deze niet actief is
                 try:
                     for user in SOCKET_INFO:
-                        if time.time() - user[1] > 60:
+                        if time.time() - user[1] > 30:
                             SOCKET_INFO.pop(SOCKET_INFO.index(user))
                             server_log('User {0} '.format(user[0]) + colors.forground.red + colors.blink + 'removed' + colors.reset)
                 except:
