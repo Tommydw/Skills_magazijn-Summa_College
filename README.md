@@ -1,9 +1,11 @@
-# FancyBoiii2021
+# Skills magazijn
 
 ### **Skills project 2021/2022 leerjaar 4**
 #### **Industry 4.0**
 
 Het skills magazijn is een automatisch magazijn met een website als HMI. Op de website kan je een order plaatsen, deze wordt dan uitgevoerd en doorgevoerd via de connector die als master of slave te configureren is. Het skills magazijn sluit aan op de Festo MPS-lijnen. Het project is ook een goed voorbeeld voor *industry 4.0*
+
+Het de documentatie over het [Slave protocol](skills/static/docs/Slave-protocol.pdf) is te vinden in `skills/static/docs/Slave-protocol.pdf`
 
 ## **Dit project is gemaakt door:**
 
@@ -30,8 +32,11 @@ Led status gaat knipper (500ms) wanneer de server is opgestart. Als de *system l
 
 ## Domein/IP toevoegen aan WebSocket
 ___
-SocketIO moet de domein naam of ip adres weten waar de request vandaan komt, deze moeten in `__init__.py` worden toegevoed. <br>
+SocketIO moet de domein naam of ip adres weten waar de request vandaan komt, deze moeten in `skills/__init__.py` worden toegevoed. <br>
 Ga naar `./skills/__init__.py` en voeg het domein naam/IP toe aan de volgende regel:<br> `socketio.init_app(flaskapp, cors_allowed_origins=["http://localhost.local:5000",`**`"PROTOCOL://DOMAIN.NAME:PORT"`**`])`
+
+<br>
+
 
 # Clean install
 1. [`Hotspot maken`](#1.-Hotspot-maken)
@@ -51,14 +56,18 @@ Door onderstaande script te gebruiken word er een hotspot aangemaakt met;
 
 Dit script zorgt er voor dat er een hotspot wordt aangemaakt, maar je kan ook nog verbinding maken met een wifi netwek (met eventueel internet toegang, deze internet toegang wordt dan ook via de hotspot gedeeld) 
 
-```sudo ./installation/setup-network.sh --install-upgrade --ap-ssid="Skills_magazijn" --ap-password="P@ssw0rd" --ap-password-encrypt  --ap-country-code="GB" --ap-ip-address="192.168.1.1" --wifi-interface="wlan0"```
+```
+sudo ./installation/setup-network.sh --install-upgrade --ap-ssid="Skills_magazijn" --ap-password="P@ssw0rd" --ap-password-encrypt  --ap-country-code="GB" --ap-ip-address="192.168.1.1" --wifi-interface="wlan0"
+```
 
 <br>
 
 ## 2. Installeer benodigd heden
 ________________________________________
 Installeer **Python 3.8** of hoger en gebruik onderstaande command om de benodigdheden te instaleren:<br>
-```sudo pip3 install -r requirements.txt```
+```
+sudo pip3 install -r requirements.txt
+```
 
 <br>
 
@@ -76,17 +85,31 @@ Wanneer er foutmeldingen komen over dat de websocket geen verbinding kan maken, 
 ________________________________________
 Kopieër `skills_magazijn_website.service` naar `/etc/systemd/system/`
 
-```sudo cp ./installation/skills_magazijn_website.service /etc/systemd/system/skills_magazijn_website.service```
+```
+sudo cp ./installation/skills_magazijn_website.service /etc/systemd/system/skills_magazijn_website.service
+```
 
-### **let goed op dat het *PATH* van onderstaande punten goed is ingevuld**
-> WorkingDirectory=`/home/pi/fancyboiii2021`
+#### **let goed op dat het *PATH* van onderstaande punten goed is ingevuld**
+> WorkingDirectory=`/home/pi/Skills-magazijn-summa-2022`
 
-> ExecStart=/bin/python3 `/home/pi/fancyboiii2021/`run.py
+> ExecStart=/bin/python3 `/home/pi/Skills-magazijn-summa-2022/`run.py
 
 <br>
+<br>
 
-Start de *systemctl*:<br> ```sudo systemctl start skills_magazijn_website```
+Start de *systemctl*:
+```
+sudo systemctl start skills_magazijn_website
+```
+<br> 
 
-Start de *systemctl* automatisch:<br> ```sudo systemctl enable skills_magaijn_website```
+Start de *systemctl* automatisch:
+```
+sudo systemctl enable skills_magaijn_website
+```
+<br> 
 
-Controler de *systemctl* status. Als er problemen zijn, los deze dan op:<br> ```sudo systemctl status skills_magaijn_website```
+Controler de *systemctl* status. Als er problemen zijn, los deze dan op:
+```
+sudo systemctl status skills_magaijn_website
+```
