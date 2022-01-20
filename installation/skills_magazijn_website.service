@@ -1,0 +1,15 @@
+[Unit]
+Discription= Website skills magazijn
+After=multi-user.target
+Wants=network-online.target
+Requires=boot-complete.target
+
+[Service]
+Type=idle
+User=root
+Group=root
+ExecStart=/bin/python3 /home/pi/fancyboiii2021/run.py
+WorkingDirectory=/home/pi/fancyboiii2021
+
+[Install]
+WantedBy=runlevel5.target
