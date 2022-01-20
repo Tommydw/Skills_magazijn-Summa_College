@@ -51,20 +51,20 @@ Door onderstaande script te gebruiken word er een hotspot aangemaakt met;
 
 Dit script zorgt er voor dat er een hotspot wordt aangemaakt, maar je kan ook nog verbinding maken met een wifi netwek (met eventueel internet toegang, deze internet toegang wordt dan ook via de hotspot gedeeld) 
 
-`sudo ./installation/setup-network.sh --install-upgrade --ap-ssid="Skills_magazijn" --ap-password="P@ssw0rd" --ap-password-encrypt  --ap-country-code="GB" --ap-ip-address="192.168.1.1" --wifi-interface="wlan0"`
+```sudo ./installation/setup-network.sh --install-upgrade --ap-ssid="Skills_magazijn" --ap-password="P@ssw0rd" --ap-password-encrypt  --ap-country-code="GB" --ap-ip-address="192.168.1.1" --wifi-interface="wlan0"```
 
 <br>
 
 ## 2. Installeer benodigd heden
 ________________________________________
 Installeer **Python 3.8** of hoger en gebruik onderstaande command om de benodigdheden te instaleren:<br>
-`sudo pip3 install -r requirements.txt`
+```sudo pip3 install -r requirements.txt```
 
 <br>
 
 ## 3. Testen
 ________________________________________
-Run de commando `sudo python3 run.py` om de website te starten. Als er foutmeldingen optreden, los deze dan op. Als het script zonder foutmeldingen start en er staat *running side loop*, zal het script goed zijn gestart.
+Run de commando ```sudo python3 run.py``` om de website te starten. Als er foutmeldingen optreden, los deze dan op. Als het script zonder foutmeldingen start en er staat *running side loop*, zal het script goed zijn gestart.
 
 Ga dan naar de website, via de hotspot `192.168.1.1` of het IP van het magazijn, start de HMI en start *inspecteren* `F12`, ga naar *Console* en controleer of er geen foutmeldingen komen. 
 Wanneer er foutmeldingen komen over dat de websocket geen verbinding kan maken, ga naar [`Domein/IP toevoegen aan WebSocket`](#Domein/IP-toevoegen-aan-WebSocket).
@@ -76,7 +76,7 @@ Wanneer er foutmeldingen komen over dat de websocket geen verbinding kan maken, 
 ________________________________________
 Kopieër `skills_magazijn_website.service` naar `/etc/systemd/system/`
 
-`sudo cp ./installation/skills_magazijn_website.service /etc/systemd/system/skills_magazijn_website.service`
+```sudo cp ./installation/skills_magazijn_website.service /etc/systemd/system/skills_magazijn_website.service```
 
 ### **let goed op dat het *PATH* van onderstaande punten goed is ingevuld**
 > WorkingDirectory=`/home/pi/fancyboiii2021`
@@ -85,8 +85,8 @@ Kopieër `skills_magazijn_website.service` naar `/etc/systemd/system/`
 
 <br>
 
-Start de *systemctl*:<br> `sudo systemctl start skills_magazijn_website`
+Start de *systemctl*:<br> ```sudo systemctl start skills_magazijn_website```
 
-Start de *systemctl* automatisch:<br> `sudo systemctl enable skills_magaijn_website`
+Start de *systemctl* automatisch:<br> ```sudo systemctl enable skills_magaijn_website```
 
-Controler de *systemctl* status. Als er problemen zijn, los deze dan op:<br> `sudo systemctl status skills_magaijn_website`
+Controler de *systemctl* status. Als er problemen zijn, los deze dan op:<br> ```sudo systemctl status skills_magaijn_website```
