@@ -143,7 +143,7 @@ socket.on('data', function(data){
             document.getElementById('users').innerHTML = Jdata.users.length;
             if (!warningGivenHMI && Jdata.state.devMode)
             {
-                warningGivenHMI = True;
+                warningGivenHMI = true;
                 alert('Let op! Developer mode is geactiveerd. Extra functies zullen aanwezig zijn. Hierdoor kunnen onverwachten resultaten zich voordoen.');
             }
             // print JSON data
