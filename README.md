@@ -57,6 +57,7 @@ Door onderstaande script te gebruiken word er een hotspot aangemaakt met;
 Dit script zorgt er voor dat er een hotspot wordt aangemaakt, maar je kan ook nog verbinding maken met een wifi netwek (met eventueel internet toegang, deze internet toegang wordt dan ook via de hotspot gedeeld) 
 
 ```
+sudo chmod +x setup-network.sh
 sudo ./installation/setup-network.sh --install-upgrade --ap-ssid="Skills_magazijn" --ap-password="P@ssw0rd" --ap-password-encrypt  --ap-country-code="GB" --ap-ip-address="192.168.1.1" --wifi-interface="wlan0"
 ```
 
