@@ -20,7 +20,7 @@ Het de documentatie over het [Slave protocol](skills/static/docs/Slave-protocol.
 - Hotspot SSID: `Skills_magazijn`
 - Hotspot wachtwoord: `P@ssw0rd`
 - Hotspot IP: `192.168.1.1`
-- Hostename: `raspberrypi`
+- Hostename: `magazijn`
 
 Led active gaat aan wanneer de GPIO is gestart.
 
