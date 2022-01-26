@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for, request
 from skills import flaskapp, rpi
 from data import DATA
-from socket import gethostbyname, gethostname, gethostname
+from socket import gethostbyname, gethostname
+from netifaces import ifaddresses, AF_INET
 from flask_socketio import SocketIO, emit, namespace, send, disconnect
 from skills import flaskapp, rpi, socket_, SOCKET_INFO
 import json, time, copy
@@ -22,7 +23,8 @@ def test():
 
 @flaskapp.route("/settings")
 def settings():
-    return render_template('settings.html', ipaddres=gethostbyname(gethostname()), hostname=gethostname() )
+    ip = [i['addr'] for i in ifaddresses('eth0').setdefault(AF_INET, [{'addr':'No IP addr'}] )][0]
+    return render_template('settings.html', ipaddres=ip, hostname=gethostname() )
 
 # krijg socket_connect van client
 @socket_.on('socket_connect', namespace='/settings')
