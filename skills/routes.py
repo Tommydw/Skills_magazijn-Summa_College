@@ -23,7 +23,10 @@ def test():
 
 @flaskapp.route("/settings")
 def settings():
-    ip = [i['addr'] for i in ifaddresses('eth0').setdefault(AF_INET, [{'addr':'No IP addr'}] )][0]
+    try:
+        ip = [i['addr'] for i in ifaddresses('eth0').setdefault(AF_INET, [{'addr':'No IP addr'}] )][0]
+    except:
+        ip = 'unknown'
     return render_template('settings.html', ipaddres=ip, hostname=gethostname() )
 
 # krijg socket_connect van client
