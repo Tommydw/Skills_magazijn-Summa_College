@@ -101,10 +101,10 @@
                 <div class="handleiding">
                     <p class="infotext">Handleiding</p>
                         <div class="handleidingknop">
-                            <a class="waves-effect waves-light btn" href="#">Onderhoudshandleiding </a>
+                            <a class="waves-effect waves-light btn" href="{{ url_for('static', filename='docs/Onderhoudhandleiding.pdf') }}" target="_blank">Onderhoudshandleiding </a>
                         </div>
                         <div class="handleidingknop">
-                            <a class="waves-effect waves-light btn" href="#">Bedieningshandleiding</a>
+                            <a class="waves-effect waves-light btn" href="{{ url_for('static', filename='docs/Bedieningshandleiding.pdf') }}" target="_blank" >Bedieningshandleiding</a>
                         </div>
                 </div>
             </div>  
